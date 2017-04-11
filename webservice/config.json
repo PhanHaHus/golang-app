@@ -1,3 +1,38 @@
 {
-	"ServerPort": ":8081"
+	"Asset":{
+		"Folder":"asset"
+	},
+	"Email":{
+		"Username":"",
+		"Password":"",
+		"Hostname":"",
+		"Port":25,
+		"From":""
+	},
+	"ServerPort": ":8081",
+	"MySQL":{
+		"Username":"root",
+		"Password":"",
+		"DatabaseName":"sdp",
+		"Charset":"utf8mb4",
+		"Collation":"utf8mb4_unicode_ci",
+		"Hostname":"127.0.0.1",
+		"Port":3306,
+		"Parameter":"parseTime=true",
+		"Migration":{
+			"Folder":"migration/mysql",
+			"Table":"migration_blueprint",
+			"Extension":"sql"
+		}
+	},
+	"Server":{
+		"Hostname":"",
+		"UseHTTP":true,
+		"UseHTTPS":false,
+		"RedirectToHTTPS":false,
+		"HTTPPort":8888,
+		"HTTPSPort":443,
+		"CertFile":"tls/server.crt",
+		"KeyFile":"tls/server.key"
+	},
 }

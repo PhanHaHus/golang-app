@@ -1,9 +1,4 @@
 package main
-
-/**
- * This is the main file for the Task application
- * License: MIT
- **/
 import (
 	"github.com/ant0ine/go-json-rest/rest"
 	"flag"
@@ -11,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"./config"
-	"./controller"
+	controller "./controller"
 )
 
 func main() {
@@ -42,13 +37,9 @@ func main() {
 			AccessControlAllowCredentials: true,
 			AccessControlMaxAge:           3600,
 		})
-		api.Use(&forceSSL.Middleware{ //ForceSSL
-			TrustXFPHeader:     true,
-			Enable301Redirects: false,
-		})
 
 		router, err := rest.MakeRouter(
-			rest.Get("/api/get-task", controller.GetTasksFuncAPI),
+			rest.Get("/api/get-task", controller.GetAllReminders),
 			// rest.Post("/api/add-task", controller.AddTaskFuncAPI),
 			// rest.Delete("/api/get-deleted-task", controller.GetDeletedTaskFuncAPI),
 			// rest.Put("/api/update-task", controller.UpdateTaskFuncAPI),
@@ -59,16 +50,7 @@ func main() {
 			log.Fatal(err)
 		}
 		api.SetApp(router)
+		log.Println("running server on ", values.ServerPort)
 		log.Fatal(http.ListenAndServe(values.ServerPort, api.MakeHandler()))
 
-
-	// http.HandleFunc("/api/get-task/", controller.GetTasksFuncAPI)
-	// http.HandleFunc("/api/get-deleted-task/", controller.GetDeletedTaskFuncAPI)
-	// http.HandleFunc("/api/add-task/", controller.AddTaskFuncAPI)
-	// http.HandleFunc("/api/update-task/", controller.UpdateTaskFuncAPI)
-	// http.HandleFunc("/api/delete-task/", controller.DeleteTaskFuncAPI)
-
-
-	// log.Println("running server on ", values.ServerPort)
-	// log.Fatal(http.ListenAndServe(values.ServerPort, nil))
 }
