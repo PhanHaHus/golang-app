@@ -43,7 +43,7 @@ func main() {
 			rest.Get("/api/reminder/:id", controller.GetReminder),
 			rest.Post("/api/reminder", controller.PostReminder),
 			rest.Delete("/api/reminder/:id", controller.DeleteReminder),
-			rest.Put("//api/reminder/:id", controller.PutReminder),
+			rest.Put("/api/reminder/:id", controller.PutReminder),
 		)
 
 		if err != nil {

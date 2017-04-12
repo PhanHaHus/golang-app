@@ -3,7 +3,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "net/http"
-	_ "time"
 )
 
 var (
