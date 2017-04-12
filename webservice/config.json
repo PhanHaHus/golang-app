@@ -34,5 +34,6 @@
 		"HTTPSPort":443,
 		"CertFile":"tls/server.crt",
 		"KeyFile":"tls/server.key"
-	},
+	}
+	
 }

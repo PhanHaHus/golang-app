@@ -39,11 +39,11 @@ func main() {
 		})
 
 		router, err := rest.MakeRouter(
-			rest.Get("/api/get-task", controller.GetAllReminders),
-			// rest.Post("/api/add-task", controller.AddTaskFuncAPI),
-			// rest.Delete("/api/get-deleted-task", controller.GetDeletedTaskFuncAPI),
-			// rest.Put("/api/update-task", controller.UpdateTaskFuncAPI),
-			// rest.Delete("/reminders/:id", i.DeleteReminder),
+			rest.Get("/api/reminder", controller.GetAllReminders),
+			rest.Get("/api/reminder/:id", controller.GetReminder),
+			rest.Post("/api/reminder", controller.PostReminder),
+			rest.Delete("/api/reminder/:id", controller.DeleteReminder),
+			rest.Put("//api/reminder/:id", controller.PutReminder),
 		)
 
 		if err != nil {

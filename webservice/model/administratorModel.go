@@ -26,19 +26,3 @@ type Administrators struct {
 		 CreatedAt  string `json:"created_time"`
 		 UpdatedAt  string `json:"updated_time"`
 }
-
-// func GetAdministrator() ([]User, error) {
-// 	var (
-// 		users []User
-// 		err   error
-// 	)
-//
-// 	tx := gorm.MysqlConn().Begin()
-// 	if err = tx.Find(&users).Error; err != nil {
-// 		tx.Rollback()
-// 		return users, err
-// 	}
-// 	tx.Commit()
-//
-// 	return users, err
-// }
