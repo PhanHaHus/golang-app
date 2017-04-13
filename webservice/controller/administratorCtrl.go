@@ -1,7 +1,6 @@
 package controller
 import (
   "github.com/ant0ine/go-json-rest/rest"
-  "fmt"
   "time"
   "net/http"
 	database "../db"
@@ -19,7 +18,6 @@ func GetAllReminders(w rest.ResponseWriter, r *rest.Request) {
   tx := database.MysqlConn().Begin()
   reminders := []Reminder{}
 	tx.Find(&reminders)
-  fmt.Println(&reminders)
 	w.WriteJson(&reminders)
 }
 

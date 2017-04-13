@@ -1,5 +1,6 @@
 package main
 import (
+	"fmt"
 	"github.com/ant0ine/go-json-rest/rest"
 	"flag"
 	"log"
@@ -31,9 +32,11 @@ func main() {
 		api.Use(rest.DefaultDevStack...)
 		api.Use(&rest.CorsMiddleware{ //CorsMiddleware
 			RejectNonCorsRequests: false,
+			OriginValidator: func(origin string, request *rest.Request) bool {
+				return true
+			},
 			AllowedMethods: []string{"GET", "POST", "PUT"},
-			AllowedHeaders: []string{
-				"Accept", "Content-Type", "X-Custom-Header", "Origin"},
+			AllowedHeaders: []string{"Accept", "Content-Type", "X-Custom-Header", "Origin"},
 			AccessControlAllowCredentials: true,
 			AccessControlMaxAge:           3600,
 		})

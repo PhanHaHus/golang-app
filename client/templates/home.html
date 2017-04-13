@@ -1,47 +1,21 @@
 {{template "_head.html" .}}
-
-<!--end mainHeader -->
-<button class=" btn-danger btn glyphicon glyphicon-plus floating-action-icon floating-action-icon-add"></button>
-<!-- Add note modal -->
-<div class="modal fade " id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="newNoteLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="newNoteLabel"><span class="glyphicon glyphicon-pencil"></span>  New Task</h4>
-            </div>
-            <div class="modal-body">
-                <form enctype="multipart/form-data" action="/add/" method="POST">
-                    <div class="form-group">
-
-                        <input type="text" name="title" class="form-control" id="add-note-title" placeholder="Title" />
-                    </div>
-                    <div class="form-group">
-
-                        <textarea class="form-control" name="content" id="add-note-content" placeholder="Content" rows="10" ></textarea>
-                        <a id="toggleAddFileGrp">Add File</a>
-                        <span id="file-group" class="hidden">
-                            File: <input type="file" name="uploadfile" />
-                        </span>
-                         <!--Date: <input id="datepicker" name="dueDate"/>-->
-                        <br> Priority:
-                        <input type="radio" name="priority" value="3" /> High
-                        <input type="radio" name="priority" value="2" /> Medium
-                        <input type="radio" name="priority" value="1" /> Low
-                        <br>
-                        <input type="checkbox" name="hide" id="hideChk"> Hide from timeline
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <input type="submit" value="Submit" class="btn btn-primary" id="addNoteBtn" />
-            </div>
-            </form>
-        </div>
-    </div>
+<div class="container" ng-controller="homeController">
+    <table border=1>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Gender</th>
+        </tr>
+      </thead>
+      <tbody >
+        [[ test ]]
+        <tr ng-repeat="x in list">
+          <td>[[ x.message ]]</td>
+        </tr>
+      </tbody>
+    </table>
 </div>
-
+<script type="text/javascript" src="/static/js/pages/home.js"></script>
 {{template "_footer.html" .}}
 </body>
-
 </html>

@@ -4,9 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/thewhitetulip/Tasks/sessions"
+	"../sessions"
 )
-
 //RequiresLogin is a middleware which will be used for each httpHandler to check if there is any active session
 func RequiresLogin(handler func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -41,25 +40,24 @@ func LoginFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch r.Method {
-	case "GET":
-		loginTemplate.Execute(w, nil)
-	case "POST":
-		log.Print("Inside POST")
-		r.ParseForm()
-		username := r.Form.Get("username")
-		password := r.Form.Get("password")
-
-		if (username != "" && password != "") {
-			session.Values["loggedin"] = "true"
-			session.Values["username"] = username
-			session.Save(r, w)
-			log.Print("user ", username, " is authenticated")
-			http.Redirect(w, r, "/", 302)
-			return
-		}
-		log.Print("Invalid user " + username)
-		loginTemplate.Execute(w, nil)
-	default:
-		http.Redirect(w, r, "/login/", http.StatusUnauthorized)
+		case "GET":
+			loginTemplate.Execute(w, nil)
+		case "POST":
+			log.Print("Inside POST")
+			r.ParseForm()
+			username := r.Form.Get("username")
+			password := r.Form.Get("password")
+			if (username != "" && password != "") {
+				session.Values["loggedin"] = "true"
+				session.Values["username"] = username
+				session.Save(r, w)
+				log.Print("user ", username, " is authenticated")
+				http.Redirect(w, r, "/", 302)
+				return
+			}
+			log.Print("Invalid user " + username)
+			loginTemplate.Execute(w, nil)
+		default:
+			http.Redirect(w, r, "/login/", http.StatusUnauthorized)
 	}
 }

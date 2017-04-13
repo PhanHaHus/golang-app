@@ -34,8 +34,8 @@ func main() {
 	views.PopulateTemplates()
 
 	//Login logout
-	// http.HandleFunc("/login/", views.LoginFunc)
-	// http.HandleFunc("/logout/", views.RequiresLogin(views.LogoutFunc))
+	http.HandleFunc("/login/", views.LoginFunc)
+	http.HandleFunc("/logout", views.RequiresLogin(views.LogoutFunc))
 	// http.HandleFunc("/signup/", views.SignUpFunc)
 
 	// http.HandleFunc("/add-category/", views.RequiresLogin(views.AddCategoryFunc))
@@ -56,7 +56,7 @@ func main() {
 	// http.HandleFunc("/restore/", views.RequiresLogin(views.RestoreTaskFunc))
 
 	//these handlers fetch set of tasks
-	http.HandleFunc("/", views.ShowAllTasksFunc)
+	http.HandleFunc("/",views.RequiresLogin(views.ShowAllTasksFunc))
 	// http.HandleFunc("/category/", views.RequiresLogin(views.ShowCategoryFunc))
 	// http.HandleFunc("/deleted/", views.RequiresLogin(views.ShowTrashTaskFunc))
 	// http.HandleFunc("/completed/", views.RequiresLogin(views.ShowCompleteTasksFunc))
