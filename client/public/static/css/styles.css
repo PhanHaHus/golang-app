@@ -1,23 +1,3 @@
-/*
-
-omninotesweb main stylesheet
-=============
-
-Author:  Suraj Patil
-Updated: January 13, 2014
-Notes:	 omninotesweb
-
-*/
-
-
-/*--------------------------------------
-Layout
--------------------------------------- */
-
-.commentslist {
-  background-color: #f5f5f5;
-}
-
 .loginbutton {
   height: 38px;
   padding: 8px 12px;
@@ -33,33 +13,7 @@ Layout
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
 }
 
-.comment {
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 15px;
-}
 
-ul {
-  list-style-type: none;
-}
-
-.timestamp {
-  color: #aaa;
-}
-
-.badge {
-  background-color: #1a78c9;
-  margin-right: 10px;
-  float: right;
-}
-
-.center {
-  text-align: center;
-}
-
-.navbar-brand:hover {
-  color: white;
-}
 
 .footer {
   height: 30px;
@@ -67,47 +21,6 @@ ul {
   text-align: center;
 }
 
-.floating-action-icon {
-  position: fixed;
-  bottom: 40px;
-  right: 30px;
-  z-index: 101;
-  width: 56px;
-  height: 56px;
-  font-size: 20px;
-  border-radius: 35px;
-  box-shadow: 0 0 4px #111;
-  padding-top: 10px !important;
-}
-
-.notification {
-  width: -moz-fit-content;
-  position: fixed;
-  right: 10px;
-  max-width: 400px;
-  padding: 12px;
-  background-color: #F2FCFF;
-  box-shadow: 1px 0px 9px 0px rgba(27, 123, 216, 0.4);
-  border: 1px solid #5596CE;
-  border-radius: 10px;
-  border-radius: 10px;
-  z-index: 1100;
-  max-height: 90px;
-  margin-top: 20px;
-  min-width: 200px;
-}
-
-#btnMessage {
-  padding: 1px 12px;
-  height: 30px;
-  text-align: center;
-  float: right;
-}
-
-
-/*--------------------------------------
-Navbar
--------------------------------------- */
 
 .mainHeader {
   background-color: #3f51b5;
@@ -181,67 +94,6 @@ hr {
   padding: 0;
 }
 
-.noteHeading a {
-  font-weight: 400;
-  font-size: 11px;
-}
-
-.noteContent {
-  padding-top: 7px;
-  font-size: 0.9em;
-  display: none;
-}
-
-.noteContent img {
-  width: 90%;
-  padding-left: 10%;
-}
-
-.toggle {
-  cursor: pointer;
-  margin-top: -30px;
-  float: right;
-}
-
-.notefooter {
-  color: #aaa;
-  height: 20px;
-}
-
-
-/* These are the classes that are going to be applied: */
-
-.column {
-  float: left;
-}
-
-.note {
-  display: block;
-  margin: 4px;
-  margin-bottom: 6px;
-  padding: 15px;
-  background-color: white;
-  box-shadow: 1px 1px 2px 1px #7D7470;
-  border-radius: 4px 4px 4px 4px;
-  height: auto;
-}
-
-.note:hover {
-  border-bottom: 2px solid black;
-}
-
-.menu a {
-  text-decoration: none;
-}
-
-.menu li {
-  margin-top: -10px;
-  list-style: none;
-  float: right;
-  padding: 5px;
-  height: 15px;
-}
-
 
 /*--------------------------------------
 Navigation drawer
@@ -264,13 +116,6 @@ Navigation drawer
 a.list-group-item:focus {
   text-decoration: none;
   background-color: transparent;
-}
-
-body {
-  background-color: #f5f5f5;
-  overflow-x: hidden;
-  overflow-y: auto;
-  margin-top: 70px;
 }
 
 .nav-item {
@@ -339,7 +184,7 @@ Media Queries
     padding: 0px;
     text-align: center;
   }
-  
+
   .btn-primary {
     width: auto;
   }
@@ -436,18 +281,51 @@ Sidebar
 }
 
 
-/*Modal dialog*/
-
-.modal-footer {
-  padding: 10px 15px 15px;
-  margin: 0;
-  border: none;
+/*css hapt*/
+.wrapper{
+  padding: 10px;
+  background: #F3F3F4;
+}
+.navbar {
+    margin-bottom: 0px !important;
+}
+.grid-form1 {
+	background: #fff;
+    margin-bottom: 1em;
+    padding: 1em;
+     border: 1px solid #ebeff6;
+    border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-o-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.wrapper .form-control {
+    box-shadow: none;
+    outline: none;
+    border-radius: 0px;
+    font-family: 'Muli-Regular';
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.modal-body {
-  padding: 20px 20px 10px 20px;
-}
-
-.modal {
-  overflow: hidden;
+.wrapper .btn {
+    border-radius: 0px;
+    outline: none;
 }

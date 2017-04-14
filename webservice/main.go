@@ -1,6 +1,6 @@
 package main
 import (
-	"fmt"
+	_ "fmt"
 	"github.com/ant0ine/go-json-rest/rest"
 	"flag"
 	"log"

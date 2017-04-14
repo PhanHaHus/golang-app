@@ -1,21 +1,31 @@
 {{template "_head.html" .}}
-<div class="container" ng-controller="homeController">
-    <table border=1>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Gender</th>
-        </tr>
-      </thead>
-      <tbody >
-        [[ test ]]
-        <tr ng-repeat="x in list">
-          <td>[[ x.message ]]</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="wrapper" ng-controller="homeController">
+    <div class="grid-form1">
+					<h3>Form Element</h3>
+          <a href="/add-reminder" class="btn btn-primary btn-xs"> Add new</a>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>Message</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="x in list">
+                  <td>[[ x.message ]]</td>
+                  <td>[[ x.createdAt ]]</td>
+                  <td>
+                      <a href="#" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                      <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                      <a href="/reminder/[[x.Id]]" class="btn btn-info btn-xs"> Detail</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+			</div>
 </div>
-<script type="text/javascript" src="/static/js/pages/home.js"></script>
 {{template "_footer.html" .}}
+<script type="text/javascript" src="/static/js/pages/home.js"></script>
 </body>
 </html>

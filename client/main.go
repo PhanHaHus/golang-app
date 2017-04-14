@@ -9,32 +9,29 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"./config"
-	"./views"
+	config "./config"
+	views "./views"
 )
 
 func main() {
 	values, err := config.ReadConfig("config.json")
 	var port *string
-
 	if err != nil {
 		port = flag.String("port", "", "IP address")
 		flag.Parse()
-
 		//User is expected to give :8080 like input, if they give 8080
 		//we'll append the required ':'
 		if !strings.HasPrefix(*port, ":") {
 			*port = ":" + *port
 			log.Println("port is " + *port)
 		}
-
 		values.ServerPort = *port
 	}
-
+	http.Handle("/static/", http.FileServer(http.Dir("public")))
 	views.PopulateTemplates()
 
 	//Login logout
-	http.HandleFunc("/login/", views.LoginFunc)
+	http.HandleFunc("/login", views.LoginFunc)
 	http.HandleFunc("/logout", views.RequiresLogin(views.LogoutFunc))
 	// http.HandleFunc("/signup/", views.SignUpFunc)
 
@@ -57,7 +54,8 @@ func main() {
 
 	//these handlers fetch set of tasks
 	http.HandleFunc("/",views.RequiresLogin(views.ShowAllTasksFunc))
-	// http.HandleFunc("/category/", views.RequiresLogin(views.ShowCategoryFunc))
+	http.HandleFunc("/add-reminder", views.RequiresLogin(views.AddReminder))
+	http.HandleFunc("/detail-reminder/:id", views.RequiresLogin(views.detailReminder))
 	// http.HandleFunc("/deleted/", views.RequiresLogin(views.ShowTrashTaskFunc))
 	// http.HandleFunc("/completed/", views.RequiresLogin(views.ShowCompleteTasksFunc))
 
@@ -67,8 +65,6 @@ func main() {
 	// http.HandleFunc("/trash/", views.RequiresLogin(views.TrashTaskFunc))
 	// http.HandleFunc("/edit/", views.RequiresLogin(views.EditTaskFunc))
 	// http.HandleFunc("/search/", views.RequiresLogin(views.SearchTaskFunc))
-
-	http.Handle("/static/", http.FileServer(http.Dir("public")))
 
 	log.Println("running server on ", values.ServerPort)
 	log.Fatal(http.ListenAndServe(values.ServerPort, nil))

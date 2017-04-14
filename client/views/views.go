@@ -18,18 +18,35 @@ var editTemplate *template.Template
 var searchTemplate *template.Template
 var templates *template.Template
 var loginTemplate *template.Template
+var addReminderTemplate *template.Template
+var detailReminderTemplate *template.Template
+
 
 var message string //message will store the message to be shown as notification
 var err error
 
 //ShowAllTasksFunc is used to handle the "/" URL which is the default ons
 //TODO add http404 error
+
 func ShowAllTasksFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-			message = "hihi"
-			homeTemplate.Execute(w,message)
+			homeTemplate.Execute(w,nil)
 		}
 }
+
+
+func detailReminder(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+			detailReminderTemplate.Execute(w,nil)
+	}
+}
+
+func AddReminder(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+			addReminderTemplate.Execute(w,nil)
+	}
+}
+
 
 // //ShowTrashTaskFunc is used to handle the "/trash" URL which is used to show the deleted tasks
 // func ShowTrashTaskFunc(w http.ResponseWriter, r *http.Request) {

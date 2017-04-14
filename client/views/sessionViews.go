@@ -10,7 +10,7 @@ import (
 func RequiresLogin(handler func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !sessions.IsLoggedIn(r) {
-			http.Redirect(w, r, "/login/", 302)
+			http.Redirect(w, r, "/login", 302)
 			return
 		}
 		handler(w, r)
@@ -38,7 +38,6 @@ func LoginFunc(w http.ResponseWriter, r *http.Request) {
 		loginTemplate.Execute(w, nil)
 		return
 	}
-
 	switch r.Method {
 		case "GET":
 			loginTemplate.Execute(w, nil)
@@ -58,6 +57,6 @@ func LoginFunc(w http.ResponseWriter, r *http.Request) {
 			log.Print("Invalid user " + username)
 			loginTemplate.Execute(w, nil)
 		default:
-			http.Redirect(w, r, "/login/", http.StatusUnauthorized)
+			http.Redirect(w, r, "/login", http.StatusUnauthorized)
 	}
 }

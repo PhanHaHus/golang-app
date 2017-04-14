@@ -8,7 +8,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
-	_ "net/http"
+	 _ "net/http"
 	"os"
 	_"strconv"
 	"strings"
@@ -42,13 +42,14 @@ func PopulateTemplates() {
 		os.Exit(1)
 	}
 	homeTemplate = templates.Lookup("home.html")
+	addReminderTemplate = templates.Lookup("add.html")
+	detailReminderTemplate = templates.Lookup("detail.html")
 	deletedTemplate = templates.Lookup("deleted.html")
 
 	editTemplate = templates.Lookup("edit.html")
 	searchTemplate = templates.Lookup("search.html")
 	completedTemplate = templates.Lookup("completed.html")
 	loginTemplate = templates.Lookup("login.html")
-
 }
 
 // //CompleteTaskFunc is used to show the complete tasks, handles "/completed/" url
