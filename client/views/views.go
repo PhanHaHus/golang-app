@@ -8,7 +8,7 @@ import (
 	"net/http"
 	_ "time"
 
-	_ "github.com/thewhitetulip/Tasks/sessions"
+	// _ "github.com/thewhitetulip/Tasks/sessions"
 )
 
 var homeTemplate *template.Template
@@ -35,7 +35,7 @@ func ShowAllTasksFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func detailReminder(w http.ResponseWriter, r *http.Request) {
+func DetailReminder(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 			detailReminderTemplate.Execute(w,nil)
 	}

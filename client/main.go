@@ -55,7 +55,7 @@ func main() {
 	//these handlers fetch set of tasks
 	http.HandleFunc("/",views.RequiresLogin(views.ShowAllTasksFunc))
 	http.HandleFunc("/add-reminder", views.RequiresLogin(views.AddReminder))
-	http.HandleFunc("/detail-reminder/:id", views.RequiresLogin(views.detailReminder))
+	http.HandleFunc("/detail-reminder/:id", views.RequiresLogin(views.DetailReminder))
 	// http.HandleFunc("/deleted/", views.RequiresLogin(views.ShowTrashTaskFunc))
 	// http.HandleFunc("/completed/", views.RequiresLogin(views.ShowCompleteTasksFunc))
 

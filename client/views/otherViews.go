@@ -12,8 +12,8 @@ import (
 	"os"
 	_"strconv"
 	"strings"
-	_ "github.com/thewhitetulip/Tasks/sessions"
-	_ "github.com/thewhitetulip/Tasks/utils"
+	// _ "github.com/thewhitetulip/Tasks/sessions"
+	// _ "github.com/thewhitetulip/Tasks/utils"
 )
 
 //PopulateTemplates is used to parse all templates present in the templates folder
