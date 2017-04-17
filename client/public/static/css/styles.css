@@ -158,9 +158,9 @@ Media Queries
 /* Portrait & landscape phone */
 
 @media (max-width: 480px) {
-  body {
+  /*body {
     margin-top: 105px;
-  }
+  }*/
 
   textarea {
     resize: vertical;
@@ -228,9 +228,9 @@ Media Queries
     width: 200px;
   }
 
-  body {
+  /*body {
     margin-top: 105px;
-  }
+  }*/
 
   .timeline {
     overflow: hidden;

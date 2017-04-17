@@ -2,16 +2,17 @@ package controller
 import (
   "github.com/ant0ine/go-json-rest/rest"
   "time"
+  _ "log"
   "net/http"
 	database "../db"
 )
 
 type Reminder struct {
-	Id        int64 `gorm:"primary_key"`
+	Id        int64     `gorm:"primary_key;AUTO_INCREMENT"`
 	Message   string    `sql:"size:1024" json:"message"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt time.Time `json:"deletedAt"`
+	DeletedAt *time.Time `json:"-"`
 }
 
 func GetAllReminders(w rest.ResponseWriter, r *rest.Request) {
@@ -40,11 +41,18 @@ func PostReminder(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if err := tx.Save(&reminder).Error; err != nil {
+
+  data:= Reminder{
+    Message: reminder.Message,
+  }
+
+	if err := tx.Create(&data).Error; err != nil {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.WriteJson(&reminder)
+
+  tx.Commit()
+	w.WriteJson(&data)
 }
 
 
@@ -69,6 +77,7 @@ func  PutReminder(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+  tx.Commit()
 	w.WriteJson(&reminder)
 }
 
@@ -84,5 +93,6 @@ func  DeleteReminder(w rest.ResponseWriter, r *rest.Request) {
 		rest.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+  tx.Commit()
 	w.WriteHeader(http.StatusOK)
 }

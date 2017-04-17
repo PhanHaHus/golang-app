@@ -1,19 +1,15 @@
 {{template "_head.html" .}}
-<div class="wrapper" ng-controller="addNewController">
+<div class="wrapper" ng-controller="detailController">
       <div class="grid-form1">
-						<h3 id="forms-example" class="">Add</h3>
+						<h3 id="forms-example" class="">Detail</h3>
 						<div class="form-group">
               <div class="row">
-                <label class="col-sm-2 control-label hor-form">Message</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="message" ng-model="data.message" placeholder="Message" required>
-                    <p ng-show="data.message.$invalid && !data.message.$pristine" class="help-block">You name is required.</p>
                 </div>
-
                 <label class="col-sm-2 control-label hor-form">Message</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="message" ng-model="data.message" placeholder="Message" required>
-                    <p ng-show="data.message.$invalid && !data.message.$pristine" class="help-block">You name is required.</p>
                 </div>
               </div>
 						</div>

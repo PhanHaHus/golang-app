@@ -41,9 +41,11 @@ func PopulateTemplates() {
 		log.Println(err)
 		os.Exit(1)
 	}
+	// reminder
 	homeTemplate = templates.Lookup("home.html")
 	addReminderTemplate = templates.Lookup("add.html")
 	detailReminderTemplate = templates.Lookup("detail.html")
+	editReminderTemplate = templates.Lookup("edit.html")
 	deletedTemplate = templates.Lookup("deleted.html")
 
 	editTemplate = templates.Lookup("edit.html")

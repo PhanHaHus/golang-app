@@ -32,21 +32,22 @@ func main() {
 		api.Use(rest.DefaultDevStack...)
 		api.Use(&rest.CorsMiddleware{ //CorsMiddleware
 			RejectNonCorsRequests: false,
+			AllowedMethods: []string{"GET", "POST", "OPTIONS"},
 			OriginValidator: func(origin string, request *rest.Request) bool {
 				return true
 			},
-			AllowedMethods: []string{"GET", "POST", "PUT"},
 			AllowedHeaders: []string{"Accept", "Content-Type", "X-Custom-Header", "Origin"},
 			AccessControlAllowCredentials: true,
-			AccessControlMaxAge:           3600,
 		})
 
 		router, err := rest.MakeRouter(
+			// -------
 			rest.Get("/api/reminder", controller.GetAllReminders),
 			rest.Get("/api/reminder/:id", controller.GetReminder),
 			rest.Post("/api/reminder", controller.PostReminder),
-			rest.Delete("/api/reminder/:id", controller.DeleteReminder),
-			rest.Put("/api/reminder/:id", controller.PutReminder),
+			rest.Post("/api/del-reminder/:id", controller.DeleteReminder),
+			rest.Post("/api/edit-reminder/:id", controller.PutReminder),
+			// -------
 		)
 
 		if err != nil {
