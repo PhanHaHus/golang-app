@@ -41,6 +41,7 @@ func main() {
 		})
 
 		router, err := rest.MakeRouter(
+			rest.Post("/api/login", controller.LoginCtrl),
 			// administrators
 			rest.Get("/api/administrators", controller.GetAllAdmin),
 			rest.Get("/api/administrators/:id", controller.GetAdminById),
