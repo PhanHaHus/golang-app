@@ -1,4 +1,7 @@
 package model
+import (
+  "time"
+)
 // import(
 // 	"../db"
 // )
@@ -23,6 +26,15 @@ type Administrators struct {
 		 AcceptingHostId int `json:"accepting_host_id"`
 		 Enabled int `json:"enabled"`
 		 CreatedById int `json:"created_by_id"`
-		 CreatedAt  string `json:"created_time"`
-		 UpdatedAt  string `json:"updated_time"`
+		 CreatedTime  time.Time `json:"CreatedTime"`
+		 UpdatedTime time.Time `json:"UpdatedTime"`
+}
+
+
+type Reminder struct {
+	Id        int64     `gorm:"primary_key;AUTO_INCREMENT"`
+	Message   string    `sql:"size:1024" json:"message"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt *time.Time `json:"-"`
 }

@@ -1,0 +1,16 @@
+{
+  "name": "hapt",
+  "version": "1.0.0",
+  "description": "Tasks is a simplistic Go webapp to manage tasks, I built this tool to manage tasks which I wanted to do, there are many good kanban style boards, but I felt they were a bit too heavyweight for my taste. Also I wanted to learn the Go webapp development.",
+  "main": "index.js",
+  "dependencies": {
+    "angular-loading-bar": "^0.9.0",
+    "angular-ui-router": "^0.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

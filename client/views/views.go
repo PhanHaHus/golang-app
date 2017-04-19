@@ -4,10 +4,8 @@ package views
 
 import (
 	"html/template"
-		 "log"
 	"net/http"
 	_ "time"
-
 	// _ "github.com/thewhitetulip/Tasks/sessions"
 )
 
@@ -30,27 +28,23 @@ var err error
 //TODO add http404 error
 
 func ShowAllTasksFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("Show");
 	if r.Method == "GET" {
 			homeTemplate.Execute(w,nil)
 		}
 }
 func EditReminderFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("Edit");
 	if r.Method == "GET" {
 			editReminderTemplate.Execute(w,nil)
 		}
 }
 
 func DetailReminderFunc(w http.ResponseWriter, r *http.Request) {
-	log.Println("detail");
 	if r.Method == "GET" {
 			detailReminderTemplate.Execute(w,nil)
 	}
 }
 
 func AddReminder(w http.ResponseWriter, r *http.Request) {
-	log.Println("add");
 	if r.Method == "GET" {
 			addReminderTemplate.Execute(w,nil)
 	}

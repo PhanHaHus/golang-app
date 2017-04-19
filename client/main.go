@@ -1,9 +1,4 @@
 package main
-
-/**
- * This is the main file for the Task application
- * License: MIT
- **/
 import (
 	"flag"
 	"log"
@@ -28,45 +23,22 @@ func main() {
 		values.ServerPort = *port
 	}
 	http.Handle("/static/", http.FileServer(http.Dir("public")))
+	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("./templates"))))
+
 	views.PopulateTemplates()
 
 	//Login logout
 	http.HandleFunc("/login", views.LoginFunc)
 	http.HandleFunc("/logout", views.RequiresLogin(views.LogoutFunc))
 	// http.HandleFunc("/signup/", views.SignUpFunc)
-
-	// http.HandleFunc("/add-category/", views.RequiresLogin(views.AddCategoryFunc))
-	// http.HandleFunc("/add-comment/", views.RequiresLogin(views.AddCommentFunc))
-	// http.HandleFunc("/add/", views.RequiresLogin(views.AddTaskFunc))
-
-	// //these handlers are used to delete
-	// http.HandleFunc("/del-comment/", views.RequiresLogin(views.DeleteCommentFunc))
-	// http.HandleFunc("/del-category/", views.RequiresLogin(views.DeleteCategoryFunc))
-	// http.HandleFunc("/delete/", views.RequiresLogin(views.DeleteTaskFunc))
-
-	// //these handlers update
-	// http.HandleFunc("/upd-category/", views.RequiresLogin(views.UpdateCategoryFunc))
-	// http.HandleFunc("/update/", views.RequiresLogin(views.UpdateTaskFunc))
-
-	// //these handlers are used for restoring tasks
-	// http.HandleFunc("/incomplete/", views.RequiresLogin(views.RestoreFromCompleteFunc))
-	// http.HandleFunc("/restore/", views.RequiresLogin(views.RestoreTaskFunc))
-
 	//these handlers fetch set of tasks
 	http.HandleFunc("/",views.RequiresLogin(views.ShowAllTasksFunc))
-	http.HandleFunc("/add-reminder", views.RequiresLogin(views.AddReminder))
-	http.HandleFunc("/detail-reminder/:id", views.RequiresLogin(views.DetailReminderFunc))
-	http.HandleFunc("/edit-reminder", views.RequiresLogin(views.EditReminderFunc))
-	// http.HandleFunc("/deleted/", views.RequiresLogin(views.ShowTrashTaskFunc))
-	// http.HandleFunc("/completed/", views.RequiresLogin(views.ShowCompleteTasksFunc))
-
+	http.HandleFunc("/add-admin", views.RequiresLogin(views.AddReminder))
+	http.HandleFunc("/detail-admin/", views.RequiresLogin(views.DetailReminderFunc))
+	http.HandleFunc("/edit-admin/", views.RequiresLogin(views.EditReminderFunc))
 	// //these handlers perform action like delete, mark as complete etc
-	// http.HandleFunc("/complete/", views.RequiresLogin(views.CompleteTaskFunc))
-	// http.HandleFunc("/files/", views.RequiresLogin(views.UploadedFileHandler))
-	// http.HandleFunc("/trash/", views.RequiresLogin(views.TrashTaskFunc))
-	// http.HandleFunc("/edit/", views.RequiresLogin(views.EditTaskFunc))
-	// http.HandleFunc("/search/", views.RequiresLogin(views.SearchTaskFunc))
 
+	// http.HandleFunc("/search/", views.RequiresLogin(views.SearchTaskFunc))
 	log.Println("running server on ", values.ServerPort)
 	log.Fatal(http.ListenAndServe(values.ServerPort, nil))
 }

@@ -41,12 +41,12 @@ func main() {
 		})
 
 		router, err := rest.MakeRouter(
-			// -------
-			rest.Get("/api/reminder", controller.GetAllReminders),
-			rest.Get("/api/reminder/:id", controller.GetReminder),
-			rest.Post("/api/reminder", controller.PostReminder),
-			rest.Post("/api/del-reminder/:id", controller.DeleteReminder),
-			rest.Post("/api/edit-reminder/:id", controller.PutReminder),
+			// administrators
+			rest.Get("/api/administrators", controller.GetAllAdmin),
+			rest.Get("/api/administrators/:id", controller.GetAdminById),
+			rest.Post("/api/administrators", controller.PostAdmin),
+			rest.Post("/api/del-administrators/:id", controller.DeleteAdmin),
+			rest.Post("/api/edit-administrators/:id", controller.PutAdmin),
 			// -------
 		)
 
