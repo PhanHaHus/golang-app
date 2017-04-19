@@ -16,6 +16,11 @@ type Status struct {
 	Message    string `json:"message"`
 }
 
+type LoginParams struct {
+	UserName  string    `json:"user_name"`
+	Password  string   `json:"password"`
+}
+
 type Administrators struct {
 		 AdministratorId int64 `json:"administratorId"`
 		 Name string 	`json:"name"`

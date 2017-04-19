@@ -1,19 +1,12 @@
 package controller
 import (
   "github.com/ant0ine/go-json-rest/rest"
-  _ "log"
+    "log"
   "net/http"
+  _ "encoding/json"
 	database "../db"
   model "../model"
 )
-
-// type Reminder struct {
-// 	Id        int64     `gorm:"primary_key;AUTO_INCREMENT"`
-// 	Message   string    `sql:"size:1024" json:"message"`
-// 	CreatedAt time.Time `json:"createdAt"`
-// 	UpdatedAt time.Time `json:"updatedAt"`
-// 	DeletedAt *time.Time `json:"-"`
-// }
 
 func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
   tx := database.MysqlConn().Begin()
@@ -21,16 +14,30 @@ func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
 	tx.Find(&administrators)
 	w.WriteJson(&administrators)
 }
+// Login API
+func LoginCtrl(w rest.ResponseWriter, r *rest.Request) {
+  loginParams := model.LoginParams{}
+  if err := r.DecodeJsonPayload(&loginParams); err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+  username := loginParams.UserName
+	password := loginParams.Password
+  log.Println(username, " ", password)
+
+  w.WriteJson(&loginParams)
+}
 
 func GetAdminById(w rest.ResponseWriter, r *rest.Request) {
   tx := database.MysqlConn().Begin()
 	id := r.PathParam("id")
-	reminder := model.Administrators{}
-	if tx.First(&reminder, id).Error != nil {
+	administrator := model.Administrators{}
+	if tx.First(&administrator, id).Error != nil {
 		rest.NotFound(w, r)
 		return
 	}
-	w.WriteJson(&reminder)
+	w.WriteJson(&administrator)
 }
 
 
