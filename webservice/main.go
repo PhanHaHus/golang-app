@@ -46,8 +46,8 @@ func main() {
 			rest.Get("/api/administrators", controller.GetAllAdmin),
 			rest.Get("/api/administrators/:id", controller.GetAdminById),
 			rest.Post("/api/administrators", controller.PostAdmin),
+			rest.Post("/api/administrators/:id", controller.PutAdmin),
 			rest.Post("/api/del-administrators/:id", controller.DeleteAdmin),
-			rest.Post("/api/edit-administrators/:id", controller.PutAdmin),
 			// -------
 		)
 

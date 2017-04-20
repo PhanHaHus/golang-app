@@ -37,26 +37,26 @@ function ($scope, configConstant,$http, $window, $state,$stateParams) {
 
 
     $scope.submitForm = function(isValid) {
-          if(isValid){
-            $http.post(
-                 configConstant.routerApi+'/administrators' +($stateParams.id?('/'+$stateParams.id):''),
-                 {
-                   accepting_host_id: parseInt($scope.data.accepting_host_id),
-                   description: $scope.data.description,
-                   email: $scope.data.email,
-                   enabled: $scope.data.enabled?1:0,
-                   name: $scope.data.name,
-                   password: $scope.data.password,
-                   created_by_id: 1,
-                   permission: $scope.data.permission
-                 }
-              ).then(function(data, status, headers, config) {
+        if(isValid){
+          $http.post(
+               configConstant.routerApi+'/administrators' +($stateParams.id?('/'+$stateParams.id):''),
+               {
+                 accepting_host_id: parseInt($scope.data.accepting_host_id)==0?1:parseInt($scope.data.accepting_host_id),
+                 description: $scope.data.description,
+                 email: $scope.data.email,
+                 enabled: $scope.data.enabled?1:0,
+                 name: $scope.data.name,
+                 password: $scope.data.password,
+                 created_by_id: 1,
+                 permission: $scope.data.permission
+               }
+            ).then(function(data, status, headers, config) {
                 console.log("succ");
                 console.log(data);
                 $state.go("home");
-              }).then(function(data, status, headers, config) {
+            }).then(function(data, status, headers, config) {
                 console.log("err");
-              });
-          }
+            });
+        }
     };
 }]);
