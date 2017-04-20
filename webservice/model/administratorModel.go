@@ -22,7 +22,7 @@ type LoginParams struct {
 }
 
 type Administrators struct {
-		 AdministratorId int64 `json:"administratorId"`
+		 AdministratorId int64 `gorm:"primary_key;json:"administrator_id"`
 		 Name string 	`json:"name"`
 		 Email string `json:"email"`
 		 Password string `json:"password"`

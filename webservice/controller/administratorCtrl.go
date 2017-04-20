@@ -1,7 +1,7 @@
 package controller
 import (
   "github.com/ant0ine/go-json-rest/rest"
-  _  "log"
+    "log"
   "net/http"
   _ "encoding/json"
 	database "../db"
@@ -17,10 +17,12 @@ func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func GetAdminById(w rest.ResponseWriter, r *rest.Request) {
+  log.Println("GetAdminById")
   tx := database.MysqlConn().Begin()
-	id := r.PathParam("id")
+	administratorsId := r.PathParam("id")
+  log.Println("Id: ",administratorsId)
 	administrator := model.Administrators{}
-	if tx.First(&administrator, id).Error != nil {
+	if tx.First(&administrator, administratorsId).Error != nil {
 		rest.NotFound(w, r)
 		return
 	}

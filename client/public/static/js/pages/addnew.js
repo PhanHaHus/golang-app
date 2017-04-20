@@ -18,7 +18,16 @@ function ($scope, configConstant,$http, $window, $state,$stateParams) {
            url: configConstant.routerApi+'/administrators/'+$stateParams.id,
          }).then(function successCallback(response) {
               console.log(response);
-             }, function errorCallback(response) {
+              $scope.data = {
+                  accepting_host_id:response.data.accepting_host_id,
+                  description:response.data.description,
+                  email:response.data.email,
+                  enabled:response.data.enabled,
+                  name:response.data.name,
+                  password:response.data.password,
+                  permission:response.data.permission
+              };
+         }, function errorCallback(response) {
                console.log("err");
                console.log(response)
          });
