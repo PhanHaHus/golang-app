@@ -1,7 +1,7 @@
 package controller
 import (
   "github.com/ant0ine/go-json-rest/rest"
-    "log"
+  _  "log"
   "net/http"
   _ "encoding/json"
 	database "../db"
@@ -12,21 +12,8 @@ func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
 	tx.Find(&administrators)
+  tx.Commit()
 	w.WriteJson(&administrators)
-}
-// Login API
-func LoginCtrl(w rest.ResponseWriter, r *rest.Request) {
-  loginParams := model.LoginParams{}
-  if err := r.DecodeJsonPayload(&loginParams); err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-  username := loginParams.UserName
-	password := loginParams.Password
-  log.Println(username, " ", password)
-
-  w.WriteJson(&loginParams)
 }
 
 func GetAdminById(w rest.ResponseWriter, r *rest.Request) {
@@ -37,6 +24,7 @@ func GetAdminById(w rest.ResponseWriter, r *rest.Request) {
 		rest.NotFound(w, r)
 		return
 	}
+  tx.Commit()
 	w.WriteJson(&administrator)
 }
 

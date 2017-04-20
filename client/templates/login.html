@@ -1,47 +1,21 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-	<title>Login</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="" />
-	<link href="/static/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-	<!-- Custom Theme files -->
-	<link href="/static/css/style_login.css" rel='stylesheet' type='text/css' />
-	<link href="/static/css/font-awesome.css" rel="stylesheet">
-	<script src="/static/js/angular.min.js"> </script>
-  <script src="/static/js/angular_config.js"></script>
-</head>
-<body>
-	<div class="login"  ng-app = "mainApp" ng-controller = "loginController">
+<link href="/static/css/style_login.css" rel='stylesheet' type='text/css' />
+<div class="login"  ng-controller = "loginController">
 		<h1><a href="#">SDP </a></h1>
 		<div class="login-bottom">
 			<h2>Login</h2>
-			<form action="login" method="POST">
+			<form name="loginForm" ng-submit="submitForm(loginForm.$valid)" novalidate>
 				<div class="col-md-12">
 					<div class="login-mail">
-            <input type="text" name="username" ng-model="username" class="loginbutton" placeholder="Username" />
+            <input type="text" name="username" ng-model="data.user_name" class="loginbutton" placeholder="Username" required/>
 					</div>
 					<div class="login-mail">
-              <input type="password" name="password" ng-model="password" class="loginbutton" placeholder="Password" />
+              <input type="password" name="password" ng-model="data.password" class="loginbutton" placeholder="Password" required/>
 					</div>
 					<label class="hvr-shutter-in-horizontal login-sub login-do">
-					<input type="submit" value="login">
+						  <input type="submit" value="login" >
 					</label>
 				</div>
 				<div class="clearfix"> </div>
 			</form>
 		</div>
-	</div>
-	<!---->
-	<div class="copy-right">
-		<p> &copy; 2017 ANM. All Rights Reserved </p>
-	</div>
-    <script>
-       mainApp.controller('loginController', function($scope) {
-          console.log("test");
-
-       });
-    </script>
-</body>
-</html>
+</div>

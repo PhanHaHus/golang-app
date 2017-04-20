@@ -1,5 +1,6 @@
-mainApp.controller('homeController', ['$scope', 'configConstant','$http',
-function ($scope, configConstant,$http) {
+mainApp.controller('homeController', ['$scope', 'configConstant','$http',"$location",
+function ($scope, configConstant, $http, $location ) {
+
       $scope.init = function(){
         $http({
           method: 'GET',
