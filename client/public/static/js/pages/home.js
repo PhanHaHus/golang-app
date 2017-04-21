@@ -13,10 +13,11 @@ function ($scope, configConstant, $http, $location ) {
       }
       $scope.deleteRemind= function(element){
         var result = confirm("Want to delete?");
+        console.log(element);
           if (result) {
             $http({
                 method: 'POST',
-                url: configConstant.routerApi+'/del-administrators/'+element.Id,
+                url: configConstant.routerApi+'/del-administrators/'+element.AdministratorId,
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }

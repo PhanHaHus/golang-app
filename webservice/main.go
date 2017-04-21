@@ -17,14 +17,12 @@ func main() {
 	if err != nil {
 		port = flag.String("port", "", "IP address")
 		flag.Parse()
-
 		//User is expected to give :8080 like input, if they give 8080
 		//we'll append the required ':'
 		if !strings.HasPrefix(*port, ":") {
 			*port = ":" + *port
 			log.Println("port is " + *port)
 		}
-
 		values.ServerPort = *port
 	}
 
@@ -42,11 +40,12 @@ func main() {
 
 		router, err := rest.MakeRouter(
 			rest.Post("/api/login", controller.LoginCtrl),
+			rest.Post("/api/search", controller.SearchCtrl),
 			// administrators
 			rest.Get("/api/administrators", controller.GetAllAdmin),
 			rest.Get("/api/administrators/:id", controller.GetAdminById),
 			rest.Post("/api/administrators", controller.PostAdmin),
-			rest.Post("/api/administrators/:id", controller.PutAdmin),
+			rest.Post("/api/edit-administrators/:id", controller.PutAdmin),
 			rest.Post("/api/del-administrators/:id", controller.DeleteAdmin),
 			// -------
 		)

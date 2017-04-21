@@ -1,32 +1,44 @@
-<nav-bar></nav-bar>
-<div class="wrapper">
+<div class="wrapper" ng-controller="homeController">
     <div class="grid-form1">
 					<h3>Administrators Management</h3>
           <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
           <table class="table">
               <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Email</th>
-                  <th>Name</th>
-                  <th>Permission</th>
-                  <th>Accepting Host</th>
-                  <th>Enabled</th>
-                  <th>Action</th>
+                  <th>
+                    Id
+                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th>Email
+                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th>Name
+                      <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th>Permission
+                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th>Accepting Host
+                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th>Enabled
+                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                  </th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="x in list">
-                  <td>[[ x.administratorId ]]</td>
+                  <td>[[ x.AdministratorId ]]</td>
                   <td>[[ x.email ]]</td>
                   <td>[[ x.name ]]</td>
                   <td>[[ x.permission ]]</td>
                   <td>[[ x.accepting_host_id ]]</td>
-                  <td>[[ x.createdAt ]]</td>
+                  <td>[[ x.enabled ]]</td>
                   <td>
                       <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a href="/detail-admin/[[x.AdministratorId]]" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+                      <a ui-sref="detailadmin({id: [[x.AdministratorId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
                   </td>
                 </tr>
               </tbody>

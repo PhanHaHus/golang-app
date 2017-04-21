@@ -17,7 +17,7 @@ func init() {
 // setupMysqlConn: setup mysql database connection using the configuration from config.yml
 func setupMysqlConn() {
     mysqlConn, err = gorm.Open("mysql", "root:@/sdp?charset=utf8&parseTime=True")
-    // defer mysqlConn.Close()
+
     if err != nil {
       panic(err)
     }
@@ -26,6 +26,8 @@ func setupMysqlConn() {
       panic(err)
     }
     mysqlConn.LogMode(true)
+		mysqlConn.DB().SetMaxIdleConns(10)
+
     // mysqlConn.DB().SetMaxIdleConns(mysql.MaxIdleConns)
 }
 
