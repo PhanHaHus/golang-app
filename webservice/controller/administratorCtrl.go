@@ -1,6 +1,6 @@
 package controller
 import (
-  "github.com/ant0ine/go-json-rest/rest"
+  "github.com/labstack/echo"
     "log"
   "net/http"
   _ "encoding/json"
@@ -8,104 +8,89 @@ import (
   model "../model"
 )
 
-func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
-  MiddlewareJWT(w,r)
+func GetAllAdmin(c echo.Context) error  {
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
 	tx.Order("administrators.administrator_id desc").Limit(10).Find(&administrators)
   tx.Commit()
-	w.WriteJson(&administrators)
+  return c.JSON(http.StatusOK, &administrators)
 }
 
-func SearchCtrl(w rest.ResponseWriter, r *rest.Request) {
-  tet := r
+func SearchCtrl(c echo.Context) (err error) {
+  test := c.QueryParam("name")
   // limit := r.Form.Get("limit")
   log.Println("params:")
-  log.Println(tet)
+  log.Println(test)
   log.Println("------------")
 
-	w.WriteHeader(http.StatusOK)
+	return c.JSON(http.StatusOK, nil)
 }
 
-func GetAdminById(w rest.ResponseWriter, r *rest.Request) {
-  log.Println("GetAdminById")
+func GetAdminById(c echo.Context) (err error){
   tx := database.MysqlConn().Begin()
-	administratorsId := r.PathParam("id")
-  log.Println("Id: ",administratorsId)
+	administratorsId := c.Param("id")
 	administrator := model.Administrators{}
-	if tx.First(&administrator, administratorsId).Error != nil {
-		rest.NotFound(w, r)
-		return
+
+	if err := tx.First(&administrator, administratorsId).Error; err != nil {
+		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
 	}
   tx.Commit()
-	w.WriteJson(&administrator)
+	return c.JSON(http.StatusOK, &administrator)
+}
+
+func PostAdmin(c echo.Context) (err error) {
+    tx:= database.MysqlConn().Begin()
+  	administrators := model.Administrators{}
+    if err = c.Bind(&administrators); err != nil {
+       return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+    }
+
+  	if err := tx.Create(&administrators).Error; err != nil {
+  		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
+  	}
+    tx.Commit()
+    return c.JSON(http.StatusOK, &administrators)
 }
 
 
-func PostAdmin(w rest.ResponseWriter, r *rest.Request) {
+func PutAdmin(c echo.Context) (err error) {
   tx:= database.MysqlConn().Begin()
-	administrators := model.Administrators{}
-	if err := r.DecodeJsonPayload(&administrators); err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if err := tx.Create(&administrators).Error; err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-  tx.Commit()
-	w.WriteJson(&administrators)
-}
-
-
-func PutAdmin(w rest.ResponseWriter, r *rest.Request) {
-  tx:= database.MysqlConn().Begin()
-	administrator_id := r.PathParam("id")
-
+	administrator_id := c.Param("id")
 	administrator := model.Administrators{}
-	if tx.First(&administrator, administrator_id).Error != nil {
-		rest.NotFound(w, r)
-		return
-	}
-  log.Println("id:")
-  log.Println(tx)
-
-	updated := model.Administrators{}
-	if err := r.DecodeJsonPayload(&updated); err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	if err := tx.First(&administrator, administrator_id).Error; err != nil {
+		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
 	}
 
-	administrator.Name = updated.Name
-	administrator.Email = updated.Email
-	administrator.Password = updated.Password
-	administrator.Description = updated.Description
-	administrator.AcceptingHostId = updated.AcceptingHostId
-	administrator.Enabled = updated.Enabled
-	administrator.CreatedById = updated.CreatedById
+	data_updated := model.Administrators{}
+  if err = c.Bind(&data_updated); err != nil {
+     return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+  }
+
+	administrator.Name = data_updated.Name
+	administrator.Email = data_updated.Email
+	administrator.Password = data_updated.Password
+	administrator.Description = data_updated.Description
+	administrator.AcceptingHostId = data_updated.AcceptingHostId
+	administrator.Enabled = data_updated.Enabled
+	administrator.CreatedById = data_updated.CreatedById
 
 	if err := tx.Save(&administrator).Error; err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
 	}
   tx.Commit()
-	w.WriteJson(&administrator)
+  return c.JSON(http.StatusOK, &administrator)
 }
 
-func  DeleteAdmin(w rest.ResponseWriter, r *rest.Request) {
+func DeleteAdmin(c echo.Context) (err error){
   tx:= database.MysqlConn().Begin()
-	id := r.PathParam("id")
+	id := c.Param("id")
 	reminder := model.Administrators{}
-	if tx.First(&reminder, id).Error != nil {
-		rest.NotFound(w, r)
-		return
+	if err := tx.First(&reminder, id).Error; err != nil {
+		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
 	}
 	if err := tx.Delete(&reminder).Error; err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
 	}
   tx.Commit()
-	w.WriteHeader(http.StatusOK)
+	return c.JSON(http.StatusOK, map[string]string{"Message": "deleted","status":"true"})
 }

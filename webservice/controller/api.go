@@ -2,7 +2,7 @@ package controller
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ant0ine/go-json-rest/rest"
+	"github.com/labstack/echo"
 	"net/http"
 	"log"
 	"time"
@@ -32,17 +32,16 @@ log.Println(myToken);
 	return token.Valid, claims.UserName
 }
 // using with request api
-func MiddlewareJWT(w rest.ResponseWriter, r *rest.Request){
-	token := r.Header.Get("Authorization")
-	// token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNDkyNjcyNDQxfQ.xevIvEkT1S2frmYutds-_Sote3EtfX6ZmqOcRrEybpk"
+func MiddlewareJWT(c echo.Context) (err error){
+	// token := r.Header.Get("Authorization")
+	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNDkyNjcyNDQxfQ.xevIvEkT1S2frmYutds-_Sote3EtfX6ZmqOcRrEybpk"
 	IsTokenValid, username := ValidateToken(token)
 	//When the token is not valid show the default error JSON document
 	if !IsTokenValid {
-		w.WriteJson(map[string]string{"Message": "Something went wrong with signing token, Authentication failed!","status":"false"})
-		return
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "Something went wrong with signing token, Authentication failed!","status":"false"})
 	}
 	log.Println("token is valid " + username + " is logged in")
-	w.WriteJson(map[string]string{"Message": "ts"})
+	return c.JSON(http.StatusOK,map[string]string{"Message": "ok logged"})
 }
 //ValidUser will check if the user exists in db and if exists if the username password
 //combination is valid
@@ -56,36 +55,32 @@ func ValidUser(username, password string) bool {
 }
 
 // Login API
-func LoginCtrl(w rest.ResponseWriter, r *rest.Request) {
+func LoginCtrl(c echo.Context) (err error) {
   loginParams := model.LoginParams{}
-  if err := r.DecodeJsonPayload(&loginParams); err != nil {
-		rest.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	log.Println(c.Bind(&loginParams))
+	if err = c.Bind(&loginParams); err != nil {
+		 return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "Cant get Params","status":"false"})
 	}
-
   username := loginParams.UserName
 	password := loginParams.Password
 	log.Println(username, " ", password)
-	if(ValidUser(username,password)){
-		// Create the Claims
-		claims := MyCustomClaims{
-			username,
-			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
-			},
-		}
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		/* Sign the token with our secret */
-		tokenString, err := token.SignedString(mySigningKey)
-		if err != nil {
-			log.Println("Something went wrong with signing token")
-			w.WriteJson(map[string]string{"Message": "Something went wrong with signing token, Authentication failed!","status":"false"})
-			return
-		}
-		/* Finally, write the token to the browser window */
-		w.WriteJson(map[string]string{"token":tokenString,"status":"true","Message": "Authentication Success!"} )
-	} else {
-		w.WriteJson(map[string]string{"Message": "Authentication failed!","status":"false"})
-	}
 
+	if(ValidUser(username,password)){
+		// Create token
+		token := jwt.New(jwt.SigningMethodHS256)
+		// Set claims
+		claims := token.Claims.(jwt.MapClaims)
+		claims["name"] = "Jon Snow"
+		claims["admin"] = true
+		claims["exp"] = time.Now().Add(time.Hour * 2).Unix()
+		// Generate encoded token and send it as response.
+		t, err := token.SignedString([]byte("secret"))
+		if err != nil {
+			return err
+		}
+		return c.JSON(http.StatusOK, map[string]string{
+			"token": t,
+		})
+	}
+	return echo.ErrUnauthorized
 }
