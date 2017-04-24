@@ -1,7 +1,7 @@
 package controller
 import (
   "github.com/labstack/echo"
-    "log"
+    _ "log"
   "net/http"
   _ "encoding/json"
 	database "../db"
@@ -9,6 +9,7 @@ import (
 )
 
 func GetAllAdmin(c echo.Context) error  {
+  MiddlewareJWT(c)
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
 	tx.Order("administrators.administrator_id desc").Limit(10).Find(&administrators)
@@ -16,15 +17,7 @@ func GetAllAdmin(c echo.Context) error  {
   return c.JSON(http.StatusOK, &administrators)
 }
 
-func SearchCtrl(c echo.Context) (err error) {
-  test := c.QueryParam("name")
-  // limit := r.Form.Get("limit")
-  log.Println("params:")
-  log.Println(test)
-  log.Println("------------")
 
-	return c.JSON(http.StatusOK, nil)
-}
 
 func GetAdminById(c echo.Context) (err error){
   tx := database.MysqlConn().Begin()

@@ -20,6 +20,11 @@ type LoginParams struct {
 	UserName  string    `json:"user_name"`
 	Password  string   `json:"password"`
 }
+type SearchParams struct {
+	Name  string    `json:"name"`
+	Description  string   `json:"description"`
+}
+
 
 type Administrators struct {
 		 AdministratorId int64 `gorm:"primary_key;json:"administrator_id"`

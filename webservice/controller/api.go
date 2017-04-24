@@ -19,8 +19,6 @@ var mySigningKey = []byte("secret")
 
 //ValidateToken will validate the token
 func ValidateToken(myToken string) (bool, string) {
-log.Println("checking");
-log.Println(myToken);
 	token, err := jwt.ParseWithClaims(myToken, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(mySigningKey), nil
 	})
@@ -34,37 +32,36 @@ log.Println(myToken);
 // using with request api
 func MiddlewareJWT(c echo.Context) (err error){
 	// token := r.Header.Get("Authorization")
-	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNDkyNjcyNDQxfQ.xevIvEkT1S2frmYutds-_Sote3EtfX6ZmqOcRrEybpk"
+
+	auth := c.Request().Header.Get("")
+	log.Println("token is  " + auth)
+	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"
 	IsTokenValid, username := ValidateToken(token)
 	//When the token is not valid show the default error JSON document
 	if !IsTokenValid {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "Something went wrong with signing token, Authentication failed!","status":"false"})
 	}
-	log.Println("token is valid " + username + " is logged in")
-	return c.JSON(http.StatusOK,map[string]string{"Message": "ok logged"})
+	return c.JSON(http.StatusOK,map[string]string{"Message": username+ "ok logged"})
 }
 //ValidUser will check if the user exists in db and if exists if the username password
-//combination is valid
 func ValidUser(username, password string) bool {
-	//If the password matches, return true
 	if (username=="admin" && password == "admin") {
 		return true
 	}
-	//by default return false
 	return false
 }
 
 // Login API
 func LoginCtrl(c echo.Context) (err error) {
   loginParams := model.LoginParams{}
-	log.Println(c.Bind(&loginParams))
-	if err = c.Bind(&loginParams); err != nil {
-		 return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "Cant get Params","status":"false"})
-	}
+
+	// if err = c.Bind(&loginParams); err != nil {
+	// 	 return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "Cant get Params","status":"false"})
+	// }
+
   username := loginParams.UserName
 	password := loginParams.Password
 	log.Println(username, " ", password)
-
 	if(ValidUser(username,password)){
 		// Create token
 		token := jwt.New(jwt.SigningMethodHS256)
@@ -83,4 +80,17 @@ func LoginCtrl(c echo.Context) (err error) {
 		})
 	}
 	return echo.ErrUnauthorized
+}
+
+
+func SearchCtrl(c echo.Context) (err error) {
+  params := model.SearchParams{}
+  if err = c.Bind(&params); err != nil {
+     return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+  }
+  log.Println("params:")
+  log.Println(params)
+  log.Println("------------")
+
+	return c.JSON(http.StatusOK, params)
 }

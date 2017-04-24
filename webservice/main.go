@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
+	//read config http
 	values, err := config.ReadConfig("config.json")
 	var port *string
-
 	if err != nil {
 			port = flag.String("port", "", "IP address")
 			flag.Parse()
@@ -30,7 +30,7 @@ func main() {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
      AllowOrigins: []string{"*"},
      AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
- }))
+	 }))
 
   // Middleware
   e.Use(middleware.Logger())
