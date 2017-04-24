@@ -1,6 +1,9 @@
 <div class="wrapper" ng-controller="homeController">
     <div class="grid-form1">
 					<h3>Administrators Management</h3>
+          <input class="input-search pull-right" placeholder="Search" type="text" class="form-control" name="password" ng-model="data.search">
+          <div class="clearfix">
+          </div>
           <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
           <table class="table">
               <thead>
@@ -22,7 +25,7 @@
                     <input type="text" class="form-control" name="password" ng-model="data.password">
                   </th>
                   <th>Enabled
-                    <input type="text" class="form-control" name="password" ng-model="data.password">
+                    <input type="checkbox" class="form-control" name="password" ng-model="data.password">
                   </th>
                   <th></th>
                 </tr>

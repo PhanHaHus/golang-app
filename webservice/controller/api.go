@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"log"
 	"time"
-	"encoding/json"
+	_ "encoding/json"
 	model "../model"
 )
 
 type MyCustomClaims struct {
-    Username string `json:"username"`
+    UserName string `json:"user_name"`
     jwt.StandardClaims
 }
 
@@ -19,6 +19,8 @@ var mySigningKey = []byte("secret")
 
 //ValidateToken will validate the token
 func ValidateToken(myToken string) (bool, string) {
+log.Println("checking");
+log.Println(myToken);
 	token, err := jwt.ParseWithClaims(myToken, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(mySigningKey), nil
 	})
@@ -26,28 +28,21 @@ func ValidateToken(myToken string) (bool, string) {
 		return false, ""
 	}
 	claims := token.Claims.(*MyCustomClaims)
-	return token.Valid, claims.Username
+	log.Println(token.Valid);
+	return token.Valid, claims.UserName
 }
 // using with request api
-func MiddlewareJWT(w http.ResponseWriter, r *http.Request){
-	var err error
-	var status model.Status
-	var message string
-
-	token := r.Header["Token"][0]
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+func MiddlewareJWT(w rest.ResponseWriter, r *rest.Request){
+	token := r.Header.Get("Authorization")
+	// token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNDkyNjcyNDQxfQ.xevIvEkT1S2frmYutds-_Sote3EtfX6ZmqOcRrEybpk"
 	IsTokenValid, username := ValidateToken(token)
 	//When the token is not valid show the default error JSON document
 	if !IsTokenValid {
-		status = model.Status{StatusCode: http.StatusInternalServerError, Message: message}
-		w.WriteHeader(http.StatusInternalServerError)
-		err = json.NewEncoder(w).Encode(status)
-		if err != nil {
-			panic(err)
-		}
+		w.WriteJson(map[string]string{"Message": "Something went wrong with signing token, Authentication failed!","status":"false"})
 		return
 	}
 	log.Println("token is valid " + username + " is logged in")
+	w.WriteJson(map[string]string{"Message": "ts"})
 }
 //ValidUser will check if the user exists in db and if exists if the username password
 //combination is valid
@@ -59,6 +54,7 @@ func ValidUser(username, password string) bool {
 	//by default return false
 	return false
 }
+
 // Login API
 func LoginCtrl(w rest.ResponseWriter, r *rest.Request) {
   loginParams := model.LoginParams{}

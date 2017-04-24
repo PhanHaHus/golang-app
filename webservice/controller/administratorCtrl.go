@@ -9,6 +9,7 @@ import (
 )
 
 func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
+  MiddlewareJWT(w,r)
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
 	tx.Order("administrators.administrator_id desc").Limit(10).Find(&administrators)
@@ -17,8 +18,7 @@ func GetAllAdmin(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func SearchCtrl(w rest.ResponseWriter, r *rest.Request) {
-  r.ParseForm()
-  tet := r.Form
+  tet := r
   // limit := r.Form.Get("limit")
   log.Println("params:")
   log.Println(tet)

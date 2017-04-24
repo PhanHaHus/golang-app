@@ -1,6 +1,12 @@
-mainApp.controller('homeController', ['$scope', 'configConstant','$http',"$location",
-function ($scope, configConstant, $http, $location ) {
+mainApp.controller('homeController', ['$scope','$rootScope', 'configConstant','$http',"$location","$state",
+function ($scope,$rootScope, configConstant, $http, $location,$state ) {
+      // show nav or not
+      $rootScope.showNav = $location.path() != "/login" ? true: false;
 
+      $scope.logoutFunc = function(){
+        console.log('logoutFunc');
+        $state.go('login');
+      }
       $scope.init = function(){
         $http({
           method: 'GET',
