@@ -1,5 +1,4 @@
 package main
-
 import (
 	"flag"
 	"log"
@@ -8,6 +7,7 @@ import (
 	controller "./controller"
   "github.com/labstack/echo"
   "github.com/labstack/echo/middleware"
+	model "./model"
 )
 
 func main() {
@@ -35,15 +35,24 @@ func main() {
   // Middleware
   e.Use(middleware.Logger())
   e.Use(middleware.Recover())
-
   // Routes
 	e.POST("/api/login", controller.LoginCtrl)
-	e.POST("/api/search", controller.SearchCtrl)
+	// Configure middleware with the custom claims type
+	config := middleware.JWTConfig{
+		Claims:     &model.JwtCustomClaims{},
+		SigningKey: []byte("secret"),
+	}
+	//api need authorization
+	r := e.Group("/api")
+	r.Use(middleware.JWTWithConfig(config))
+
 	// admin management
-  e.GET("/api/administrators", controller.GetAllAdmin)
-  e.GET("/api/administrators/:id", controller.GetAdminById)
-  e.POST("/api/administrators", controller.PostAdmin)
-  e.POST("/api/edit-administrators/:id", controller.PutAdmin)
+  r.GET("/administrators", controller.GetAllAdmin)
+	r.POST("/search-admin", controller.SearchAdminCtrl)
+  r.GET("/administrators/:id", controller.GetAdminById)
+  r.POST("/administrators", controller.PostAdmin)
+  r.POST("/del-administrators/:id", controller.DeleteAdmin)
+  r.POST("/edit-administrators/:id", controller.PutAdmin)
   // Start server
   e.Logger.Fatal(e.Start(values.ServerPort))
 }

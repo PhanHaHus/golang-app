@@ -1,6 +1,7 @@
 package model
 import (
   "time"
+  jwt "github.com/dgrijalva/jwt-go"
 )
 // import(
 // 	"../db"
@@ -14,17 +15,24 @@ is passed while templates are executed.
 type Status struct {
 	StatusCode int    `json:"status_code"`
 	Message    string `json:"message"`
+	Status    string `json:"status"`
 }
 
 type LoginParams struct {
 	UserName  string    `json:"user_name"`
 	Password  string   `json:"password"`
 }
-type SearchParams struct {
+type SearchAdminParams struct {
 	Name  string    `json:"name"`
 	Description  string   `json:"description"`
 }
 
+// jwtCustomClaims are custom claims extending default ones.
+type JwtCustomClaims struct {
+	UserName  string `json:"user_name"`
+	Admin bool   `json:"admin"`
+	jwt.StandardClaims
+}
 
 type Administrators struct {
 		 AdministratorId int64 `gorm:"primary_key;json:"administrator_id"`

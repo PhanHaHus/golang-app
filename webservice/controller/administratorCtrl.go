@@ -9,15 +9,13 @@ import (
 )
 
 func GetAllAdmin(c echo.Context) error  {
-  MiddlewareJWT(c)
+  // MiddlewareJWT(c)
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
 	tx.Order("administrators.administrator_id desc").Limit(10).Find(&administrators)
   tx.Commit()
   return c.JSON(http.StatusOK, &administrators)
 }
-
-
 
 func GetAdminById(c echo.Context) (err error){
   tx := database.MysqlConn().Begin()

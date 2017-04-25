@@ -1,12 +1,8 @@
 mainApp.controller('homeController', ['$scope','$rootScope', 'configConstant','$http',"$location","$state",
 function ($scope,$rootScope, configConstant, $http, $location,$state ) {
+  console.log(localStorage);
       // show nav or not
       $rootScope.showNav = $location.path() != "/login" ? true: false;
-
-      $scope.logoutFunc = function(){
-        console.log('logoutFunc');
-        $state.go('login');
-      }
       $scope.init = function(){
         $http({
           method: 'GET',
@@ -19,7 +15,6 @@ function ($scope,$rootScope, configConstant, $http, $location,$state ) {
       }
       $scope.deleteRemind= function(element){
         var result = confirm("Want to delete?");
-        console.log(element);
           if (result) {
             $http({
                 method: 'POST',
