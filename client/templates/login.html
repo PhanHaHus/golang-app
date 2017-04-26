@@ -11,6 +11,7 @@
 					<div class="login-mail">
               <input type="password" name="password" ng-model="data.password" class="loginbutton" placeholder="Password" required/>
 					</div>
+					<div ng-if="error" class="alert alert-danger">[[error]]</div>
 					<label class="hvr-shutter-in-horizontal login-sub login-do">
 						  <input type="submit" value="login" >
 					</label>

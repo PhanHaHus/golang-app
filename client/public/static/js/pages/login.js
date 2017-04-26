@@ -1,5 +1,5 @@
-mainApp.controller('loginController', ['$scope', 'configConstant','$http',"$window","$state",
-function ($scope, configConstant,$http, $window ,$state) {
+mainApp.controller('loginController', ['$scope', 'configConstant','$http',"$window","$state","$rootScope","$localStorage",
+function ($scope, configConstant,$http, $window ,$state,$rootScope,$localStorage) {
 
     $scope.submitForm = function(isValid) {
       $scope.isValid = isValid;
@@ -16,20 +16,22 @@ function ($scope, configConstant,$http, $window ,$state) {
                       "token": response.data.token,
                       "username": response.data.username,
                     }
-                    localStorage.setItem("userInfor", JSON.stringify(user));
+                    $localStorage.userInfor = user;
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $state.go("home");
-                    location.reload();
+                    window.location.reload();
                 }else{
-                  alert("login fail")
+                  $scope.error='Username or password is incorrect';
                 }
               });
           }
     };
 
-}]).controller('logoutController', ['$scope', 'configConstant','$http',"$window","$state",
-    function ($scope, configConstant,$http, $window ,$state) {
-        localStorage.clear();
-        $state.go("login")
-        location.reload();
+}]).controller('logoutController', ['$scope', 'configConstant','$http',"$window","$state","logoutService",
+    function ($scope, configConstant,$http, $window ,$state,logoutService) {
+      logoutService.logout();
+        // localStorage.clear();
+        // $http.defaults.headers.common.Authorization = '';
+        // $state.go("login")
     }
 ]);

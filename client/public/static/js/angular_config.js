@@ -1,18 +1,14 @@
 /*
-This is a javascript file for config angular
-============
 Author:  Hapt
 Created: april 2017
 */
-var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt'],function($interpolateProvider,cfpLoadingBarProvider){
+var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt', 'ngStorage'],function($interpolateProvider,cfpLoadingBarProvider){
       cfpLoadingBarProvider.includeSpinner = true;
       $interpolateProvider.startSymbol('[[');
       $interpolateProvider.endSymbol(']]');
 }).constant('configConstant', {
       routerApi: "http://localhost:8081/api"
 });
-
-
 
 // directive navbar
 mainApp.directive('navBar', function() {
@@ -21,23 +17,41 @@ mainApp.directive('navBar', function() {
   };
 });
 
-//jwt config
-mainApp.config(function Config($httpProvider, jwtOptionsProvider) {
-    jwtOptionsProvider.config({
-      unauthenticatedRedirector: ['$state', function($state) {
-        $state.go('login');
-      }]
-    });
+mainApp.factory('logoutService', function($http,$location) {
+      return {
+          logout: function() {
+            localStorage.clear();
+            $http.defaults.headers.common.Authorization = '';
+            $location.path('/login');
+          }
+      };
 });
-
-mainApp.run(function($http,$rootScope) {
-  if(localStorage.getItem('userInfor')){
-      var retrievedObject = JSON.parse(localStorage.getItem('userInfor'));
-      console.log((retrievedObject));
-      $http.defaults.headers.common.Authorization = 'Bearer ' + retrievedObject.token;
+mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logoutService) {
+  if ($localStorage.userInfor) {
+      $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.userInfor.token;
   }
-});
 
+  // redirect to login page if not logged in and trying to access a restricted page or expired token
+  $rootScope.$on('$locationChangeStart', function (event, next, current) {
+      var publicPages = ['/login'];
+      var restrictedPage = publicPages.indexOf($location.path()) === -1;
+      if (restrictedPage && !$localStorage.userInfor) {
+          $location.path('/login');
+      }
+      if ($localStorage.userInfor) {
+        //check expired, redirect to login
+        var isTokenExpired = jwtHelper.isTokenExpired($localStorage.userInfor.token);
+        if(isTokenExpired){
+          logoutService.logout();
+          alert('Your session has expired!');
+        }else{
+          //if isset session
+          $location.path('/home');
+        }
+      }
+
+  });
+});
 
 // router ui config
 mainApp.config(function($stateProvider,$urlRouterProvider) {
@@ -86,7 +100,7 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            templateUrl: '/templates/login.html',
        })
        .state('logout', {
-           url: '/logout',
+          //  url: '/logout',
            controller: 'logoutController',
            templateUrl: "/templates/login.html",
        })

@@ -1,6 +1,5 @@
 mainApp.controller('homeController', ['$scope','$rootScope', 'configConstant','$http',"$location","$state",
 function ($scope,$rootScope, configConstant, $http, $location,$state ) {
-  console.log(localStorage);
       // show nav or not
       $rootScope.showNav = $location.path() != "/login" ? true: false;
       $scope.init = function(){
