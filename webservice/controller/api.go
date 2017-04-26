@@ -54,11 +54,18 @@ func SearchAdminCtrl(c echo.Context) (err error) {
   if err = c.Bind(&params); err != nil {
      return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: "Missing some Params",Status:"false"} )
   }
-  log.Println("params:")
+
+	log.Println("params:")
 	// name:=params.Name
 	// description:=params.Description
   log.Println(params)
   log.Println("------------")
 
+	// tx:= database.MysqlConn().Begin()
+	// if err := tx.First(&reminder, id).Error; err != nil {
+	// 	return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
+	// }
+	//
+	// tx.Commit()
 	return c.JSON(http.StatusOK, params)
 }

@@ -1,18 +1,22 @@
 package controller
 import (
   "github.com/labstack/echo"
-    _ "log"
+    "log"
   "net/http"
   _ "encoding/json"
 	database "../db"
   model "../model"
 )
 
-func GetAllAdmin(c echo.Context) error  {
+func GetAllAdmin(c echo.Context) (err error)  {
   // MiddlewareJWT(c)
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
-	tx.Order("administrators.administrator_id desc").Limit(10).Find(&administrators)
+  paginateParams := model.NewPaginateParams()
+  c.Bind(&paginateParams)
+  log.Println("paginateParams")
+  log.Println(paginateParams)
+	tx.Order("administrators.administrator_id desc").Limit(paginateParams.PerPage).Offset((paginateParams.CurrentPage - 1) * paginateParams.PerPage).Find(&administrators)
   tx.Commit()
   return c.JSON(http.StatusOK, &administrators)
 }

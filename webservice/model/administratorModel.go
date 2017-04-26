@@ -3,13 +3,6 @@ import (
   "time"
   jwt "github.com/dgrijalva/jwt-go"
 )
-// import(
-// 	"../db"
-// )
-/*
-Package types is used to store the context struct which
-is passed while templates are executed.
-*/
 
 //Status is the JSON struct to be returned
 type Status struct {
@@ -18,6 +11,17 @@ type Status struct {
 	Status    string `json:"status"`
 }
 
+type PaginateParams struct {
+	PerPage  int    `json:"per_page"`
+	CurrentPage  int   `json:"current_page"`
+}
+// NewPaginateParams create new instance of PaginateParams
+func NewPaginateParams() PaginateParams {
+   paginateParams := PaginateParams{}
+   paginateParams.PerPage = 20
+   paginateParams.CurrentPage = 1
+   return paginateParams
+}
 type LoginParams struct {
 	UserName  string    `json:"user_name"`
 	Password  string   `json:"password"`
