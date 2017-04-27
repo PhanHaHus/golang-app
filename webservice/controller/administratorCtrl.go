@@ -9,20 +9,25 @@ import (
 )
 
 func GetAllAdmin(c echo.Context) (err error)  {
-  // MiddlewareJWT(c)
+  var count int
   tx := database.MysqlConn().Begin()
-  administrators := []model.Administrators{}
+  administrators := model.Administrators{}
   paginateParams := model.NewPaginateParams()
   c.Bind(&paginateParams)
   log.Println("paginateParams")
   log.Println(paginateParams)
-  var count int
 
-  // var sumOfPage= count/
+  curr:=c.QueryParam("current_page")
+  // PerPage := paginateParams.PerPage
+  // if curr != "" {
+  //     PerPage = curr
+  // }
+  log.Println("current_page")
+  log.Println(curr)
 	tx.Order("administrators.administrator_id desc").Limit(paginateParams.PerPage).Offset((paginateParams.CurrentPage - 1) * paginateParams.PerPage).Find(&administrators).Count(&count)
-  log.Println(count)
   tx.Commit()
-  return c.JSON(http.StatusOK, &administrators,struct {"count": count})
+  // "count": count, "current_page": paginateParams.CurrentPage, "per_page": paginateParams.PerPage,
+  return c.JSON(http.StatusOK, &administrators)
 }
 
 func GetAdminById(c echo.Context) (err error){
