@@ -51,9 +51,7 @@ func LoginCtrl(c echo.Context) (err error) {
 
 func SearchAdminCtrl(c echo.Context) (err error) {
   params := model.SearchAdminParams{}
-  if err = c.Bind(&params); err != nil {
-     return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: "Missing some Params",Status:"false"} )
-  }
+  c.Bind(&params)
 
 	log.Println("params:")
 	// name:=params.Name

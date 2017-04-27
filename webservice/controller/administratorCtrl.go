@@ -16,9 +16,13 @@ func GetAllAdmin(c echo.Context) (err error)  {
   c.Bind(&paginateParams)
   log.Println("paginateParams")
   log.Println(paginateParams)
-	tx.Order("administrators.administrator_id desc").Limit(paginateParams.PerPage).Offset((paginateParams.CurrentPage - 1) * paginateParams.PerPage).Find(&administrators)
+  var count int
+
+  // var sumOfPage= count/
+	tx.Order("administrators.administrator_id desc").Limit(paginateParams.PerPage).Offset((paginateParams.CurrentPage - 1) * paginateParams.PerPage).Find(&administrators).Count(&count)
+  log.Println(count)
   tx.Commit()
-  return c.JSON(http.StatusOK, &administrators)
+  return c.JSON(http.StatusOK, &administrators,struct {"count": count})
 }
 
 func GetAdminById(c echo.Context) (err error){
