@@ -1,12 +1,12 @@
-mainApp.controller('loginController', ['$scope', 'configConstant','$http',"$window","$state","$rootScope","$localStorage",
-function ($scope, configConstant,$http, $window ,$state,$rootScope,$localStorage) {
+mainApp.controller('loginController', ['$scope', 'apiConstant','$http',"$window","$state","$rootScope","$localStorage",
+function ($scope, apiConstant,$http, $window ,$state,$rootScope,$localStorage) {
 
     $scope.submitForm = function(isValid) {
       $scope.isValid = isValid;
           var parameter = ($scope.data);
           if(isValid){
               $http.post(
-                 configConstant.routerApi+'/login',
+                 apiConstant+'/login',
                  parameter
              ).then(function(response, status, headers, config) {
                 console.log("succ");
@@ -27,8 +27,8 @@ function ($scope, configConstant,$http, $window ,$state,$rootScope,$localStorage
           }
     };
 
-}]).controller('logoutController', ['$scope', 'configConstant','$http',"$window","$state","logoutService",
-    function ($scope, configConstant,$http, $window ,$state,logoutService) {
+}]).controller('logoutController', ['$scope', 'apiConstant','$http',"$window","$state","logoutService",
+    function ($scope, apiConstant,$http, $window ,$state,logoutService) {
       logoutService.logout();
         // localStorage.clear();
         // $http.defaults.headers.common.Authorization = '';

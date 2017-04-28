@@ -1,9 +1,10 @@
 package controller
 import (
   "github.com/labstack/echo"
-    "log"
+  _  "log"
   "net/http"
   _ "encoding/json"
+  "strconv"
 	database "../db"
   model "../model"
 )
@@ -14,26 +15,33 @@ func GetAllAdmin(c echo.Context) (err error)  {
   administrators := []model.Administrators{}
   paginateParams := model.NewPaginateParams()
 
-  c.Bind(&paginateParams)
-  log.Println("paginateParams")
-  log.Println(&paginateParams)
-
+  //set value default
+  Current_Page := paginateParams.CurrentPage
+  Per_page := paginateParams.PerPage //set value default
+  // if exist param current page from url
   curr:=c.QueryParam("current_page")
-  PerPage := paginateParams.CurrentPage
   if curr != "" {
-      PerPage = curr
+      curr, _ := strconv.Atoi(curr) //string to int
+      Current_Page = curr
   }
-  log.Println("current_page")
-  log.Println(curr)
-  var offset = (paginateParams.CurrentPage - 1) * paginateParams.PerPage
 
+  // if exist param per_page from url
+  per_page_params:=c.QueryParam("per_page")
+  if per_page_params != "" {
+      per_page_params, _ := strconv.Atoi(per_page_params) //string to int
+      Per_page = per_page_params
+  }
 
-	tx.Order("administrators.administrator_id desc").Offset(offset).Limit(PerPage).Find(&administrators).Count(&total)
+  //calculate offset
+  var offset = (Current_Page - 1) * Per_page
+  // total = tx.Order("administrators").Find(&administrators).Count(&total)
+	tx.Order("administrators.administrator_id desc").Offset(offset).Limit(Per_page).Find(&administrators).Count(&total)
   tx.Commit()
+  // data response to client
   dataResp := model.ResponseObj{
-    PerPage:     paginateParams.PerPage,
+    PerPage:     Per_page,
     Total:   total,
-    CurrentPage:   paginateParams.CurrentPage,
+    CurrentPage:   Current_Page,
     Data: &administrators,
   }
   return c.JSON(http.StatusOK, dataResp)

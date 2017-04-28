@@ -18,7 +18,7 @@ type PaginateParams struct {
 // NewPaginateParams create new instance of PaginateParams
 func NewPaginateParams() PaginateParams {
    paginateParams := PaginateParams{}
-   paginateParams.PerPage = 20
+   paginateParams.PerPage = 10
    paginateParams.CurrentPage = 1
    return paginateParams
 }

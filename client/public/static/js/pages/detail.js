@@ -1,5 +1,5 @@
-mainApp.controller('detailController', ['$scope', 'configConstant','$http',"$window","$state","$stateParams",
-function ($scope, configConstant,$http, $window, $state,$stateParams) {
+mainApp.controller('detailController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams",
+function ($scope, apiConstant,$http, $window, $state,$stateParams) {
     $scope.data = {
         accepting_host_id:null,
         description:"",
@@ -9,12 +9,12 @@ function ($scope, configConstant,$http, $window, $state,$stateParams) {
         password:"",
         permission:""
     };
-     
+
      if($stateParams.id){
        $scope.init = function(){
           $http({
              method: 'GET',
-             url: configConstant.routerApi+'/administrators/'+$stateParams.id,
+             url: apiConstant+'/administrators/'+$stateParams.id,
            }).then(function successCallback(response) {
                 console.log(response);
                 $scope.data = {

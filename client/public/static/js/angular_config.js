@@ -6,9 +6,7 @@ var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angu
       cfpLoadingBarProvider.includeSpinner = true;
       $interpolateProvider.startSymbol('[[');
       $interpolateProvider.endSymbol(']]');
-}).constant('configConstant', {
-      routerApi: "http://localhost:8081/api"
-});
+}).constant('apiConstant','http://localhost:8081/api');
 
 // directive navbar
 mainApp.directive('navBar', function() {
@@ -30,7 +28,6 @@ mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logout
   if ($localStorage.userInfor) {
       $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.userInfor.token;
   }
-
 
   // redirect to login page if not logged in and trying to access a restricted page or expired token
   $rootScope.$on('$locationChangeStart', function (event, next, current) {

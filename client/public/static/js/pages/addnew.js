@@ -1,5 +1,5 @@
-mainApp.controller('addNewController', ['$scope', 'configConstant','$http',"$window","$state","$stateParams",
-function ($scope, configConstant,$http, $window, $state,$stateParams) {
+mainApp.controller('addNewController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams",
+function ($scope, apiConstant,$http, $window, $state,$stateParams) {
     $scope.data = {
         accepting_host_id:null,
         description:"",
@@ -15,7 +15,7 @@ function ($scope, configConstant,$http, $window, $state,$stateParams) {
        $scope.init = function(){
           $http({
              method: 'GET',
-             url: configConstant.routerApi+'/administrators/'+$stateParams.id,
+             url: apiConstant+'/administrators/'+$stateParams.id,
            }).then(function successCallback(response) {
                 console.log(response);
                 $scope.data = {
@@ -38,9 +38,9 @@ function ($scope, configConstant,$http, $window, $state,$stateParams) {
 
       $scope.submitForm = function(isValid) {
           if(isValid){
-            var apiUrl = configConstant.routerApi+'/administrators'; //api add
+            var apiUrl = apiConstant+'/administrators'; //api add
             if($stateParams.id){
-                apiUrl = configConstant.routerApi+'/edit-administrators/' + $stateParams.id;//api edit if exist id;
+                apiUrl = apiConstant+'/edit-administrators/' + $stateParams.id;//api edit if exist id;
             }
             var dataPost = {
                 accepting_host_id: parseInt($scope.data.accepting_host_id)==0?1:parseInt($scope.data.accepting_host_id),

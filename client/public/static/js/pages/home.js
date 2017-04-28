@@ -1,13 +1,14 @@
-mainApp.controller('homeController', ['$scope','$rootScope', 'configConstant','$http',"$location","$state",
-function ($scope,$rootScope, configConstant, $http, $location,$state ) {
+mainApp.controller('homeController', ['$scope','$rootScope', 'apiConstant','$http',"$location","$state",
+function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       // show nav or not
       $rootScope.showNav = $location.path() != "/login" ? true: false;
       $scope.init = function(){
         $http({
           method: 'GET',
-          url: configConstant.routerApi+'/administrators',
+          url: apiConstant+'/administrators',
         }).then(function successCallback(response) {
-            $scope.list = response.data;
+          console.log(response);
+            $scope.list = response.data.Data;
             }, function errorCallback(response) {
             console.log(response)
           });
@@ -17,7 +18,7 @@ function ($scope,$rootScope, configConstant, $http, $location,$state ) {
           if (result) {
             $http({
                 method: 'POST',
-                url: configConstant.routerApi+'/del-administrators/'+element.AdministratorId,
+                url: apiConstant+'/del-administrators/'+element.AdministratorId,
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }
