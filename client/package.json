@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "angular-loading-bar": "^0.9.0",
-    "angular-ui-router": "^0.4.2"
+    "angular-ui-router": "^0.4.2",
+    "angularjs-toaster": "^2.1.0"
   },
   "devDependencies": {},
   "scripts": {

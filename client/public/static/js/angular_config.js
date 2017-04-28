@@ -2,7 +2,7 @@
 Author:  Hapt
 Created: april 2017
 */
-var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt', 'ngStorage'],function($interpolateProvider,cfpLoadingBarProvider){
+var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt', 'ngStorage','toaster'],function($interpolateProvider,cfpLoadingBarProvider){
       cfpLoadingBarProvider.includeSpinner = true;
       $interpolateProvider.startSymbol('[[');
       $interpolateProvider.endSymbol(']]');
@@ -26,10 +26,11 @@ mainApp.factory('logoutService', function($http,$location) {
           }
       };
 });
-mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logoutService) {
+mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logoutService,toaster) {
   if ($localStorage.userInfor) {
       $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.userInfor.token;
   }
+
 
   // redirect to login page if not logged in and trying to access a restricted page or expired token
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
@@ -44,7 +45,7 @@ mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logout
         if(isTokenExpired){
           logoutService.logout();
           console.log("logout");
-          alert('Your session has expired!');
+          toaster.pop('error', "Ops!", "Your session has expired!");
         }
       }
 

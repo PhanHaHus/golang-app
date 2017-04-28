@@ -9,25 +9,34 @@ import (
 )
 
 func GetAllAdmin(c echo.Context) (err error)  {
-  var count int
+  var total int
   tx := database.MysqlConn().Begin()
-  administrators := model.Administrators{}
+  administrators := []model.Administrators{}
   paginateParams := model.NewPaginateParams()
+
   c.Bind(&paginateParams)
   log.Println("paginateParams")
-  log.Println(paginateParams)
+  log.Println(&paginateParams)
 
   curr:=c.QueryParam("current_page")
-  // PerPage := paginateParams.PerPage
-  // if curr != "" {
-  //     PerPage = curr
-  // }
+  PerPage := paginateParams.CurrentPage
+  if curr != "" {
+      PerPage = curr
+  }
   log.Println("current_page")
   log.Println(curr)
-	tx.Order("administrators.administrator_id desc").Limit(paginateParams.PerPage).Offset((paginateParams.CurrentPage - 1) * paginateParams.PerPage).Find(&administrators).Count(&count)
+  var offset = (paginateParams.CurrentPage - 1) * paginateParams.PerPage
+
+
+	tx.Order("administrators.administrator_id desc").Offset(offset).Limit(PerPage).Find(&administrators).Count(&total)
   tx.Commit()
-  // "count": count, "current_page": paginateParams.CurrentPage, "per_page": paginateParams.PerPage,
-  return c.JSON(http.StatusOK, &administrators)
+  dataResp := model.ResponseObj{
+    PerPage:     paginateParams.PerPage,
+    Total:   total,
+    CurrentPage:   paginateParams.CurrentPage,
+    Data: &administrators,
+  }
+  return c.JSON(http.StatusOK, dataResp)
 }
 
 func GetAdminById(c echo.Context) (err error){

@@ -22,6 +22,15 @@ func NewPaginateParams() PaginateParams {
    paginateParams.CurrentPage = 1
    return paginateParams
 }
+
+type ResponseObj struct {
+    PerPage     int
+    Total   int
+    CurrentPage   int
+    Data interface{}
+}
+
+
 type LoginParams struct {
 	UserName  string    `json:"user_name"`
 	Password  string   `json:"password"`
