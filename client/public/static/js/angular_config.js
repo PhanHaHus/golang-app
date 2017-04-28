@@ -14,7 +14,6 @@ mainApp.directive('navBar', function() {
     templateUrl: '/templates/_nav.html',
   };
 });
-
 mainApp.factory('logoutService', function($http,$location) {
       return {
           logout: function() {
@@ -32,7 +31,7 @@ mainApp.run(function($http,$rootScope, $location, $localStorage,jwtHelper,logout
   // redirect to login page if not logged in and trying to access a restricted page or expired token
   $rootScope.$on('$locationChangeStart', function (event, next, current) {
       var publicPages = ['/login'];
-      var restrictedPage = publicPages.indexOf($location.path()) === -1;
+      var restrictedPage = publicPages.indexOf($location.path()) === -1;// url !=login
       if (restrictedPage && !$localStorage.userInfor) {
           $location.path('/login');
       }

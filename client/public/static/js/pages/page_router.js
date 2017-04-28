@@ -35,9 +35,6 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
        .state('page-not-found', {
          url: '/page-not-found',
            templateUrl: '/templates/error/404.html',
-           data: {
-               displayName: false
-           }
        })
        .state('login', {
            url: '/login',
@@ -49,10 +46,10 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            controller: 'logoutController',
            templateUrl: "/templates/login.html",
        })
-       .state('about', {
-         name: 'about',
-         url: '/about',
-         template: '<h3>Its the UI-Router hello world app!</h3>'
+       .state('accessrule', {
+         url: '/accessrule',
+         controller: 'accessruleListController',
+         template: '/templates/accessrule/list.html'
        }
    );
 
