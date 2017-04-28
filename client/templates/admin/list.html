@@ -5,11 +5,11 @@
           <div class="">
 
             <div class="pull-left">
-              <select class="form-control" ng-model="perpage">
-                <option>20</option>
-                <option>40</option>
-                <option>60</option>
-                <option>80</option>
+              <select class="form-control" ng-model="perpage" ng-change="changePerpage(perpage)">
+                <option value='10'>Show 10</option>
+                <option value='20'>Show 20</option>
+                <option value='50'>Show 50</option>
+                <option value='100'>Show 100</option>
               </select>
             </div>
             <div class="pull-right">
@@ -60,5 +60,13 @@
                 </tr>
               </tbody>
             </table>
+
+             <ul uib-pagination total-items="total" ng-model="currentPage" max-size="total" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
+
+
+
+
+
+            <!-- <uib-pagination total-items="total" ng-model="currentPage" items-per-page="per_page"></uib-pagination> -->
 			</div>
 </div>

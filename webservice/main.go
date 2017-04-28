@@ -53,6 +53,13 @@ func main() {
   r.POST("/administrators", controller.PostAdmin)
   r.POST("/del-administrators/:id", controller.DeleteAdmin)
   r.POST("/edit-administrators/:id", controller.PutAdmin)
+	// ALC management
+  r.GET("/administrators", controller.GetAllAdmin)
+	r.POST("/search-admin", controller.SearchAdminCtrl)
+  r.GET("/administrators/:id", controller.GetAdminById)
+  r.POST("/administrators", controller.PostAdmin)
+  r.POST("/del-administrators/:id", controller.DeleteAdmin)
+  r.POST("/edit-administrators/:id", controller.PutAdmin)
   // Start server
   e.Logger.Fatal(e.Start(values.ServerPort))
 }
