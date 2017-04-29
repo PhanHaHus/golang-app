@@ -6,11 +6,6 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            controller: 'homeController',
            templateUrl: '/templates/admin/list.html',
        })
-       .state('dashboard', {
-            url: '/',
-            controller: 'dashboardController',
-            templateUrl: '/templates/dashboard/dashboard.html',
-        })
        .state('addadmin', {
            url: '/add-admin',
            controller: 'addNewController',
@@ -32,6 +27,16 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            controller: 'detailController',
            templateUrl: '/templates/admin/form_detail.html',
        })
+       .state('dashboard', {
+            url: '/',
+            controller: 'dashboardController',
+            templateUrl: '/templates/dashboard/dashboard.html',
+        })
+        .state('accessrule', {
+             url: '/accessrule',
+             controller: 'accessruleListController',
+             templateUrl: '/templates/accessrule/list.html',
+        })
        .state('page-not-found', {
          url: '/page-not-found',
            templateUrl: '/templates/error/404.html',
@@ -45,12 +50,6 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
           //  url: '/logout',
            controller: 'logoutController',
            templateUrl: "/templates/login.html",
-       })
-       .state('accessrule', {
-         url: '/accessrule',
-         controller: 'accessruleListController',
-         template: '/templates/accessrule/list.html'
-       }
-   );
+       });
 
 });
