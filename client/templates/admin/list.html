@@ -56,8 +56,6 @@
               </tbody>
             </table>
 
-             <ul uib-pagination total-items="total" ng-model="currentPage" max-size="total" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
-
-            <!-- <uib-pagination total-items="total" ng-model="currentPage" items-per-page="per_page"></uib-pagination> -->
+            <ul uib-pagination total-items="bigTotalItems" items-per-page="1" ng-change="pageChanged()" ng-model="bigCurrentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
 			</div>
 </div>

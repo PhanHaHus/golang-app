@@ -1,5 +1,5 @@
-mainApp.controller('addNewController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams",
-function ($scope, apiConstant,$http, $window, $state,$stateParams) {
+mainApp.controller('addNewController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","toaster",
+function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
     $scope.data = {
         accepting_host_id:null,
         description:"",
@@ -64,6 +64,8 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams) {
             },function(){
                 console.log("err");
             });
+          }else{
+            toaster.pop('error', "ERROR!", "Enter valid infor!");
           }
       };
 

@@ -60,6 +60,19 @@ type Administrators struct {
 		 CreatedTime  time.Time `json:"CreatedTime"`
 		 UpdatedTime time.Time `json:"UpdatedTime"`
 }
+type AccessRules struct {
+		 AccessruleId int64 `gorm:"primary_key;json:"access_rule_id"`
+		 ApplicationId int 	`json:"application_id" `
+		 Email int `json:"user_id" `
+		 Password int `json:"device_id"`
+		 Description int `json:"group_id"`
+		 Permission int `json:"access_rule_type"`
+		 AcceptingHostId int `json:"description"`
+		 Enabled int `json:"enabled"`
+		 CreatedById int `json:"created_by_id"`
+		 CreatedTime  time.Time `json:"created_time"`
+		 UpdatedTime time.Time `json:"updated_time"`
+}
 
 
 type Reminder struct {

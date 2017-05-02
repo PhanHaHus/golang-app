@@ -23,31 +23,31 @@
                   <th>
                     Id
                   </th>
-                  <th>Email
+                  <th>application_id
                   </th>
-                  <th>Name
+                  <th>user_id
                   </th>
-                  <th>Permission
+                  <th>device_id
                   </th>
-                  <th>Accepting Host
+                  <th>group_id
                   </th>
-                  <th>Enabled
+                  <th>access_rule_type
                   </th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="x in list">
-                  <td>[[ x.AdministratorId ]]</td>
-                  <td>[[ x.email ]]</td>
-                  <td>[[ x.name ]]</td>
-                  <td>[[ x.permission ]]</td>
-                  <td>[[ x.accepting_host_id ]]</td>
-                  <td>[[ x.enabled ]]</td>
+                  <td>[[ x.AccessruleId ]]</td>
+                  <td>[[ x.application_id ]]</td>
+                  <td>[[ x.user_id ]]</td>
+                  <td>[[ x.device_id ]]</td>
+                  <td>[[ x.group_id ]]</td>
+                  <td>[[ x.access_rule_type ]]</td>
                   <td>
-                      <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                      <a ui-sref="editadmin({id: [[x.AccessruleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a ui-sref="detailadmin({id: [[x.AdministratorId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+                      <a ui-sref="detailadmin({id: [[x.AccessruleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
                   </td>
                 </tr>
               </tbody>

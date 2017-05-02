@@ -1,6 +1,6 @@
 // router ui config
 mainApp.config(function($stateProvider,$urlRouterProvider) {
-  $urlRouterProvider.otherwise('/page-not-found');
+  $urlRouterProvider.otherwise('/');
   $stateProvider.state('home', {
            url: '/home',
            controller: 'homeController',

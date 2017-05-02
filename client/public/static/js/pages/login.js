@@ -1,5 +1,5 @@
-mainApp.controller('loginController', ['$scope', 'apiConstant','$http',"$window","$state","$rootScope","$localStorage",
-function ($scope, apiConstant,$http, $window ,$state,$rootScope,$localStorage) {
+mainApp.controller('loginController', ['$scope', 'apiConstant','$http',"$window","$state","$rootScope","$localStorage","toaster",
+function ($scope, apiConstant,$http, $window ,$state,$rootScope,$localStorage,toaster) {
 
     $scope.submitForm = function(isValid) {
       $scope.isValid = isValid;
@@ -21,17 +21,16 @@ function ($scope, apiConstant,$http, $window ,$state,$rootScope,$localStorage) {
                     $state.go("home");
                     window.location.reload();
                 }else{
-                  $scope.error='Username or password is incorrect';
+                  toaster.pop('error', "ERROR!", "Username or password is incorrect!");
                 }
               });
+          }else{
+            toaster.pop('error', "ERROR!", "Enter valid infor!");
           }
     };
 
 }]).controller('logoutController', ['$scope', 'apiConstant','$http',"$window","$state","logoutService",
     function ($scope, apiConstant,$http, $window ,$state,logoutService) {
       logoutService.logout();
-        // localStorage.clear();
-        // $http.defaults.headers.common.Authorization = '';
-        // $state.go("login")
     }
 ]);

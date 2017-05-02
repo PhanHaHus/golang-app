@@ -54,12 +54,12 @@ func main() {
   r.POST("/del-administrators/:id", controller.DeleteAdmin)
   r.POST("/edit-administrators/:id", controller.PutAdmin)
 	// ALC management
-  r.GET("/administrators", controller.GetAllAdmin)
-	r.POST("/search-admin", controller.SearchAdminCtrl)
-  r.GET("/administrators/:id", controller.GetAdminById)
-  r.POST("/administrators", controller.PostAdmin)
-  r.POST("/del-administrators/:id", controller.DeleteAdmin)
-  r.POST("/edit-administrators/:id", controller.PutAdmin)
+  r.GET("/accessrules", controller.GetAllAccessRules)
+	r.POST("/search-accessrules", controller.SearchAdminCtrl)
+  r.GET("/accessrules/:id", controller.GetAccessRuleById)
+  r.POST("/accessrules", controller.PostAccessRule)
+  r.POST("/del-accessrules/:id", controller.DeleteAccessRule)
+  r.POST("/edit-accessrules/:id", controller.PutAccessRule)
   // Start server
   e.Logger.Fatal(e.Start(values.ServerPort))
 }
