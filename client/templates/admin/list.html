@@ -4,10 +4,13 @@
 					<h3>Administrators Management</h3>
           <div class="">
             <div class="pull-left">
-                <select class="form-control" ng-model="perpage" ng-change="changePerpage(perpage)">
-                  <option style="display:none" value="">Select</option>
-                  <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
-                </select>
+                <div class="">
+                    <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
+                      <option style="display:none" value="">Select</option>
+                      <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                    </select>
+                    <span>/ [[bigTotalItems]] result</span>
+                </div>
             </div>
             <div class="pull-right">
               <a ui-sref="addadmin" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>

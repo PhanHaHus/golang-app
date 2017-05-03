@@ -59,6 +59,7 @@ type Administrators struct {
 		 CreatedById int `json:"created_by_id"`
 		 CreatedTime  time.Time `json:"CreatedTime"`
 		 UpdatedTime time.Time `json:"UpdatedTime"`
+     AcceptingHosts []AcceptingHosts
 }
 type AccessRules struct {
 		 AccessruleId int64 `gorm:"primary_key;json:"access_rule_id"`
@@ -68,6 +69,17 @@ type AccessRules struct {
 		 Description int `json:"group_id"`
 		 Permission int `json:"access_rule_type"`
 		 AcceptingHostId int `json:"description"`
+		 Enabled int `json:"enabled"`
+		 CreatedById int `json:"created_by_id"`
+		 CreatedTime  time.Time `json:"created_time"`
+		 UpdatedTime time.Time `json:"updated_time"`
+}
+type AcceptingHosts struct {
+		 AcceptingHostId int64 `gorm:"primary_key;json:"accepting_host_id"`
+		 Name string 	`json:"name"`
+		 Password string `json:"password" `
+		 Description string `json:"description"`
+		 LastLoginTime time.Time `json:"last_login_time"`
 		 Enabled int `json:"enabled"`
 		 CreatedById int `json:"created_by_id"`
 		 CreatedTime  time.Time `json:"created_time"`
