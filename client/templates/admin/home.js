@@ -6,6 +6,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
         {value: '50', displayName: '50 items'},
         {value: '100', displayName: '100 items'}
      ];
+
       $scope.init = function(){
           $http({
               method: 'GET',
@@ -35,7 +36,6 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
                 }
             })
             .then(function(response) {
-                console.log(response);
                 $scope.init();
             }, function(rejection) {
                 console.log(rejection);
@@ -85,15 +85,20 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
 //add and edit admin
 mainApp.controller('addNewController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","toaster",
 function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
-    $scope.data = {
-        accepting_host_id:null,
-        description:"",
-        email:"",
-        enabled:false,
-        name:"",
-        password:"",
-        permission:""
-    };
+      $scope.data = {
+          accepting_host_id:null,
+          description:"",
+          email:"",
+          enabled:false,
+          name:"",
+          password:"",
+          permission:""
+      };
+      $scope.permissionList = [
+        {value: 'AH_Admin', displayName: 'AH_Admin'},
+        {value: 'Super_Admin', displayName: 'Super_Admin'},
+        {value: 'System_Admin', displayName: 'System_Admin'},
+     ];
      //case edit
      if($stateParams.id){
        $scope.init = function(){
@@ -101,12 +106,11 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
              method: 'GET',
              url: apiConstant+'/administrators/'+$stateParams.id,
            }).then(function successCallback(response) {
-                console.log(response);
                 $scope.data = {
                     accepting_host_id:response.data.accepting_host_id,
                     description:response.data.description,
                     email:response.data.email,
-                    enabled:response.data.enabled,
+                    enabled:(response.data.enabled==0?false:true),
                     name:response.data.name,
                     password:response.data.password,
                     permission:response.data.permission
@@ -116,11 +120,12 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
                  console.log(response)
            });
          }
-         $scope.init()
+         $scope.init();
      }
 
 
       $scope.submitForm = function(isValid) {
+        console.log($scope.data);
           if(isValid){
             var apiUrl = apiConstant+'/administrators'; //api add
             if($stateParams.id){

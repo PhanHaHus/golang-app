@@ -26,15 +26,14 @@
             <div class="checkbox">
               <label><input type="checkbox" ng-model="data.enabled" name="enabled"> Enabled</label>
             </div>
+
             <div class="form-group">
               <label for="sel1">Permission:</label>
-              <select class="form-control" id="permission" name="permission" ng-model="data.permission">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+              <select class="form-control" ng-model="data.permission">
+                   <option ng-selected="data.permission == item.value" ng-repeat="item in permissionList" ng-value="item.value">[[item.displayName]]</option>
               </select>
             </div>
+
             <div class="form-group">
               <label for="sel1">Accepting Host:</label>
               <select class="form-control" id="accepting_host_id" name="accepting_host_id" ng-model="data.accepting_host_id">

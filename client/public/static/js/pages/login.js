@@ -19,7 +19,6 @@ function ($scope, apiConstant,$http, $window ,$state,$rootScope,$localStorage,to
                     $localStorage.userInfor = user;
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $state.go("home");
-                    window.location.reload();
                 }else{
                   toaster.pop('error', "ERROR!", "Username or password is incorrect!");
                 }

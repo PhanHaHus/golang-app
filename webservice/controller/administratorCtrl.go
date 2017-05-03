@@ -93,6 +93,7 @@ func PutAdmin(c echo.Context) (err error) {
 	administrator.Description = data_updated.Description
 	administrator.AcceptingHostId = data_updated.AcceptingHostId
 	administrator.Enabled = data_updated.Enabled
+	administrator.Permission = data_updated.Permission
 	administrator.CreatedById = data_updated.CreatedById
 
 	if err := tx.Save(&administrator).Error; err != nil {
