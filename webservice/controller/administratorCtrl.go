@@ -36,7 +36,7 @@ func GetAllAdmin(c echo.Context) (err error)  {
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
   // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
+	tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{
@@ -53,7 +53,7 @@ func GetAdminById(c echo.Context) (err error){
 	administratorsId := c.Param("id")
 	administrator := model.Administrators{}
 
-	if err := tx.First(&administrator, administratorsId).Error; err != nil {
+	if err := tx.Preload("AcceptingHost").First(&administrator, administratorsId).Error; err != nil {
 		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
 	}
   tx.Commit()

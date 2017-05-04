@@ -37,6 +37,27 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
              controller: 'accessruleListController',
              templateUrl: '/templates/accessrule/list.html',
         })
+        .state('detailaccessrule', {
+             url: '/accessrule/:id',
+             params: {
+                id: null
+              },
+             controller: 'accessruleDetailController',
+             templateUrl: '/templates/accessrule/form.html',
+        })
+        .state('addaccessrule', {
+             url: '/add-accessrule',
+             controller: 'accessruleListController',
+             templateUrl: '/templates/accessrule/list.html',
+        })
+        .state('editaccessrule', {
+            url: '/edit-accessrule/:id',
+            params: {
+               id: null
+             },
+            controller: 'addNewController',
+            templateUrl: '/templates/admin/form.html',
+        })
        .state('page-not-found', {
          url: '/page-not-found',
            templateUrl: '/templates/error/404.html',

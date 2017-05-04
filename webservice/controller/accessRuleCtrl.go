@@ -35,7 +35,7 @@ func GetAllAccessRules(c echo.Context) (err error)  {
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
   // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Find(&accessrules).Count(&total)
+	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("Role").Find(&accessrules).Count(&total)
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{
@@ -48,29 +48,28 @@ func GetAllAccessRules(c echo.Context) (err error)  {
 }
 
 func GetAccessRuleById(c echo.Context) (err error){
+	accessrulesId := c.Param("id")
+	accessrules := model.AccessRules{}
   tx := database.MysqlConn().Begin()
-	administratorsId := c.Param("id")
-	administrator := model.Administrators{}
-
-	if err := tx.First(&administrator, administratorsId).Error; err != nil {
-		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
+	if err := tx.First(&accessrules, accessrulesId).Error; err != nil {
+		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()
-	return c.JSON(http.StatusOK, &administrator)
+	return c.JSON(http.StatusOK, &accessrules)
 }
 
 func PostAccessRule(c echo.Context) (err error) {
     tx:= database.MysqlConn().Begin()
-  	administrators := model.Administrators{}
-    if err = c.Bind(&administrators); err != nil {
-       return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+  	accessRules := model.AccessRules{}
+    if err = c.Bind(&accessRules); err != nil {
+       return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: "InternalServerError",Status:"false"})
     }
 
-  	if err := tx.Create(&administrators).Error; err != nil {
-  		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
+  	if err := tx.Create(&accessRules).Error; err != nil {
+  		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
   	}
     tx.Commit()
-    return c.JSON(http.StatusOK, &administrators)
+    return c.JSON(http.StatusOK, &accessRules)
 }
 
 
@@ -79,12 +78,12 @@ func PutAccessRule(c echo.Context) (err error) {
 	administrator_id := c.Param("id")
 	administrator := model.Administrators{}
 	if err := tx.First(&administrator, administrator_id).Error; err != nil {
-		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
+		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
 
 	data_updated := model.Administrators{}
   if err = c.Bind(&data_updated); err != nil {
-     return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+     return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: "InternalServerError",Status:"false"})
   }
 
 	administrator.Name = data_updated.Name
@@ -96,7 +95,7 @@ func PutAccessRule(c echo.Context) (err error) {
 	administrator.CreatedById = data_updated.CreatedById
 
 	if err := tx.Save(&administrator).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
+		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()
   return c.JSON(http.StatusOK, &administrator)
@@ -107,11 +106,11 @@ func DeleteAccessRule(c echo.Context) (err error){
 	id := c.Param("id")
 	reminder := model.Administrators{}
 	if err := tx.First(&reminder, id).Error; err != nil {
-		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
+		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
 	if err := tx.Delete(&reminder).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
+		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()
-	return c.JSON(http.StatusOK, map[string]string{"Message": "deleted","status":"true"})
+	return c.JSON(http.StatusOK, model.Status{StatusCode: http.StatusInternalServerError, Message:"deleted",Status:"false"})
 }

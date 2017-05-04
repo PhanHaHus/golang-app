@@ -46,9 +46,9 @@
                   <td>[[ x.group_id ]]</td>
                   <td>[[ x.access_rule_type ]]</td>
                   <td>
-                      <a ui-sref="editadmin({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                      <a ui-sref="editaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a ui-sref="detailadmin({id: [[x.AccessRuleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+                      <a ui-sref="detailaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
                   </td>
                 </tr>
               </tbody>

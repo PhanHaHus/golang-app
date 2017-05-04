@@ -76,7 +76,7 @@ type AcceptingHosts struct {
 type AccessRules struct {
 		 AccessRuleId int64 `gorm:"primary_key;json:"access_rule_id"`
 		 ApplicationId int64
-		 UserId int `json:"user_id" `
+		 UserId int64 `json:"user_id" `
 		 DeviceId int `json:"device_id"`
 		 GroupId int `json:"group_id"`
 		 AccessRuleType int `json:"access_rule_type"`
@@ -86,10 +86,11 @@ type AccessRules struct {
 		 CreatedTime  time.Time `json:"created_time"`
 		 UpdatedTime time.Time `json:"updated_time"`
      Application Applications `gorm:"ForeignKey:ApplicationId;AssociationForeignKey:ApplicationId"` // belong to application
+     User Users `gorm:"ForeignKey:UserId;AssociationForeignKey:UserId"` // belong to application
 }
 
 type Applications struct {
-		 ApplicationId int64 `gorm:"primary_key;json:"application_id"`
+		 ApplicationId int64 `gorm:"primary_key;json:"application_id;AUTO_INCREMENT"`
 		 Name string 	`json:"name" `
 		 ApplicationType int `json:"application_type" `
 		 AcceptingHostId int `json:"accepting_host_id"`
@@ -100,6 +101,15 @@ type Applications struct {
 		 IsValidDeviceRequired int `json:"is_valid_device_required"`
      Enabled int `json:"enabled"`
 		 CreatedById int `json:"created_by_id"`
+		 CreatedTime  time.Time `json:"created_time"`
+		 UpdatedTime time.Time `json:"updated_time"`
+}
+type Users struct {
+		 UserId int64 `gorm:"primary_key;json:"user_id;AUTO_INCREMENT"`
+		 Name string 	`json:"name" `
+		 Email string 	`json:"email" `
+		 Description string `json:"description"`
+     Enabled int `json:"enabled"`
 		 CreatedTime  time.Time `json:"created_time"`
 		 UpdatedTime time.Time `json:"updated_time"`
 }
