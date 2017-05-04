@@ -13,6 +13,7 @@ func GetAllAdmin(c echo.Context) (err error)  {
   var total int
   tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
+  // acceptingHost := model.AcceptingHost{}
   paginateParams := model.NewPaginateParams()
 
   //set value default
@@ -35,7 +36,7 @@ func GetAllAdmin(c echo.Context) (err error)  {
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
   // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Order("administrators.administrator_id desc").Offset(offset).Limit(Per_page).Find(&administrators).Count(&total)
+	tx.Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{

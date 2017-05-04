@@ -4,12 +4,13 @@
 					<h3>ACL Management</h3>
           <div class="">
             <div class="pull-left">
-              <select class="form-control" ng-model="perpage" ng-change="changePerpage(perpage)">
-                <option value='10'>Show 10</option>
-                <option value='20'>Show 20</option>
-                <option value='50'>Show 50</option>
-                <option value='100'>Show 100</option>
-              </select>
+                <div class="">
+                    <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
+                      <option style="display:none" value="">Select</option>
+                      <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                    </select>
+                    <span>/ [[bigTotalItems]] result</span>
+                </div>
             </div>
             <div class="pull-right">
               <a ui-sref="addadmin" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
@@ -38,16 +39,16 @@
               </thead>
               <tbody>
                 <tr ng-repeat="x in list">
-                  <td>[[ x.AccessruleId ]]</td>
-                  <td>[[ x.application_id ]]</td>
+                  <td>[[ x.AccessRuleId ]]</td>
+                  <td>[[ x.Application.name ]]</td>
                   <td>[[ x.user_id ]]</td>
                   <td>[[ x.device_id ]]</td>
                   <td>[[ x.group_id ]]</td>
                   <td>[[ x.access_rule_type ]]</td>
                   <td>
-                      <a ui-sref="editadmin({id: [[x.AccessruleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                      <a ui-sref="editadmin({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a ui-sref="detailadmin({id: [[x.AccessruleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+                      <a ui-sref="detailadmin({id: [[x.AccessRuleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
                   </td>
                 </tr>
               </tbody>

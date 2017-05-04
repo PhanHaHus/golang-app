@@ -35,7 +35,7 @@ func GetAllAccessRules(c echo.Context) (err error)  {
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
   // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Order("access_rules.access_rule_id desc").Offset(offset).Limit(Per_page).Find(&accessrules).Count(&total)
+	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Find(&accessrules).Count(&total)
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{

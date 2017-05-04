@@ -1,6 +1,11 @@
-
 mainApp.controller('accessruleListController', ['$scope','$rootScope', 'apiConstant','$http',"$location","$state",
 function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
+      $scope.itemPerPage = [
+        {value: '10', displayName: '10 items'},
+        {value: '20', displayName: '20 items'},
+        {value: '50', displayName: '50 items'},
+        {value: '100', displayName: '100 items'}
+     ];
 
       $scope.init = function(){
           $http({
@@ -21,11 +26,11 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       // initial data
       $scope.init();
       $scope.deleteRemind= function(element){
-        var result = confirm("Want to delete?");
+          var result = confirm("Want to delete?");
           if (result) {
             $http({
                 method: 'POST',
-                url: apiConstant+'/del-administrators/'+element.AdministratorId,
+                url: apiConstant+'/del-accessrules/'+element.AdministratorId,
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }
@@ -41,7 +46,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.changePerpage= function(perpage){
             $http({
                 method: 'GET',
-                url: apiConstant+'/administrators?per_page='+perpage,
+                url: apiConstant+'/accessrules?per_page='+perpage,
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }
@@ -57,7 +62,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.pageChanged = function() {
           $http({
               method: 'GET',
-              url: apiConstant+'/administrators?per_page='+$scope.per_page+"&current_page="+$scope.currentPage,
+              url: apiConstant+'/accessrules?per_page='+$scope.per_page+"&current_page="+$scope.currentPage,
               headers: {
                   'Content-type': 'application/json;charset=utf-8'
               }

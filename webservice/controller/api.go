@@ -35,7 +35,7 @@ func LoginCtrl(c echo.Context) (err error) {
 		claims := token.Claims.(jwt.MapClaims)
 		claims["name"] = username
 		claims["admin"] = true
-		claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+		claims["exp"] = time.Now().Add(time.Hour * 8).Unix()
 		// Generate encoded token and send it as response.
 		t, err := token.SignedString([]byte("secret"))
 		if err != nil {
