@@ -178,11 +178,12 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
        selectionModel: null
      };
 
-      $scope.searchAcl = function(value) {
+      $scope.searchAcl = function(value,type) {
+        console.log(app);return;
           if(value){
                $http({
                  method: 'GET',
-                 url: apiConstant+'/search-acl?query='+value,
+                 url: apiConstant+'/search-acl?query='+value+'&type='+type,
                }).then(function successCallback(response) {
                     $scope.searchRes = response.data;
                     console.log($scope.searchRes);
