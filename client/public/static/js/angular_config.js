@@ -2,7 +2,7 @@
 Author:  Hapt
 Created: april 2017
 */
-var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt', 'ngStorage','toaster','ui.bootstrap'],function($interpolateProvider,cfpLoadingBarProvider){
+var mainApp = angular.module("mainApp", ['ui.router','angular-loading-bar','angular-jwt', 'ngStorage','toaster','ui.bootstrap','ui.select', 'ngSanitize'],function($interpolateProvider,cfpLoadingBarProvider){
       cfpLoadingBarProvider.includeSpinner = true;
       $interpolateProvider.startSymbol('[[');
       $interpolateProvider.endSymbol(']]');

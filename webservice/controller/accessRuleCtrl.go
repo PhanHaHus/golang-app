@@ -34,8 +34,8 @@ func GetAllAccessRules(c echo.Context) (err error)  {
 
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
-  // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("Role").Find(&accessrules).Count(&total)
+  // eager load relationship
+	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{
@@ -47,11 +47,27 @@ func GetAllAccessRules(c echo.Context) (err error)  {
   return c.JSON(http.StatusOK, dataResp)
 }
 
+func SearchACLCtrl(c echo.Context) (err error)  {
+
+  applications := []model.Applications{}
+
+  // if exist param current page from url
+  query:=c.QueryParam("query")
+  if query != "" {
+    tx := database.MysqlConn().Begin()
+    tx.Where("name LIKE ?", "%"+query+"%").Find(&applications)
+    tx.Commit()
+    return c.JSON(http.StatusOK, &applications)
+  }
+
+  return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
+}
+
 func GetAccessRuleById(c echo.Context) (err error){
 	accessrulesId := c.Param("id")
 	accessrules := model.AccessRules{}
   tx := database.MysqlConn().Begin()
-	if err := tx.First(&accessrules, accessrulesId).Error; err != nil {
+	if err := tx.Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").First(&accessrules, accessrulesId).Error; err != nil {
 		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()

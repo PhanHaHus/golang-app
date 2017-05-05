@@ -27,11 +27,8 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            controller: 'detailController',
            templateUrl: '/templates/admin/form_detail.html',
        })
-       .state('dashboard', {
-            url: '/',
-            controller: 'dashboardController',
-            templateUrl: '/templates/dashboard/dashboard.html',
-        })
+      //  end admin
+        // accessrule
         .state('accessrule', {
              url: '/accessrule',
              controller: 'accessruleListController',
@@ -43,21 +40,27 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
                 id: null
               },
              controller: 'accessruleDetailController',
-             templateUrl: '/templates/accessrule/form.html',
+             templateUrl: '/templates/accessrule/form_detail.html',
         })
         .state('addaccessrule', {
              url: '/add-accessrule',
-             controller: 'accessruleListController',
-             templateUrl: '/templates/accessrule/list.html',
+             controller: 'accessRuleController',
+             templateUrl: '/templates/accessrule/form.html',
         })
         .state('editaccessrule', {
             url: '/edit-accessrule/:id',
             params: {
                id: null
              },
-            controller: 'addNewController',
+            controller: 'accessRuleController',
             templateUrl: '/templates/admin/form.html',
         })
+        // end accessRules
+        .state('dashboard', {
+             url: '/',
+             controller: 'dashboardController',
+             templateUrl: '/templates/dashboard/dashboard.html',
+         })
        .state('page-not-found', {
          url: '/page-not-found',
            templateUrl: '/templates/error/404.html',

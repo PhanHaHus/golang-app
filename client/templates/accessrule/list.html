@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="pull-right">
-              <a ui-sref="addadmin" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
+              <a ui-sref="addaccessrule" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
               <input class="input-search " placeholder="Search" type="text" class="form-control" name="password" ng-model="data.search">
             </div>
           </div>
@@ -24,15 +24,17 @@
                   <th>
                     Id
                   </th>
-                  <th>application_id
+                  <th>Application
                   </th>
-                  <th>user_id
+                  <th>User
                   </th>
-                  <th>device_id
+                  <th>Device
                   </th>
-                  <th>group_id
+                  <th>Group
                   </th>
-                  <th>access_rule_type
+                  <th>Access rule type
+                  </th>
+                  <th>CreatedByUser
                   </th>
                   <th></th>
                 </tr>
@@ -41,10 +43,11 @@
                 <tr ng-repeat="x in list">
                   <td>[[ x.AccessRuleId ]]</td>
                   <td>[[ x.Application.name ]]</td>
-                  <td>[[ x.user_id ]]</td>
-                  <td>[[ x.device_id ]]</td>
-                  <td>[[ x.group_id ]]</td>
+                  <td>[[ x.User.name ]]</td>
+                  <td>[[ x.Device.name ]]</td>
+                  <td>[[ x.Group.name ]]</td>
                   <td>[[ x.access_rule_type ]]</td>
+                  <td>[[ x.CreatedByUser.name ]]</td>
                   <td>
                       <a ui-sref="editaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
