@@ -49,12 +49,12 @@ func GetAllAccessRules(c echo.Context) (err error)  {
 
 func SearchACLCtrl(c echo.Context) (err error)  {
 
-  applications := []model.Applications{}
-  user := []model.User{}
+  applications := model.Applications{}
+  //user := model.Users{}
 
   // if exist param current page from url
-  query:=c.QueryParam("query")
-  type:=c.QueryParam("type")
+  query := c.QueryParam("query")
+  table := c.QueryParam("type")
   if query != "" {
     tx := database.MysqlConn().Begin()
     tx.Where("name LIKE ?", "%"+query+"%").Find(&applications)
