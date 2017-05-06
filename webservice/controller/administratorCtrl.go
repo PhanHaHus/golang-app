@@ -35,6 +35,7 @@ func GetAllAdmin(c echo.Context) (err error)  {
   var offset = (Current_Page - 1) * Per_page
   tx := database.MysqlConn().Begin()
   if query != "" {
+    // when search
     tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Preload("AcceptingHost").Find(&administrators).Count(&total)
   }else{
     tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
@@ -119,16 +120,4 @@ func DeleteAdmin(c echo.Context) (err error){
 	}
   tx.Commit()
 	return c.JSON(http.StatusOK, map[string]string{"Message": "deleted","status":"true"})
-}
-
-func SearchAdminCtrl(c echo.Context) (err error) {
-  query := c.QueryParam("query")
-  if query != ""  {
-      modelQuery := []model.Administrators{}
-      tx := database.MysqlConn().Begin()
-      tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
-      tx.Commit()
-      return c.JSON(http.StatusOK, &modelQuery)
-  }
-	return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 }

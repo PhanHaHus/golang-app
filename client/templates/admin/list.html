@@ -13,7 +13,6 @@
                 </div>
             </div>
             <div class="pull-right">
-              <a ui-sref="addadmin" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
               <div class="search-box">
                   <input type="text" ng-model="asyncSelected" placeholder="Type something.." ng-change="searchFunc()" uib-typeahead="data.name for data in list" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
                   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -23,9 +22,9 @@
               </div>
             </div>
           </div>
-          <div class="clearfix">
-          </div>
+          <div class="clearfix"></div>
 
+          <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
           <table class="table">
               <thead>
                 <tr>

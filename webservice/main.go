@@ -48,7 +48,6 @@ func main() {
 
 	// admin management
   r.GET("/administrators", controller.GetAllAdmin)
-	r.POST("/search-admin", controller.SearchAdminCtrl)
   r.GET("/administrators/:id", controller.GetAdminById)
   r.POST("/administrators", controller.PostAdmin)
   r.POST("/del-administrators/:id", controller.DeleteAdmin)
