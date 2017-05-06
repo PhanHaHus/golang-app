@@ -11,32 +11,35 @@ import (
 
 func GetAllAdmin(c echo.Context) (err error)  {
   var total int
-  tx := database.MysqlConn().Begin()
   administrators := []model.Administrators{}
   // acceptingHost := model.AcceptingHost{}
   paginateParams := model.NewPaginateParams()
-
   //set value default
   Current_Page := paginateParams.CurrentPage
-  Per_page := paginateParams.PerPage //set value default
+  Per_page := paginateParams.PerPage
   // if exist param current page from url
   curr:=c.QueryParam("current_page")
   if curr != "" {
       curr, _ := strconv.Atoi(curr) //string to int
       Current_Page = curr
   }
-
   // if exist param per_page from url
   per_page_params:=c.QueryParam("per_page")
   if per_page_params != "" {
       per_page_params, _ := strconv.Atoi(per_page_params) //string to int
       Per_page = per_page_params
   }
+  query := c.QueryParam("query")
 
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
-  // total = tx.Order("administrators").Find(&administrators).Count(&total)
-	tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
+  tx := database.MysqlConn().Begin()
+  if query != "" {
+    tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Preload("AcceptingHost").Find(&administrators).Count(&total)
+  }else{
+    tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
+  }
+
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{
@@ -116,4 +119,16 @@ func DeleteAdmin(c echo.Context) (err error){
 	}
   tx.Commit()
 	return c.JSON(http.StatusOK, map[string]string{"Message": "deleted","status":"true"})
+}
+
+func SearchAdminCtrl(c echo.Context) (err error) {
+  query := c.QueryParam("query")
+  if query != ""  {
+      modelQuery := []model.Administrators{}
+      tx := database.MysqlConn().Begin()
+      tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+      tx.Commit()
+      return c.JSON(http.StatusOK, &modelQuery)
+  }
+	return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 }

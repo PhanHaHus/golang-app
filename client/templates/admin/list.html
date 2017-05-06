@@ -14,7 +14,13 @@
             </div>
             <div class="pull-right">
               <a ui-sref="addadmin" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
-              <input class="input-search " placeholder="Search" type="text" class="form-control" name="password" ng-model="data.search">
+              <div class="search-box">
+                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." ng-change="searchFunc()" uib-typeahead="data.name for data in list" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                  <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                  <div ng-show="noResults">
+                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                  </div>
+              </div>
             </div>
           </div>
           <div class="clearfix">

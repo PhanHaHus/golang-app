@@ -45,7 +45,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.changePerpage= function(perpage){
             $http({
                 method: 'GET',
-                url: apiConstant+'/administrators?per_page='+perpage,
+                url: apiConstant+'/administrators?per_page='+perpage+"&query="+$scope.asyncSelected,
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }
@@ -57,11 +57,28 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
                 console.log(rejection);
             });
       }
+      $scope.searchFunc = function() {
+          setTimeout(function(){
+              $http({
+                method: 'GET',
+                url: apiConstant+'/administrators?query='+$scope.asyncSelected,
+              }).then(function successCallback(response) {
+                  var totalItem = response.data.Total;
+                  var perpage = response.data.PerPage;
+                  $scope.bigTotalItems = totalItem;
+                  $scope.per_page = perpage;
+                  $scope.changeData(response);
+              }, function errorCallback(response) {
+                    console.log("err");
+                    console.log(response)
+              });
+         }, 1000);
+      };
 
       $scope.pageChanged = function() {
           $http({
               method: 'GET',
-              url: apiConstant+'/administrators?per_page='+$scope.per_page+"&current_page="+$scope.currentPage,
+              url: apiConstant+'/administrators?per_page='+$scope.per_page+"&current_page="+$scope.currentPage+"&query="+$scope.asyncSelected,
               headers: {
                   'Content-type': 'application/json;charset=utf-8'
               }

@@ -5,26 +5,28 @@
           <form name="aclForm" ng-submit="submitForm(aclForm.$valid)" novalidate>
             <div class="form-group">
               <label for="email">Application:</label>
+              <div class="search-in-db">
+                <ui-select ng-model="vm.applicationsRes" >
+                  <ui-select-match allow-clear="true" placeholder="Type ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-choices  refresh="searchAcl($select.search,'applications')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResApp | filter: $select.search" >
+                      <div ng-bind-html="item.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
 
-              <ui-select ng-model="vm.selectionModel" >
-                <ui-select-match placeholder="Type ...">[[$select.selected.name]]</ui-select-match>
-                <ui-select-choices refresh="searchAcl($select,'app')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchRes | filter: $select.search" >
-                    <div ng-bind-html="item.name | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select>
 
-              <p ng-show="vm.selectionModel.$invalid" class="help-block">Your name is required.</p>
             </div>
             <div class="form-group">
               <label for="pwd">User:</label>
-              <ui-select ng-model="vm.selectionModel" >
-                <ui-select-match placeholder="Type ...">[[$select.selected.description]]</ui-select-match>
-                <ui-select-choices refresh="searchAcl($select.search)" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchRes | filter: $select.search" >
-                    <div ng-bind-html="item.name | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select>
+              <div class="search-in-db">
+                <ui-select ng-model="vm.userRes" >
+                  <ui-select-match allow-clear="true" placeholder="Type ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-choices  refresh="searchAcl($select.search,'user')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResUser | filter: $select.search" >
+                      <div ng-bind-html="item.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
 
-              <p ng-show="data.email.$invalid && !data.email.$pristine" class="help-block">Your email is required.</p>
             </div>
             <div class="form-group">
               <label for="pwd">Group:</label>

@@ -329,7 +329,9 @@ Sidebar
     border-radius: 0px;
     outline: none;
 }
-
+.search-in-db{
+  width: 30%
+}
 /*login style*/
 .login {
 	padding: 8em 0 0;

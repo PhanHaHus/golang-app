@@ -49,17 +49,27 @@ func GetAllAccessRules(c echo.Context) (err error)  {
 
 func SearchACLCtrl(c echo.Context) (err error)  {
 
-  applications := model.Applications{}
-  //user := model.Users{}
-
-  // if exist param current page from url
+  // if exist param query and param table on url
   query := c.QueryParam("query")
-  table := c.QueryParam("type")
-  if query != "" {
-    tx := database.MysqlConn().Begin()
-    tx.Where("name LIKE ?", "%"+query+"%").Find(&applications)
-    tx.Commit()
-    return c.JSON(http.StatusOK, &applications)
+  table := c.QueryParam("table")
+  if query != "" && table!="" {
+    switch table {
+      case "applications":
+          modelQuery := []model.Applications{}
+          tx := database.MysqlConn().Begin()
+          tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+          tx.Commit()
+          return c.JSON(http.StatusOK, &modelQuery)
+      case "user":
+          modelQuery := []model.Users{}
+          tx := database.MysqlConn().Begin()
+          tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+          tx.Commit()
+          return c.JSON(http.StatusOK, &modelQuery)
+      default:
+        return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: "Not found table!",Status:"false"})
+    }
+
   }
 
   return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})

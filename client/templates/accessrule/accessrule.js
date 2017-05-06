@@ -173,19 +173,28 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
          }
          $scope.init();
      }
-     $scope.searchRes = [];
+     $scope.searchResApp = [];
+     $scope.searchResUser = [];
      $scope.vm ={
-       selectionModel: null
+         applicationsRes: null,
+         userRes: null,
      };
 
       $scope.searchAcl = function(value,table) {
-          if(value){
+        console.log(value);
+        console.log(table);
+          if(value && table){
                $http({
                  method: 'GET',
                  url: apiConstant+'/search-acl?query='+value+'&table='+table,
                }).then(function successCallback(response) {
-                    $scope.searchRes = response.data;
-                    console.log($scope.searchRes);
+                    if(table == "applications"){
+                        $scope.searchResApp  = response.data;
+                    }
+                    if(table == "user"){
+                        $scope.searchResUser  = response.data;
+                    }
+                    
                }, function errorCallback(response) {
                      console.log("err");
                      console.log(response)
@@ -195,8 +204,7 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
 
 
       $scope.submitForm = function(isValid) {
-        console.log($scope.vm.selectionModel);
-        console.log($scope.data);
+        console.log($scope.vm.applicationsRes);
           if(isValid){
             var apiUrl = apiConstant+'/accessrules'; //api add
             if($stateParams.id){

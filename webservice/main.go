@@ -56,7 +56,6 @@ func main() {
 	// ALC management
   r.GET("/accessrules", controller.GetAllAccessRules)
   r.GET("/search-acl", controller.SearchACLCtrl)
-	r.POST("/search-accessrules", controller.SearchAdminCtrl)
   r.GET("/accessrules/:id", controller.GetAccessRuleById)
   r.POST("/accessrules", controller.PostAccessRule)
   r.POST("/del-accessrules/:id", controller.DeleteAccessRule)
