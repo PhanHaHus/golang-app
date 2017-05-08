@@ -45,7 +45,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.changePerpage= function(perpage){
             $http({
                 method: 'GET',
-                url: apiConstant+'/administrators?per_page='+perpage+"&query="+$scope.asyncSelected,
+                url: apiConstant+'/administrators?per_page='+perpage+"&query="+($scope.asyncSelected?$scope.asyncSelected:''),//if not search, query = ''
                 headers: {
                     'Content-type': 'application/json;charset=utf-8'
                 }
@@ -78,7 +78,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.pageChanged = function() {
           $http({
               method: 'GET',
-              url: apiConstant+'/administrators?per_page='+$scope.per_page+"&current_page="+$scope.currentPage+"&query="+$scope.asyncSelected,
+              url: apiConstant+'/administrators?per_page='+$scope.per_page+"&current_page="+$scope.currentPage+"&query="+($scope.asyncSelected?$scope.asyncSelected:''),//if not search, query = ''
               headers: {
                   'Content-type': 'application/json;charset=utf-8'
               }

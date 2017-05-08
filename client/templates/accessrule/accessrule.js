@@ -28,19 +28,23 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
       $scope.deleteRemind= function(element){
           var result = confirm("Want to delete?");
           if (result) {
-            $http({
-                method: 'POST',
-                url: apiConstant+'/del-accessrules/'+element.AdministratorId,
-                headers: {
-                    'Content-type': 'application/json;charset=utf-8'
-                }
-            })
-            .then(function(response) {
-                console.log(response);
-                $scope.init();
-            }, function(rejection) {
-                console.log(rejection);
-            });
+              $http({
+                  method: 'POST',
+                  url: apiConstant+'/del-accessrules/'+element.AccessRuleId,
+                  headers: {
+                      'Content-type': 'application/json;charset=utf-8'
+                  }
+              })
+              .then(function(response) {
+                  console.log(response.data.status);
+                  if(response.data.status== "false"){
+                      toaster.pop('error', "ERROR!", response.data.message);
+                  }else{
+                    $scope.init();
+                  }
+              }, function(rejection) {
+                  console.log(rejection);
+              });
           }
       }
       $scope.changePerpage= function(perpage){
@@ -83,8 +87,8 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
 }]);
 
 
-mainApp.controller('accessruleDetailController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams",
-function ($scope, apiConstant,$http, $window, $state,$stateParams) {
+mainApp.controller('accessruleDetailController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","$localStorage",
+function ($scope, apiConstant,$http, $window, $state,$stateParams,$localStorage) {
     $scope.data = {
         access_rule_id:"",
         application_id:"",
@@ -131,8 +135,8 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams) {
 
 
 //add and edit accessrules
-mainApp.controller('accessRuleController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","toaster",
-function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
+mainApp.controller('accessRuleController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","toaster","$localStorage",
+function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster,$localStorage) {
       $scope.data = {
           access_rule_id:"",
           application_id:"",
@@ -173,16 +177,20 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
          }
          $scope.init();
      }
+     //initial data in search box
      $scope.searchResApp = [];
      $scope.searchResUser = [];
+     $scope.searchResGroup = [];
+     $scope.searchResDevice = [];
+     //data send to server, get from search box
      $scope.vm ={
          applicationsRes: null,
          userRes: null,
+         groupRes: null,
+         deviceRes: null,
      };
 
       $scope.searchAcl = function(value,table) {
-        console.log(value);
-        console.log(table);
           if(value && table){
                $http({
                  method: 'GET',
@@ -194,7 +202,12 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
                     if(table == "user"){
                         $scope.searchResUser  = response.data;
                     }
-                    
+                    if(table == "group"){
+                        $scope.searchResGroup  = response.data;
+                    }
+                    if(table == "device"){
+                        $scope.searchResDevice  = response.data;
+                    }
                }, function errorCallback(response) {
                      console.log("err");
                      console.log(response)
@@ -204,21 +217,21 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
 
 
       $scope.submitForm = function(isValid) {
-        console.log($scope.vm.applicationsRes);
+        console.log($scope.vm);
           if(isValid){
             var apiUrl = apiConstant+'/accessrules'; //api add
             if($stateParams.id){
                 apiUrl = apiConstant+'/edit-accessrules/' + $stateParams.id;//api edit if exist id;
             }
             var dataPost = {
-                accepting_host_id: parseInt($scope.data.accepting_host_id)==0?1:parseInt($scope.data.accepting_host_id),
-                description: $scope.data.description,
-                email: $scope.data.email,
-                enabled: $scope.data.enabled?1:0,
-                name: $scope.data.name,
-                password: $scope.data.password,
-                created_by_id: 1,
-                permission: $scope.data.permission
+                application_id:$scope.vm.applicationsRes.ApplicationId?parseInt($scope.vm.applicationsRes.ApplicationId):'',
+                user_id:parseInt($scope.vm.userRes.UserId),
+                device_id:parseInt($scope.vm.deviceRes.DeviceId),
+                group_id:parseInt($scope.vm.groupRes.GroupId),
+                description:$scope.data.description,
+                access_rule_type:$scope.data.access_rule_type,
+                enabled:$scope.data.enabled?1:0,
+                created_by_id:1,
             };
 
             $http({
@@ -228,7 +241,7 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
             }).then(function(data){
                   console.log("succ");
                   console.log(data);
-                  $state.go("home");
+                  $state.go("accessrule");
             },function(){
                 console.log("err");
             });

@@ -436,6 +436,10 @@ canvas#polarArea,canvas#radar,canvas#doughnut {
 	color:#d95459;
 	text-decoration: none;
 }
+a{
+	outline: none !important;
+}
+
 
 /* Shutter In Horizontal */
 .hvr-shutter-in-horizontal {

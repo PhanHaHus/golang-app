@@ -7,58 +7,80 @@
               <label for="email">Application:</label>
               <div class="search-in-db">
                 <ui-select ng-model="vm.applicationsRes" >
-                  <ui-select-match allow-clear="true" placeholder="Type ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-match allow-clear="true" placeholder="Type and search...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'applications')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResApp | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>
               </div>
-
-
             </div>
+
             <div class="form-group">
               <label for="pwd">User:</label>
               <div class="search-in-db">
                 <ui-select ng-model="vm.userRes" >
-                  <ui-select-match allow-clear="true" placeholder="Type ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'user')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResUser | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
                   </ui-select-choices>
                 </ui-select>
               </div>
-
             </div>
+
             <div class="form-group">
               <label for="pwd">Group:</label>
-              <input type="text" class="form-control" name="password" ng-model="data.password" placeholder="Password" required>
-              <p ng-show="data.password.$invalid && !data.password.$pristine" class="help-block">Your password is required.</p>
+              <div class="search-in-db">
+                <ui-select ng-model="vm.groupRes" >
+                  <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-choices  refresh="searchAcl($select.search,'group')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResGroup | filter: $select.search" >
+                      <div ng-bind-html="item.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
             </div>
+
+            <div class="form-group">
+              <label for="pwd">Device:</label>
+              <div class="search-in-db">
+                <ui-select ng-model="vm.deviceRes" >
+                  <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
+                  <ui-select-choices  refresh="searchAcl($select.search,'device')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResDevice | filter: $select.search" >
+                      <div ng-bind-html="item.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="pwd">User Tags:</label>
-              <textarea class="form-control" name="description" rows="5" ng-model="data.description" id="description" placeholder="Description" ></textarea>
+              <textarea class="form-control" name="description" rows="5" ng-model="data.user_tag" id="description" placeholder="Description" ></textarea>
               <p ng-show="data.description.$invalid && !data.description.$pristine" class="help-block">Your Description is required.</p>
             </div>
+
             <div class="form-group">
               <label for="pwd">Device Tags:</label>
-              <textarea class="form-control" name="description" rows="5" ng-model="data.description" id="description" placeholder="Description" ></textarea>
+              <textarea class="form-control" name="description" rows="5" ng-model="data.device_tag" id="description" placeholder="Description" ></textarea>
               <p ng-show="data.description.$invalid && !data.description.$pristine" class="help-block">Your Description is required.</p>
             </div>
+
             <div class="checkbox">
               <label><input type="checkbox" ng-model="data.enabled" name="enabled"> Enabled</label>
             </div>
+
             <div class="form-group">
               <label for="sel1">ACL Type:</label>
               <select class="form-control" ng-model="data.access_rule_type" >
                 <option style="display:none" value="">Select</option>
-                <option ng-repeat="item in accessRuleType" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                <option ng-repeat="item in accessRuleType" value="[[item.value]]" >[[item.displayName]]</option>
               </select>
             </div>
+
             <div class="form-group">
               <label for="pwd">Description:</label>
               <textarea class="form-control" name="description" rows="5" ng-model="data.description" id="description" placeholder="Description" ></textarea>
               <p ng-show="data.description.$invalid && !data.description.$pristine" class="help-block">Your Description is required.</p>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default btn-primary">Submit</button>
           </form>
 			</div>
 </div>

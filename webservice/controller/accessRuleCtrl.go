@@ -1,7 +1,7 @@
 package controller
 import (
   "github.com/labstack/echo"
-  _  "log"
+    "log"
   "net/http"
   _ "encoding/json"
   "strconv"
@@ -66,10 +66,21 @@ func SearchACLCtrl(c echo.Context) (err error)  {
           tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
           tx.Commit()
           return c.JSON(http.StatusOK, &modelQuery)
+      case "group":
+          modelQuery := []model.Groups{}
+          tx := database.MysqlConn().Begin()
+          tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+          tx.Commit()
+          return c.JSON(http.StatusOK, &modelQuery)
+      case "device":
+          modelQuery := []model.Devices{}
+          tx := database.MysqlConn().Begin()
+          tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+          tx.Commit()
+          return c.JSON(http.StatusOK, &modelQuery)
       default:
         return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: "Not found table!",Status:"false"})
     }
-
   }
 
   return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
@@ -89,8 +100,12 @@ func GetAccessRuleById(c echo.Context) (err error){
 func PostAccessRule(c echo.Context) (err error) {
     tx:= database.MysqlConn().Begin()
   	accessRules := model.AccessRules{}
+
+    log.Println("accessRules")
+    log.Println(c.Bind(&accessRules))
+
     if err = c.Bind(&accessRules); err != nil {
-       return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: "InternalServerError",Status:"false"})
+       return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: err.Error(),Status:"false"})
     }
 
   	if err := tx.Create(&accessRules).Error; err != nil {
@@ -104,21 +119,22 @@ func PostAccessRule(c echo.Context) (err error) {
 func PutAccessRule(c echo.Context) (err error) {
   tx:= database.MysqlConn().Begin()
 	administrator_id := c.Param("id")
-	administrator := model.Administrators{}
+	administrator := model.AccessRules{}
 	if err := tx.First(&administrator, administrator_id).Error; err != nil {
 		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
 
-	data_updated := model.Administrators{}
+	data_updated := model.AccessRules{}
   if err = c.Bind(&data_updated); err != nil {
      return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: "InternalServerError",Status:"false"})
   }
 
-	administrator.Name = data_updated.Name
-	administrator.Email = data_updated.Email
-	administrator.Password = data_updated.Password
+	administrator.ApplicationId = data_updated.ApplicationId
+	administrator.UserId = data_updated.UserId
+	administrator.DeviceId = data_updated.DeviceId
+	administrator.GroupId = data_updated.GroupId
+	administrator.AccessRuleType = data_updated.AccessRuleType
 	administrator.Description = data_updated.Description
-	administrator.AcceptingHostId = data_updated.AcceptingHostId
 	administrator.Enabled = data_updated.Enabled
 	administrator.CreatedById = data_updated.CreatedById
 
@@ -132,11 +148,11 @@ func PutAccessRule(c echo.Context) (err error) {
 func DeleteAccessRule(c echo.Context) (err error){
   tx:= database.MysqlConn().Begin()
 	id := c.Param("id")
-	reminder := model.Administrators{}
-	if err := tx.First(&reminder, id).Error; err != nil {
+	accessRules := model.AccessRules{}
+	if err := tx.First(&accessRules, id).Error; err != nil {
 		return c.JSON(http.StatusNotFound,model.Status{StatusCode: http.StatusNotFound, Message: err.Error(),Status:"false"})
 	}
-	if err := tx.Delete(&reminder).Error; err != nil {
+	if err := tx.Delete(&accessRules).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()
