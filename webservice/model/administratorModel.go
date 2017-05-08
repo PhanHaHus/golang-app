@@ -47,13 +47,13 @@ type JwtCustomClaims struct {
 }
 
 type Administrators struct {
-		 AdministratorId int64 `gorm:"primary_key;json:"administrator_id"`
+		 AdministratorId int `gorm:"primary_key;json:"administrator_id"`
 		 Name string 	`json:"name" `
 		 Email string `json:"email" `
 		 Password string `json:"password"`
 		 Description string `json:"description"`
 		 Permission string `json:"permission"`
-		 AcceptingHostId int64
+		 AcceptingHostId int
 		 Enabled int `json:"enabled"`
 		 CreatedById int `json:"created_by_id"`
 		 CreatedTime  time.Time `json:"CreatedTime"`
@@ -62,7 +62,7 @@ type Administrators struct {
 }
 
 type AcceptingHosts struct {
-		 AcceptingHostId int64 `gorm:"primary_key;json:"accepting_host_id"`
+		 AcceptingHostId int `gorm:"primary_key;json:"accepting_host_id"`
 		 Name string 	`json:"name"`
 		 Password string `json:"password" `
 		 Description string `json:"description"`
@@ -74,26 +74,26 @@ type AcceptingHosts struct {
 }
 
 type AccessRules struct {
-		 AccessRuleId int64 `gorm:"primary_key;json:"access_rule_id"`
-		 ApplicationId int64
-		 UserId int64 `json:"user_id" `
-		 DeviceId int `json:"device_id"`
-		 GroupId int `json:"group_id"`
-		 AccessRuleType []byte `json:"access_rule_type"`
-		 Description string `json:"description"`
-		 Enabled int `json:"enabled"`
-		 CreatedById int64 `json:"created_by_id"`
-		 CreatedTime  time.Time `json:"created_time"`
-		 UpdatedTime time.Time `json:"updated_time"`
-     Application Applications `gorm:"ForeignKey:ApplicationId;AssociationForeignKey:ApplicationId"` // belong to application
-     User Users `gorm:"ForeignKey:UserId;AssociationForeignKey:UserId"` // belong to Users
-     CreatedByUser Administrators `gorm:"ForeignKey:CreatedById;AssociationForeignKey:CreatedById"` // belong to Users
-     Device Devices `gorm:"ForeignKey:DeviceId;AssociationForeignKey:DeviceId"` // belong to Devices
-     Group Groups `gorm:"ForeignKey:GroupId;AssociationForeignKey:GroupId"` // belong to Groups
+	AccessRuleId int `gorm:"primary_key;json:"access_rule_id"`
+	ApplicationId int `json:"application_id" `
+	UserId int `json:"user_id" `
+	DeviceId int `json:"device_id"`
+	GroupId int `json:"group_id"`
+	// AccessRuleType []byte `json:"access_rule_type"`
+	Description string `json:"description"`
+	Enabled int `json:"enabled"`
+	CreatedById int `json:"created_by_id"`
+	CreatedTime  time.Time `json:"created_time"`
+	UpdatedTime time.Time `json:"updated_time"`
+	Application Applications `gorm:"ForeignKey:ApplicationId;AssociationForeignKey:ApplicationId"` // belong to application
+	User Users `gorm:"ForeignKey:UserId;AssociationForeignKey:UserId"` // belong to Users
+	CreatedByUser Administrators `gorm:"ForeignKey:CreatedById;AssociationForeignKey:CreatedById"` // belong to Users
+	Device Devices `gorm:"ForeignKey:DeviceId;AssociationForeignKey:DeviceId"` // belong to Devices
+	Group Groups `gorm:"ForeignKey:GroupId;AssociationForeignKey:GroupId"` // belong to Groups
 }
 
 type Applications struct {
-		 ApplicationId int64 `gorm:"primary_key;json:"application_id;AUTO_INCREMENT"`
+		 ApplicationId int `gorm:"primary_key;json:"application_id;AUTO_INCREMENT"`
 		 Name string 	`json:"name" `
 		 Description string `json:"description"`
 		 ApplicationType []byte `json:"application_type" `
@@ -110,7 +110,7 @@ type Applications struct {
 }
 
 type Devices struct {
-		 DeviceId int64 `gorm:"primary_key;json:"device_id;AUTO_INCREMENT"`
+		 DeviceId int `gorm:"primary_key;json:"device_id;AUTO_INCREMENT"`
 		 DeviceType []byte `json:"device_type" `
      Name string 	`json:"name" `
      HardwareHash string 	`json:"hardware_hash" `
@@ -122,7 +122,7 @@ type Devices struct {
 }
 
 type Groups struct {
-		 GroupId int64 `gorm:"primary_key;json:"group_id;AUTO_INCREMENT"`
+		 GroupId int `gorm:"primary_key;json:"group_id;AUTO_INCREMENT"`
      Name string 	`json:"name" `
      ParentGroupId int 	`json:"parent_group_id" `
      Description string `json:"description"`
@@ -131,7 +131,7 @@ type Groups struct {
 		 UpdatedTime time.Time `json:"updated_time"`
 }
 type Users struct {
-		 UserId int64 `gorm:"primary_key;json:"user_id;AUTO_INCREMENT"`
+		 UserId int `gorm:"primary_key;json:"user_id;AUTO_INCREMENT"`
 		 Name string 	`json:"name" `
 		 Email string 	`json:"email" `
 		 Description string `json:"description"`
@@ -141,7 +141,7 @@ type Users struct {
 }
 
 type Reminder struct {
-	Id        int64     `gorm:"primary_key;AUTO_INCREMENT"`
+	Id        int     `gorm:"primary_key;AUTO_INCREMENT"`
 	Message   string    `sql:"size:1024" json:"message"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`

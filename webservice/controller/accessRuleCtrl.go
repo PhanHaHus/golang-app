@@ -48,7 +48,6 @@ func GetAllAccessRules(c echo.Context) (err error)  {
 }
 
 func SearchACLCtrl(c echo.Context) (err error)  {
-
   // if exist param query and param table on url
   query := c.QueryParam("query")
   table := c.QueryParam("table")
@@ -98,21 +97,22 @@ func GetAccessRuleById(c echo.Context) (err error){
 }
 
 func PostAccessRule(c echo.Context) (err error) {
-    tx:= database.MysqlConn().Begin()
-  	accessRules := model.AccessRules{}
+    
+  	accessrules := model.AccessRules{}
 
-    log.Println("accessRules")
-    log.Println(c.Bind(&accessRules))
+    log.Println("accessrules")
+    log.Println(c.Bind(&accessrules))
 
-    if err = c.Bind(&accessRules); err != nil {
+    if err = c.Bind(&accessrules); err != nil {
        return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: err.Error(),Status:"false"})
     }
-
-  	if err := tx.Create(&accessRules).Error; err != nil {
+    
+    tx:= database.MysqlConn().Begin()
+  	if err := tx.Create(&accessrules).Error; err != nil {
   		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
   	}
     tx.Commit()
-    return c.JSON(http.StatusOK, &accessRules)
+    return c.JSON(http.StatusOK, &accessrules)
 }
 
 
@@ -133,7 +133,7 @@ func PutAccessRule(c echo.Context) (err error) {
 	administrator.UserId = data_updated.UserId
 	administrator.DeviceId = data_updated.DeviceId
 	administrator.GroupId = data_updated.GroupId
-	administrator.AccessRuleType = data_updated.AccessRuleType
+	// administrator.AccessRuleType = data_updated.AccessRuleType
 	administrator.Description = data_updated.Description
 	administrator.Enabled = data_updated.Enabled
 	administrator.CreatedById = data_updated.CreatedById

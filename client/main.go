@@ -30,15 +30,9 @@ func main() {
 	//Login logout
 	// http.HandleFunc("/login", views.LoginFunc)
 	// http.HandleFunc("/logout", views.RequiresLogin(views.LogoutFunc))
-	// http.HandleFunc("/signup/", views.SignUpFunc)
 	//these handlers fetch set of tasks
 	http.HandleFunc("/",(views.ShowAllTasksFunc))
 	// http.HandleFunc("/add-admin", views.RequiresLogin(views.AddReminder))
-	// http.HandleFunc("/detail-admin/", views.RequiresLogin(views.DetailReminderFunc))
-	// http.HandleFunc("/edit-admin/", views.RequiresLogin(views.EditReminderFunc))
-	// //these handlers perform action like delete, mark as complete etc
-
-	// http.HandleFunc("/search/", views.RequiresLogin(views.SearchTaskFunc))
 	log.Println("running server on ", values.ServerPort)
 	log.Fatal(http.ListenAndServe(values.ServerPort, nil))
 }
