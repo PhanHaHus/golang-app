@@ -11,7 +11,6 @@ import (
 
 func GetAllAccessRules(c echo.Context) (err error)  {
   var total int
-  tx := database.MysqlConn().Begin()
   accessrules := []model.AccessRules{}
   paginateParams := model.NewPaginateParams()
 
@@ -31,11 +30,20 @@ func GetAllAccessRules(c echo.Context) (err error)  {
       per_page_params, _ := strconv.Atoi(per_page_params) //string to int
       Per_page = per_page_params
   }
+  query := c.QueryParam("query")
 
   //calculate offset
   var offset = (Current_Page - 1) * Per_page
-  // eager load relationship
-	tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
+
+  tx := database.MysqlConn().Begin()
+  if query != "" {
+    // when search
+    tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
+  }else{
+    // eager load relationship
+    tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
+  }
+  
   tx.Commit()
   // data response to client
   dataResp := model.ResponseObj{
@@ -102,7 +110,8 @@ func PostAccessRule(c echo.Context) (err error) {
     if err = c.Bind(&accessrules); err != nil {
        return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: err.Error(),Status:"false"})
     }
-    
+    log.Println("accessrules");
+    log.Println(&accessrules);
     tx:= database.MysqlConn().Begin()
   	if err := tx.Create(&accessrules).Error; err != nil {
   		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
@@ -129,7 +138,7 @@ func PutAccessRule(c echo.Context) (err error) {
 	administrator.UserId = data_updated.UserId
 	administrator.DeviceId = data_updated.DeviceId
 	administrator.GroupId = data_updated.GroupId
-	// administrator.AccessRuleType = data_updated.AccessRuleType
+	administrator.AccessRuleType = data_updated.AccessRuleType
 	administrator.Description = data_updated.Description
 	administrator.Enabled = data_updated.Enabled
 	administrator.CreatedById = data_updated.CreatedById
@@ -152,5 +161,5 @@ func DeleteAccessRule(c echo.Context) (err error){
 		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
 	}
   tx.Commit()
-	return c.JSON(http.StatusOK, model.Status{StatusCode: http.StatusInternalServerError, Message:"deleted",Status:"false"})
+	return c.JSON(http.StatusOK, model.Status{StatusCode: http.StatusInternalServerError, Message:"deleted",Status:"true"})
 }

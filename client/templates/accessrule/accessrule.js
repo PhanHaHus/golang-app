@@ -37,11 +37,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
               })
               .then(function(response) {
                   console.log(response.data.status);
-                  if(response.data.status== "false"){
-                      toaster.pop('error', "ERROR!", response.data.message);
-                  }else{
                     $scope.init();
-                  }
               }, function(rejection) {
                   console.log(rejection);
               });
@@ -241,7 +237,7 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster,$local
 
 
       $scope.submitForm = function(isValid) {
-        console.log($scope.vm);
+        console.log($scope.data.access_rule_type);
         //   if($scope.vm.applicationsRes){
             var apiUrl = apiConstant+'/accessrules'; //api add
             if($stateParams.id){
