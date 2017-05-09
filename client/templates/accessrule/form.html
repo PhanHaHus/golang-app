@@ -1,12 +1,12 @@
 <nav-bar></nav-bar>
 <div class="wrapper">
       <div class="grid-form1">
-					<h3 id="forms-example" class="">Add New</h3>
+					<h3 id="forms-example" class="">Form ACL</h3>
           <form name="aclForm" ng-submit="submitForm(aclForm.$valid)" novalidate>
             <div class="form-group">
-              <label for="email">Application:</label>
+              <label for="email">Application: [[data.application_name]]</label>
               <div class="search-in-db">
-                <ui-select ng-model="vm.applicationsRes" >
+                <ui-select ng-model="vm.applicationsRes"  on-select="selectedFunction($item,'applications')">
                   <ui-select-match allow-clear="true" placeholder="Type and search...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'applications')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResApp | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -16,9 +16,9 @@
             </div>
 
             <div class="form-group">
-              <label for="pwd">User:</label>
+              <label for="pwd">User: [[data.user_name]]</label>
               <div class="search-in-db">
-                <ui-select ng-model="vm.userRes" >
+                <ui-select ng-model="vm.userRes" on-select="selectedFunction($item,'user')">
                   <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'user')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResUser | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -28,9 +28,9 @@
             </div>
 
             <div class="form-group">
-              <label for="pwd">Group:</label>
+              <label for="pwd">Group: [[data.group_name]]</label>
               <div class="search-in-db">
-                <ui-select ng-model="vm.groupRes" >
+                <ui-select ng-model="vm.groupRes" on-select="selectedFunction($item,'group')">
                   <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'group')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResGroup | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -40,9 +40,9 @@
             </div>
 
             <div class="form-group">
-              <label for="pwd">Device:</label>
+              <label for="pwd">Device: [[data.device_name]]</label>
               <div class="search-in-db">
-                <ui-select ng-model="vm.deviceRes" >
+                <ui-select ng-model="vm.deviceRes" on-select="selectedFunction($item,'device')">
                   <ui-select-match allow-clear="true" placeholder="Type and search ...">[[$select.selected.name]]</ui-select-match>
                   <ui-select-choices  refresh="searchAcl($select.search,'device')" spinner-enabled="true" refresh-delay="500" repeat="item as item in searchResDevice | filter: $select.search" >
                       <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -71,7 +71,7 @@
               <label for="sel1">ACL Type:</label>
               <select class="form-control" ng-model="data.access_rule_type" >
                 <option style="display:none" value="">Select</option>
-                <option ng-repeat="item in accessRuleType" value="[[item.value]]" >[[item.displayName]]</option>
+                <option ng-repeat="item in accessRuleType" value="[[item.value]]"  ng-selected="data.access_rule_type == item.value">[[item.displayName]]</option>
               </select>
             </div>
 

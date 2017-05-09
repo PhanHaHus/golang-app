@@ -99,10 +99,6 @@ func GetAccessRuleById(c echo.Context) (err error){
 func PostAccessRule(c echo.Context) (err error) {
     
   	accessrules := model.AccessRules{}
-
-    log.Println("accessrules")
-    log.Println(c.Bind(&accessrules))
-
     if err = c.Bind(&accessrules); err != nil {
        return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: err.Error(),Status:"false"})
     }

@@ -47,30 +47,30 @@ type JwtCustomClaims struct {
 }
 
 type Administrators struct {
-		 AdministratorId int `gorm:"primary_key;json:"administrator_id"`
-		 Name string 	`json:"name" `
-		 Email string `json:"email" `
-		 Password string `json:"password"`
-		 Description string `json:"description"`
-		 Permission string `json:"permission"`
-		 AcceptingHostId int
-		 Enabled int `json:"enabled"`
-		 CreatedById int `json:"created_by_id"`
-		 CreatedTime  time.Time `json:"CreatedTime"`
-		 UpdatedTime time.Time `json:"UpdatedTime"`
-     AcceptingHost AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"` // belong to AcceptingHost
+	AdministratorId int `gorm:"primary_key;json:"administrator_id"`
+	Name string 	`json:"name" `
+	Email string `json:"email" `
+	Password string `json:"password"`
+	Description string `json:"description"`
+	Permission string `json:"permission"`
+	AcceptingHostId int `json:"accepting_host_id"`
+	Enabled int `json:"enabled"`
+	CreatedById int `json:"created_by_id"`
+	CreatedTime  time.Time `json:"created_time"`
+	UpdatedTime time.Time `json:"updated_time"`
+	AcceptingHost AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"` // belong to AcceptingHost
 }
 
 type AcceptingHosts struct {
-		 AcceptingHostId int `gorm:"primary_key;json:"accepting_host_id"`
-		 Name string 	`json:"name"`
-		 Password string `json:"password" `
-		 Description string `json:"description"`
-		 LastLoginTime time.Time `json:"last_login_time"`
-		 Enabled int `json:"enabled"`
-		 CreatedById int `json:"created_by_id"`
-		 CreatedTime  time.Time `json:"created_time"`
-		 UpdatedTime time.Time `json:"updated_time"`
+	AcceptingHostId int `gorm:"primary_key;json:"accepting_host_id"`
+	Name string 	`json:"name"`
+	Password string `json:"password" `
+	Description string `json:"description"`
+	LastLoginTime time.Time `json:"last_login_time"`
+	Enabled int `json:"enabled"`
+	CreatedById int `json:"created_by_id"`
+	CreatedTime  time.Time `json:"created_time"`
+	UpdatedTime time.Time `json:"updated_time"`
 }
 
 type AccessRules struct {
@@ -79,7 +79,7 @@ type AccessRules struct {
 	UserId int `json:"user_id" `
 	DeviceId int `json:"device_id"`
 	GroupId int `json:"group_id"`
-	// AccessRuleType []byte `json:"access_rule_type"`
+	AccessRuleType string `json:"access_rule_type"`
 	Description string `json:"description"`
 	Enabled int `json:"enabled"`
 	CreatedById int `json:"created_by_id"`
@@ -96,7 +96,7 @@ type Applications struct {
 		 ApplicationId int `gorm:"primary_key;json:"application_id;AUTO_INCREMENT"`
 		 Name string 	`json:"name" `
 		 Description string `json:"description"`
-		 ApplicationType []byte `json:"application_type" `
+		 ApplicationType string `json:"application_type" `
 		 AcceptingHostId int `json:"accepting_host_id"`
 		 Ip string `json:"ip"`
 		 Port int `json:"port"`

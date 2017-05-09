@@ -53,7 +53,7 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
                id: null
              },
             controller: 'accessRuleController',
-            templateUrl: '/templates/admin/form.html',
+            templateUrl: '/templates/accessrule/form.html',
         })
         // end accessRules
         .state('dashboard', {

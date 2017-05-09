@@ -161,15 +161,23 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster,$local
              method: 'GET',
              url: apiConstant+'/accessrules/'+$stateParams.id,
            }).then(function successCallback(response) {
+               console.log(response.data)
                 $scope.data = {
-                    accepting_host_id:response.data.accepting_host_id,
+                    application_name:response.data.Application.name,
+                    user_name:response.data.User.name,
+                    group_name:response.data.Group.name,
+                    device_name:response.data.Device.name,
+
+                    application_id:response.data.application_id,
                     description:response.data.description,
-                    email:response.data.email,
                     enabled:(response.data.enabled==0?false:true),
-                    name:response.data.name,
-                    password:response.data.password,
-                    permission:response.data.permission
+                    access_rule_type:response.data.access_rule_type,
+                    created_by_id:response.data.created_by_id,
+                    device_id:response.data.device_id,
+                    user_id:response.data.user_id,
+                    group_id:response.data.group_id
                 };
+                 //$scope.vm.applicationsRes= response.data.Application.name;
            }, function errorCallback(response) {
                  console.log("err");
                  console.log(response)
@@ -214,20 +222,36 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster,$local
                });
           }
       };
+      //set selected name
+      $scope.selectedFunction = function(item,table) {
+          console.log(item);
+            if(table == "applications"){
+                $scope.data.application_name = item?item.name:'';
+            }
+            if(table == "user"){
+                $scope.data.user_name  = item?item.name:'';
+            }
+            if(table == "group"){
+                $scope.data.group_name  = item?item.name:'';
+            }
+            if(table == "device"){
+                $scope.data.device_name  = item?item.name:'';
+            }
+      };
 
 
       $scope.submitForm = function(isValid) {
         console.log($scope.vm);
-          if(isValid){
+        //   if($scope.vm.applicationsRes){
             var apiUrl = apiConstant+'/accessrules'; //api add
             if($stateParams.id){
                 apiUrl = apiConstant+'/edit-accessrules/' + $stateParams.id;//api edit if exist id;
             }
             var dataPost = {
-                application_id:$scope.vm.applicationsRes.ApplicationId?parseInt($scope.vm.applicationsRes.ApplicationId):'',
-                user_id:parseInt($scope.vm.userRes.UserId),
-                device_id:parseInt($scope.vm.deviceRes.DeviceId),
-                group_id:parseInt($scope.vm.groupRes.GroupId),
+                application_id:$scope.vm.applicationsRes ? parseInt($scope.vm.applicationsRes.ApplicationId):$scope.data.application_id,//if is edit application_id = $scope.data.application_id
+                user_id:$scope.vm.userRes ? parseInt($scope.vm.userRes.UserId): $scope.data.user_id,
+                device_id:$scope.vm.deviceRes ? parseInt($scope.vm.deviceRes.DeviceId) : $scope.data.device_id,
+                group_id:$scope.vm.groupRes ? parseInt($scope.vm.groupRes.GroupId): $scope.data.group_id,
                 description:$scope.data.description,
                 access_rule_type:$scope.data.access_rule_type,
                 enabled:$scope.data.enabled?1:0,
@@ -245,9 +269,9 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster,$local
             },function(){
                 console.log("err");
             });
-          }else{
-            toaster.pop('error', "ERROR!", "Enter valid infor!");
-          }
+        //   }else{
+        //     toaster.pop('error', "ERROR!", "Enter valid infor!");
+        //   }
       };
 
 }]);

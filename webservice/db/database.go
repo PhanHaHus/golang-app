@@ -26,7 +26,7 @@ func setupMysqlConn() {
       panic(err)
     }
     mysqlConn.LogMode(true)
-		mysqlConn.DB().SetMaxIdleConns(10)
+		// mysqlConn.DB().SetMaxIdleConns(10)
 
     // mysqlConn.DB().SetMaxIdleConns(mysql.MaxIdleConns)
 }

@@ -65,14 +65,13 @@ func GetAdminById(c echo.Context) (err error){
 }
 
 func PostAdmin(c echo.Context) (err error) {
-    tx:= database.MysqlConn().Begin()
   	administrators := model.Administrators{}
     if err = c.Bind(&administrators); err != nil {
-       return c.JSON(http.StatusInternalServerError, map[string]string{"Message": "InternalServerError","status":"false"})
+       return c.JSON(http.StatusInternalServerError,model.Status{StatusCode: http.StatusInternalServerError,Message: err.Error(),Status:"false"})
     }
-
+    tx:= database.MysqlConn().Begin()
   	if err := tx.Create(&administrators).Error; err != nil {
-  		return c.JSON(http.StatusInternalServerError, map[string]string{"Message": err.Error(),"status":"false"})
+  		return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(),Status:"false"})
   	}
     tx.Commit()
     return c.JSON(http.StatusOK, &administrators)
