@@ -58,6 +58,23 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
                 console.log(rejection);
             });
       }
+      //for search box
+      $scope.onSelect = function ($item, $model, $label) {
+            return $http({
+                method: 'GET',
+                url: apiConstant+'/accessrules?query='+($scope.asyncSelected?$scope.asyncSelected:''),
+                }).then(function successCallback(response) {
+                    var totalItem = response.data.Total;
+                    var perpage = response.data.PerPage;
+                    $scope.bigTotalItems = totalItem;
+                    $scope.per_page = perpage;
+                    $scope.changeData(response);
+                    return $scope.list
+                }, function errorCallback(response) {
+                    console.log("err");
+                    console.log(response)
+                });
+        };
 
       $scope.pageChanged = function() {
           $http({

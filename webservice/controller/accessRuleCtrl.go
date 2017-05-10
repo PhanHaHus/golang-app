@@ -38,7 +38,9 @@ func GetAllAccessRules(c echo.Context) (err error)  {
   tx := database.MysqlConn().Begin()
   if query != "" {
     // when search
-    tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
+    // tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Joins("JOIN credit_cards ON credit_cards.user_id = users.id").Where("credit_cards.number = ?", "411111111111").Find(&accessrules).Count(&total)
+    tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Joins(" join applications ON applications.application_id = access_rules.application_id").Joins(" join groups ON groups.group_id = access_rules.group_id").Joins(" join devices ON devices.device_id = access_rules.device_id").Joins(" join users ON users.user_id = access_rules.user_id").Where("users.name LIKE ?", "%"+query+"%").Or("applications.name LIKE ?", "%"+query+"%").Or("devices.name LIKE ?", "%"+query+"%").Or("access_rules.description LIKE ?", "%"+query+"%").Or("groups.name LIKE ?", "%"+query+"%").Preload("Application").Preload("Device").Preload("User").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)
+
   }else{
     // eager load relationship
     tx.Order("access_rule_id desc").Offset(offset).Limit(Per_page).Preload("Application").Preload("User").Preload("Device").Preload("Group").Preload("CreatedByUser").Find(&accessrules).Count(&total)

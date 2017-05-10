@@ -13,11 +13,24 @@
                 </div>
             </div>
             <div class="pull-right">
-              <a ui-sref="addaccessrule" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
-              <input class="input-search " placeholder="Search" type="text" class="form-control" name="password" ng-model="data.search">
+              
+              <div class="search-box">
+                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." 
+                      typeahead-on-select="onSelect($item, $model, $label);" 
+                      typeahead-wait-ms="1000" uib-typeahead="data.description for data in onSelect($item, $model, $label)" 
+                      typeahead-min-length="2"
+                      ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " 
+                      typeahead-loading="loadingSearch" typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
+                      
+                  <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
+                  <div ng-show="noResults">
+                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                  </div>
+              </div>
             </div>
           </div>
           <div class="clearfix"></div>
+          <a ui-sref="addaccessrule" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
           <table class="table">
               <thead>
                 <tr>
@@ -32,7 +45,9 @@
                   </th>
                   <th>Group
                   </th>
-                  <th>Access rule type
+                  <th>Enabled
+                  </th>
+                  <th>Description
                   </th>
                   <th>CreatedByUser
                   </th>
@@ -46,7 +61,10 @@
                   <td>[[ x.User.name ]]</td>
                   <td>[[ x.Device.name ]]</td>
                   <td>[[ x.Group.name ]]</td>
-                  <td>[[ x.access_rule_type ]]</td>
+                  <td>
+                    <input type="checkbox" name="access_rule_type" disabled ng-checked="x.access_rule_type=='Accept'?true:false" >
+                  </td>
+                  <td>[[ x.description ]]</td>
                   <td>[[ x.CreatedByUser.name ]]</td>
                   <td>
                       <a ui-sref="editaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>

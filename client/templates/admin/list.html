@@ -14,8 +14,14 @@
             </div>
             <div class="pull-right">
               <div class="search-box">
-                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." ng-change="searchFunc()" uib-typeahead="data.name for data in list" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
-                  <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." 
+                      typeahead-on-select="onSelect($item, $model, $label);" 
+                      typeahead-wait-ms="1500" uib-typeahead="data.name for data in onSelect($item, $model, $label)" 
+                      typeahead-min-length="2"
+                      ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " 
+                      typeahead-loading="loadingSearch" typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
+                      
+                  <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
                   <div ng-show="noResults">
                       <i class="glyphicon glyphicon-remove"></i> No Results Found
                   </div>
@@ -51,7 +57,10 @@
                   <td>[[ x.name ]]</td>
                   <td>[[ x.permission ]]</td>
                   <td>[[ x.AcceptingHost.name ]]</td>
-                  <td>[[ x.enabled ]]</td>
+                  <td>
+
+                    <input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false" >
+                  </td>
                   <td>
                       <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                       <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>

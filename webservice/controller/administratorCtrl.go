@@ -36,7 +36,7 @@ func GetAllAdmin(c echo.Context) (err error)  {
   tx := database.MysqlConn().Begin()
   if query != "" {
     // when search
-    tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Preload("AcceptingHost").Find(&administrators).Count(&total)
+    tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Or("email LIKE ?", "%"+query+"%").Or("permission = ?", ""+query+"").Preload("AcceptingHost").Find(&administrators).Count(&total)
   }else{
     tx.Debug().Order("administrator_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&administrators).Count(&total)
   }

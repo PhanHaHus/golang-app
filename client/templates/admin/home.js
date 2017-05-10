@@ -57,23 +57,24 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
                 console.log(rejection);
             });
       }
-      $scope.searchFunc = function() {
-          setTimeout(function(){
-              $http({
+      //for search box
+        $scope.onSelect = function ($item, $model, $label) {
+            return $http({
                 method: 'GET',
-                url: apiConstant+'/administrators?query='+$scope.asyncSelected,
-              }).then(function successCallback(response) {
-                  var totalItem = response.data.Total;
-                  var perpage = response.data.PerPage;
-                  $scope.bigTotalItems = totalItem;
-                  $scope.per_page = perpage;
-                  $scope.changeData(response);
-              }, function errorCallback(response) {
+                url: apiConstant+'/administrators?query='+($scope.asyncSelected?$scope.asyncSelected:''),
+                }).then(function successCallback(response) {
+                    var totalItem = response.data.Total;
+                    var perpage = response.data.PerPage;
+                    $scope.bigTotalItems = totalItem;
+                    $scope.per_page = perpage;
+                    $scope.changeData(response);
+                    return $scope.list
+                }, function errorCallback(response) {
                     console.log("err");
                     console.log(response)
-              });
-         }, 1000);
-      };
+                });
+        };
+        
 
       $scope.pageChanged = function() {
           $http({
