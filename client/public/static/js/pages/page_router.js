@@ -28,6 +28,34 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            templateUrl: '/templates/admin/form_detail.html',
        })
       //  end admin
+      // acceptingHost
+      .state('acceptinghost', {
+           url: '/accepting-host',
+           controller: 'acceptingHostListController',
+           templateUrl: '/templates/acceptinghost/list.html',
+       })
+       .state('addacceptinghost', {
+           url: '/add-accepting-host',
+           controller: 'acceptingHostController',
+           templateUrl: '/templates/acceptinghost/form.html',
+       })
+       .state('editacceptinghost', {
+           url: '/edit-accepting-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'acceptingHostController',
+           templateUrl: '/templates/acceptinghost/form.html',
+       })
+       .state('detailacceptinghost', {
+           url: '/detail-accepting-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'detailAcceptingHostController',
+           templateUrl: '/templates/acceptinghost/form_detail.html',
+       })
+      //  end acceptingHost
         // accessrule
         .state('accessrule', {
              url: '/accessrule',

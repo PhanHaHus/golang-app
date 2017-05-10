@@ -52,13 +52,19 @@ func main() {
   r.POST("/administrators", controller.PostAdmin)
   r.POST("/del-administrators/:id", controller.DeleteAdmin)
   r.POST("/edit-administrators/:id", controller.PutAdmin)
-	// ALC management
+	// ACL management
   r.GET("/accessrules", controller.GetAllAccessRules)
   r.GET("/search-acl", controller.SearchACLCtrl)
   r.GET("/accessrules/:id", controller.GetAccessRuleById)
   r.POST("/accessrules", controller.PostAccessRule)
   r.POST("/del-accessrules/:id", controller.DeleteAccessRule)
   r.POST("/edit-accessrules/:id", controller.PutAccessRule)
+	// Accepting Host management
+  r.GET("/acceptinghosts", controller.GetAcceptingHost)
+  r.GET("/acceptinghosts/:id", controller.GetAcceptingHostById)
+  r.POST("/acceptinghosts", controller.PostAcceptingHost)
+  r.POST("/del-acceptinghosts/:id", controller.DeleteAcceptingHost)
+  r.POST("/edit-acceptinghosts/:id", controller.PutAcceptingHost)
   // Start server
   e.Logger.Fatal(e.Start(values.ServerPort))
 }

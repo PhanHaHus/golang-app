@@ -1,0 +1,63 @@
+<nav-bar></nav-bar>
+<div class="wrapper">
+    <div class="grid-form1">
+					<h3>Accepting Host Management</h3>
+          <div class="">
+            <div class="pull-left">
+                <div class="">
+                    <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
+                      <option style="display:none" value="">Select</option>
+                      <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                    </select>
+                    <span>/ [[bigTotalItems]] result</span>
+                </div>
+            </div>
+            <div class="pull-right">
+              <div class="search-box">
+                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." 
+                      typeahead-on-select="onSelect($item, $model, $label);" 
+                      typeahead-wait-ms="1500" uib-typeahead="data.name for data in onSelect($item, $model, $label)" 
+                      typeahead-min-length="2"
+                      ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " 
+                      typeahead-loading="loadingSearch" typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
+                      
+                  <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
+                  <div ng-show="noResults">
+                      <i class="glyphicon glyphicon-remove"></i> No Results Found
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <a ui-sref="addacceptinghost" class="btn btn-primary btn-xs"> Add new</a>
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Enabled</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="x in list">
+                  <td>[[ x.AcceptingHostId ]]</td>
+                  <td>[[ x.name ]]</td>
+                  <td>[[ x.description ]]</td>
+                  <td>
+                    <input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false" >
+                  </td>
+                  <td>online</td>
+                  <td>
+                      <a ui-sref="editadmin({id: [[x.AcceptingHostId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                      <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                      <a ui-sref="detailadmin({id: [[x.AcceptingHostId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ul uib-pagination total-items="bigTotalItems" items-per-page="per_page" ng-change="pageChanged()" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+			</div>
+</div>
