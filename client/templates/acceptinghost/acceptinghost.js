@@ -100,7 +100,7 @@ function ($scope,$rootScope, apiConstant, $http, $location,$state ) {
 }]);
 
 
-//add and edit admin
+//add and edit ACH
 mainApp.controller('acceptingHostController', ['$scope', 'apiConstant','$http',"$window","$state","$stateParams","toaster",
 function ($scope, apiConstant,$http, $window, $state,$stateParams,toaster) {
       $scope.data = {
@@ -183,11 +183,8 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams) {
                 $scope.data = {
                     accepting_host_id:response.data.accepting_host_id,
                     description:response.data.description,
-                    email:response.data.email,
                     enabled:response.data.enabled,
                     name:response.data.name,
-                    password:response.data.password,
-                    permission:response.data.permission
                 };
            }, function errorCallback(response) {
                  console.log("err");

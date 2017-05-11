@@ -57,7 +57,7 @@ func GetAcceptingHostById(c echo.Context) (err error){
 	acceptingHostsId := c.Param("id")
 	acceptingHost := model.AcceptingHosts{}
 
-	if err := tx.Preload("AcceptingHost").First(&acceptingHost, acceptingHostsId).Error; err != nil {
+	if err := tx.First(&acceptingHost, acceptingHostsId).Error; err != nil {
 		return c.JSON(http.StatusNotFound,map[string]string{"Message": err.Error(),"status":"false"})
 	}
   tx.Commit()
@@ -92,7 +92,6 @@ func PutAcceptingHost(c echo.Context) (err error) {
   }
 
 	acceptingHost.Name = data_updated.Name
-	acceptingHost.Password = data_updated.Password
 	acceptingHost.Description = data_updated.Description
 	acceptingHost.Enabled = data_updated.Enabled
 	acceptingHost.CreatedById = data_updated.CreatedById

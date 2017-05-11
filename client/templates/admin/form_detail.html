@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
               <label>Enabled</label>
-              [[data.password]]
+              <input type="checkbox" name="access_rule_type" disabled ng-checked="data.enabled==1?true:false" >
             </div>
             <div class="form-group">
               <label for="sel1">Permission:</label>
@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
               <label for="sel1">Accepting Host:</label>
-              [[data.accepting_host_id]]
+              [[data.accepting_host_name]]
               </select>
             </div>
 			</div>

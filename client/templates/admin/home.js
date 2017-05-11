@@ -199,6 +199,7 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams) {
                 console.log(response);
                 $scope.data = {
                     accepting_host_id:response.data.accepting_host_id,
+                    accepting_host_name:response.data.AcceptingHost.name,
                     description:response.data.description,
                     email:response.data.email,
                     enabled:response.data.enabled,
