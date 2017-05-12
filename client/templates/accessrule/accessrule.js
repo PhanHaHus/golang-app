@@ -126,7 +126,7 @@ function ($scope, apiConstant,$http, $window, $state,$stateParams,$localStorage)
                 $scope.data = {
                     access_rule_id:response.data.AccessRuleId,
                     description:response.data.description,
-                    application_id:response.data.ApplicationId,
+                    application_id:response.data.application_id,
                     application_name:response.data.Application.name,
                     enabled:response.data.enabled,
                     created_by_id:response.data.created_by_id,

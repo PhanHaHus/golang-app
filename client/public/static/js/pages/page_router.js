@@ -86,7 +86,7 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
         // end accessRules
         .state('dashboard', {
              url: '/',
-             controller: 'dashboardController',
+             //controller: 'dashboardController',
              templateUrl: '/templates/dashboard/dashboard.html',
          })
        .state('page-not-found', {
