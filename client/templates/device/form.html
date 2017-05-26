@@ -1,0 +1,49 @@
+<nav-bar></nav-bar>
+<div class="wrapper">
+      <div class="grid-form1">
+					<h3 id="forms-example" class="">Form Group</h3>
+          <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+            <div class="form-group">
+              <label for="email">Name:</label>
+              <input type="text" class="form-control" name="name" ng-model="data.name" placeholder="Name" required>
+              <p ng-show="data.name.$invalid && !data.name.$pristine" class="help-block">Your name is required.</p>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Email:</label>
+              <input type="text" class="form-control" name="email" ng-model="data.email" placeholder="Email" required>
+              <p ng-show="data.email.$invalid && !data.email.$pristine" class="help-block">Your email is required.</p>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="text" class="form-control" name="password" ng-model="data.password" placeholder="Password" required>
+              <p ng-show="data.password.$invalid && !data.password.$pristine" class="help-block">Your password is required.</p>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Description:</label>
+              <textarea class="form-control" name="description" rows="5" ng-model="data.description" id="description" placeholder="Description" ></textarea>
+              <p ng-show="data.description.$invalid && !data.description.$pristine" class="help-block">Your Description is required.</p>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" ng-model="data.enabled" name="enabled"> Enabled</label>
+            </div>
+
+            <div class="form-group">
+              <label for="sel1">Permission:</label>
+              <select class="form-control" ng-model="data.permission">
+                   <option ng-selected="data.permission == item.value" ng-repeat="item in permissionList" ng-value="item.value">[[item.displayName]]</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sel1">Accepting Host:</label>
+              <select class="form-control" id="accepting_host_id" name="accepting_host_id" ng-model="data.accepting_host_id">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+			</div>
+</div>
