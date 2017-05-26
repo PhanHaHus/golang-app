@@ -1,74 +1,85 @@
 <nav-bar></nav-bar>
 <div class="wrapper">
-    <div class="grid-form1">
-					<h3>Administrators Management</h3>
-          <div class="">
-            <div class="pull-left">
-                <div class="">
-                    <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
+  <div class="grid-form1">
+    <h3>Administrators Management</h3>
+    <div class="">
+      <div class="pull-left">
+        <div class="">
+          <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
                       <option style="display:none" value="">Select</option>
                       <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
                     </select>
-                    <span>/ [[bigTotalItems]] result</span>
-                </div>
-            </div>
-            <div class="pull-right">
-              <div class="search-box">
-                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." 
-                      typeahead-on-select="onSelect($item, $model, $label);" 
-                      typeahead-wait-ms="1500" uib-typeahead="data.name for data in onSelect($item, $model, $label)" 
-                      typeahead-min-length="2"
-                      ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " 
-                      typeahead-loading="loadingSearch" typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
-                      
-                  <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
-                  <div ng-show="noResults">
-                      <i class="glyphicon glyphicon-remove"></i> No Results Found
-                  </div>
-              </div>
-            </div>
+          <span>/ [[bigTotalItems]] result</span>
+        </div>
+      </div>
+      <div class="pull-right">
+        <div class="search-box">
+          <input type="text" ng-model="search.searchAll" placeholder="Type something.." typeahead-on-select="onSelectSearchBox($item, $model, $label);"
+            typeahead-wait-ms="1500" uib-typeahead="data.name for data in onSelectSearchBox($item, $model, $label)" typeahead-is-open="false"
+            typeahead-min-length="2" ng-change=" (search.searchAll=='')?onSelectSearchBox($item, $model, $label):'' " typeahead-loading="loadingSearch"
+            typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
+
+          <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
+          <div ng-show="noResults">
+            <i class="glyphicon glyphicon-remove"></i> No Results Found
           </div>
-          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
 
-          <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
-          <table class="table">
-              <thead>
-                <tr>
-                  <th>
-                    Id
-                  </th>
-                  <th>Email
-                  </th>
-                  <th>Name
-                  </th>
-                  <th>Permission
-                  </th>
-                  <th>Accepting Host
-                  </th>
-                  <th>Enabled
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="x in list">
-                  <td>[[ x.AdministratorId ]]</td>
-                  <td>[[ x.email ]]</td>
-                  <td>[[ x.name ]]</td>
-                  <td>[[ x.permission ]]</td>
-                  <td>[[ x.AcceptingHost.name ]]</td>
-                  <td>
+    <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Id <br>
+            <input type="text" ng-model="search.id_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="input_filter_id">
+          </th>
+          <th>Email
+            <br>
+            <input type="text" ng-model="search.email_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Name
+            <br>
+            <input type="text" ng-model="search.name_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Permission<br>
+            <select ng-model="search.permission" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="select_filter">
+                  <option  value="">Select</option>
+                  <option ng-repeat="item in permissionList" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                </select>
+          </th>
+          <th>Accepting Host<br>
+            <input type="text" ng-model="search.accepting_host_name" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Enabled
+            <br>
+            <input type="checkbox" disabled ng-model="search.enabled" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="x in list">
+          <td>[[ x.AdministratorId ]]</td>
+          <td>[[ x.email ]]</td>
+          <td>[[ x.name ]]</td>
+          <td>[[ x.permission ]]</td>
+          <td>[[ x.AcceptingHost.name ]]</td>
+          <td>
 
-                    <input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false" >
-                  </td>
-                  <td>
-                      <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                      <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a ui-sref="detailadmin({id: [[x.AdministratorId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <ul uib-pagination total-items="bigTotalItems" items-per-page="per_page" ng-change="pageChanged()" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
-			</div>
+            <input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false">
+          </td>
+          <td>
+            <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+            <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+            <a ui-sref="detailadmin({id: [[x.AdministratorId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul uib-pagination total-items="bigTotalItems" items-per-page="per_page" ng-change="pageChanged()" ng-model="currentPage"
+      max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+  </div>
 </div>

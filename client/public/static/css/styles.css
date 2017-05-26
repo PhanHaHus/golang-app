@@ -329,6 +329,15 @@ Sidebar
     border-radius: 0px;
     outline: none;
 }
+.wrapper .input_filter_id{
+    width: 40px;
+}
+.wrapper .table .select_filter{
+    height: 25px;
+}
+.wrapper .table input{
+    height: 25px;
+}
 .search-in-db{
   width: 30%
 }

@@ -70,7 +70,7 @@
             <div class="form-group">
               <label for="sel1">ACL Type:</label>
               <select class="form-control" ng-model="data.access_rule_type" >
-                <option style="display:none" value="">Select</option>
+                <option  value="">Select</option>
                 <option ng-repeat="item in accessRuleType" value="[[item.value]]"  ng-selected="data.access_rule_type == item.value">[[item.displayName]]</option>
               </select>
             </div>

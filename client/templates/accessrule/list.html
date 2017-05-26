@@ -1,79 +1,101 @@
 <nav-bar></nav-bar>
 <div class="wrapper">
-    <div class="grid-form1">
-					<h3>ACL Management</h3>
-          <div class="">
-            <div class="pull-left">
-                <div class="">
-                    <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
-                      <option style="display:none" value="">Select</option>
-                      <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
-                    </select>
-                    <span>/ [[bigTotalItems]] result</span>
-                </div>
-            </div>
-            <div class="pull-right">
-              
-              <div class="search-box">
-                  <input type="text" ng-model="asyncSelected" placeholder="Type something.." 
-                      typeahead-on-select="onSelect($item, $model, $label);" 
-                      typeahead-wait-ms="1000" uib-typeahead="data.description for data in onSelect($item, $model, $label)" 
-                      typeahead-min-length="2"
-                      ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " 
-                      typeahead-loading="loadingSearch" typeahead-editable="true" typeahead-no-results="noResults" class="form-control">
-                      
-                  <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
-                  <div ng-show="noResults">
-                      <i class="glyphicon glyphicon-remove"></i> No Results Found
-                  </div>
-              </div>
-            </div>
+  <div class="grid-form1">
+    <h3>ACL Management</h3>
+    <div class="">
+      <div class="pull-left">
+        <div class="">
+          <select class="" ng-model="perpage" ng-change="changePerpage(perpage)">
+            <option style="display:none" value="">Select</option>
+            <option ng-repeat="item in itemPerPage" value="[[item.value]]" ng-selected="[[item.value == per_page]]">[[item.displayName]]</option>
+          </select>
+          <span>/ [[bigTotalItems]] result</span>
+        </div>
+      </div>
+      <div class="pull-right">
+
+        <div class="search-box">
+          <input type="text" ng-model="asyncSelected" placeholder="Type something.." typeahead-on-select="onSelect($item, $model, $label);"
+            typeahead-wait-ms="1000" uib-typeahead="data.description for data in onSelect($item, $model, $label)" typeahead-min-length="2"
+            ng-change=" (asyncSelected=='')?onSelect($item, $model, $label):'' " typeahead-loading="loadingSearch" typeahead-editable="true"
+            typeahead-no-results="noResults" class="form-control">
+
+          <i ng-show="loadingSearch" class="glyphicon glyphicon-refresh"></i>
+          <div ng-show="noResults">
+            <i class="glyphicon glyphicon-remove"></i> No Results Found
           </div>
-          <div class="clearfix"></div>
-          <a ui-sref="addaccessrule" class="btn btn-primary btn-xs " style="margin-right: 15px;" > Add new</a>
-          <table class="table">
-              <thead>
-                <tr>
-                  <th>
-                    Id
-                  </th>
-                  <th>Application
-                  </th>
-                  <th>User
-                  </th>
-                  <th>Device
-                  </th>
-                  <th>Group
-                  </th>
-                  <th>Enabled
-                  </th>
-                  <th>Description
-                  </th>
-                  <th>CreatedByUser
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="x in list">
-                  <td>[[ x.AccessRuleId ]]</td>
-                  <td>[[ x.Application.name ]]</td>
-                  <td>[[ x.User.name ]]</td>
-                  <td>[[ x.Device.name ]]</td>
-                  <td>[[ x.Group.name ]]</td>
-                  <td>
-                    <input type="checkbox" name="access_rule_type" disabled ng-checked="x.access_rule_type=='Accept'?true:false" >
-                  </td>
-                  <td>[[ x.description ]]</td>
-                  <td>[[ x.CreatedByUser.name ]]</td>
-                  <td>
-                      <a ui-sref="editaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit" ><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                      <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete" ><span class="glyphicon glyphicon-trash"></span> Delete</a>
-                      <a ui-sref="detailaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <ul uib-pagination total-items="bigTotalItems" items-per-page="per_page" ng-change="pageChanged()" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
-			</div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <a ui-sref="addaccessrule" class="btn btn-primary btn-xs " style="margin-right: 15px;"> Add new</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Id<br>
+            <input type="text" ng-model="search.id_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="input_filter_id">
+          </th>
+          <th>Application
+            <br>
+            <input type="text" ng-model="search.application_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>User
+            <br>
+            <input type="text" ng-model="search.user_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Device
+            <br>
+            <input type="text" ng-model="search.device_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Group
+            <br>
+            <input type="text" ng-model="search.group_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Enabled
+            <br>
+            <input type="checkbox" disabled ng-model="search.enabled_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Description
+            <br>
+            <input type="text" ng-model="search.description_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th>Type
+            <br>
+            <select class="select_filter" ng-model="search.access_rule_type" ng-change="onSearchBelowBox()" >
+                <option value="">Select</option>
+                <option ng-repeat="item in accessRuleType" value="[[item.value]]"  >[[item.displayName]]</option>
+              </select>
+          </th>
+          <th>CreatedByUser
+            <br>
+            <input type="text" ng-model="search.byuser_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="x in list">
+          <td>[[ x.AccessRuleId ]]</td>
+          <td>[[ x.Application.name ]]</td>
+          <td>[[ x.User.name ]]</td>
+          <td>[[ x.Device.name ]]</td>
+          <td>[[ x.Group.name ]]</td>
+          <td>
+            <input type="checkbox" name="access_rule_type" disabled ng-checked="x.access_rule_type=='Accept'?true:false">
+          </td>
+          <td>[[ x.description ]]</td>
+          <td>[[ x.access_rule_type ]]</td>
+          <td>[[ x.CreatedByUser.name ]]</td>
+          <td>
+            <a ui-sref="editaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+            <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+            <a ui-sref="detailaccessrule({id: [[x.AccessRuleId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul uib-pagination total-items="bigTotalItems" items-per-page="per_page" ng-change="pageChanged()" ng-model="currentPage"
+      max-size="5" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 // router ui config
 mainApp.config(function($stateProvider,$urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/home');
   $stateProvider.state('home', {
            url: '/home',
            controller: 'homeController',
@@ -56,6 +56,90 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            templateUrl: '/templates/acceptinghost/form_detail.html',
        })
       //  end acceptingHost
+      // initial Host
+      .state('initiatinghosts', {
+           url: '/initiating-host',
+           controller: 'initiatingHostListController',
+           templateUrl: '/templates/initiatinghosts/list.html',
+       })
+       .state('addinitiatinghosts', {
+           url: '/add-initiating-host',
+           controller: 'initiatingHostController',
+           templateUrl: '/templates/initiatinghosts/form.html',
+       })
+       .state('editinitiatinghosts', {
+           url: '/edit-initiating-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'initiatingHostController',
+           templateUrl: '/templates/initiatinghosts/form.html',
+       })
+       .state('detailinitiatinghosts', {
+           url: '/detail-accepting-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'detailInitiatingHostController',
+           templateUrl: '/templates/initiatinghosts/form_detail.html',
+       })
+      //  end initialHost
+      // applications
+      .state('applications', {
+           url: '/applications',
+           controller: 'applicationsListController',
+           templateUrl: '/templates/applications/list.html',
+       })
+       .state('addapplications', {
+           url: '/add-applications',
+           controller: 'applicationsController',
+           templateUrl: '/templates/applications/form.html',
+       })
+       .state('editapplications', {
+           url: '/edit-applications-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'applicationsController',
+           templateUrl: '/templates/applications/form.html',
+       })
+       .state('detailapplications', {
+           url: '/detail-applications/:id',
+           params: {
+              id: null
+            },
+           controller: 'detailApplicationsController',
+           templateUrl: '/templates/applications/form_detail.html',
+       })
+      //  end applications
+      // applications
+      .state('certificate', {
+           url: '/certificate',
+           controller: 'certificateListController',
+           templateUrl: '/templates/certificate/list.html',
+       })
+       .state('addcertificate', {
+           url: '/add-certificate',
+           controller: 'certificateController',
+           templateUrl: '/templates/certificate/form.html',
+       })
+       .state('editcertificate', {
+           url: '/edit-certificate-host/:id',
+           params: {
+              id: null
+            },
+           controller: 'certificateController',
+           templateUrl: '/templates/certificate/form.html',
+       })
+       .state('detailcertificate', {
+           url: '/detail-certificate/:id',
+           params: {
+              id: null
+            },
+           controller: 'detailCertificateController',
+           templateUrl: '/templates/certificate/form_detail.html',
+       })
+      //  end certificate
         // accessrule
         .state('accessrule', {
              url: '/accessrule',
