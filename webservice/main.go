@@ -69,6 +69,7 @@ func main() {
 	r.POST("/edit-acceptinghosts/:id", controller.PutAcceptingHost)
 	// Applications management
 	r.GET("/applications", controller.GetAllApplications)
+	r.GET("/search-in-app", controller.SearchAppCtrl)
 	r.GET("/applications/:id", controller.GetApplicationsById)
 	r.POST("/applications", controller.PostApplications)
 	r.POST("/del-applications/:id", controller.DeleteApplications)

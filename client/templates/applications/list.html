@@ -27,8 +27,8 @@
       </div>
     </div>
     <div class="clearfix"></div>
-
-    <a ui-sref="addadmin" class="btn btn-primary btn-xs"> Add new</a>
+    
+    <a ui-sref="addapplications" class="btn btn-primary btn-xs"> Add new</a>
     <table class="table">
       <thead>
         <tr>
@@ -42,7 +42,7 @@
           <th>Type<br>
             <select ng-model="search.type_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="select_filter">
                   <option  value="">Select</option>
-                  <option ng-repeat="item in permissionList" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                  <option ng-repeat="item in applicationType" value="[[item.value]]"  >[[item.displayName]]</option>
                 </select>
           </th>
           <th>Accepting Host<br>
@@ -65,9 +65,9 @@
             <input type="text" ng-model="search.hostname_search" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()">
           </th>
           <th>Status<br>
-              <select ng-model="search.permission" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="select_filter">
+              <select ng-model="search.status" ng-model-options="{debounce: 800}" ng-change="onSearchBelowBox()" class="select_filter">
                   <option  value="">Select</option>
-                  <option ng-repeat="item in permissionList" value="[[item.value]]" ng-selected="[[item.value == per_page]]" >[[item.displayName]]</option>
+                  <option ng-repeat="item in status" value="[[item.value]]"  >[[item.displayName]]</option>
               </select>
           </th>
           <th></th>
@@ -75,19 +75,19 @@
       </thead>
       <tbody>
         <tr ng-repeat="x in list">
-          <td>[[ x.AdministratorId ]]</td>
-          <td>[[ x.email ]]</td>
+          <td>[[ x.ApplicationId ]]</td>
           <td>[[ x.name ]]</td>
-          <td>[[ x.permission ]]</td>
-          <td>[[ x.AcceptingHost.name ]]</td>
+          <td>[[ x.application_type ]] </td>
+          <td>[[ x.AcceptingHost.name ]] </td>
+          <td><input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false"></td>
+          <td>[[ x.ip ]]</td>
+          <td>[[ x.port ]]</td>
+          <td>[[ x.host_name ]]</td>
+          <td>online</td>
           <td>
-
-            <input type="checkbox" name="access_rule_type" disabled ng-checked="x.enabled==1?true:false">
-          </td>
-          <td>
-            <a ui-sref="editadmin({id: [[x.AdministratorId]] })" class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+            <a ui-sref="editapplications({id: [[x.ApplicationId]] })" class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
             <a ng-click="deleteRemind(x)" class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span> Delete</a>
-            <a ui-sref="detailadmin({id: [[x.AdministratorId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
+            <a ui-sref="detailapplications({id: [[x.ApplicationId]] })" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Detail</a>
           </td>
         </tr>
       </tbody>

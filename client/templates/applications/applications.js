@@ -1,8 +1,9 @@
 mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiConstant', '$http', "$location", "$state", "RESOURCES",
     function ($scope, $rootScope, apiConstant, $http, $location, $state, RESOURCES) {
         $scope.itemPerPage = RESOURCES.itemPerPage;
-        $scope.permissionList = RESOURCES.permissionList;
-        var ip_search, id_search, searchAll, type_search, name_search,enabled_search,port_search,hostname_search; //init value for filter
+        $scope.applicationType = RESOURCES.applicationType;
+        $scope.status = RESOURCES.status;
+        var ip_search, id_search, searchAll, type_search, name_search, enabled_search, port_search, hostname_search; //init value for filter
         $scope.getFilterVal = function () {
             id_search = ($scope.search && $scope.search.id_search != undefined) ? $scope.search.id_search : '';
             searchAll = ($scope.search && $scope.search.searchAll != undefined) ? $scope.search.searchAll : '';
@@ -14,7 +15,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             hostname_search = ($scope.search && $scope.search.hostname_search != undefined) ? $scope.search.hostname_search : '';
 
             enabled_search = ($scope.search && $scope.search.enabled_search != undefined) ? $scope.search.enabled_search : '';
-            enabled_search ?( enabled_search = 1):( enabled_search = 0);//if check enabled = 1 else =0
+            enabled_search ? (enabled_search = 1) : (enabled_search = 0); //if check enabled = 1 else =0
         }
 
         $scope.init = function () {
@@ -56,7 +57,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             $scope.getFilterVal();
             $http({
                     method: 'GET',
-                    url: apiConstant + '/applications?per_page=' + perpage + "&query=" + searchAll + '&id_search=' + id_search + '&email_search=' + type_search + '&type_search=' + name_search + '&ip_search=' + ip_search + '&accepting_host_name=' + accepting_host_name+ '&port_search=' + port_search+ '&ip_search=' + ip_search+'&hostname_search=' + hostname_search,
+                    url: apiConstant + '/applications?per_page=' + perpage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search  + '&type_search=' + type_search + '&ip_search=' + ip_search + '&accepting_host_name=' + accepting_host_name + '&port_search=' + port_search + '&ip_search=' + ip_search + '&hostname_search=' + hostname_search,
                     headers: {
                         'Content-type': 'application/json;charset=utf-8'
                     }
@@ -74,7 +75,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             return $http({
                 method: 'GET',
                 cache: true,
-                url: apiConstant + '/applications?query=' + searchAll + '&id_search=' + id_search + '&email_search=' + email_search + '&name_search=' + name_search + '&permission=' + permission + '&accepting_host_name=' + accepting_host_name,
+                url: apiConstant + '/applications?query=' + searchAll ,
             }).then(function successCallback(response) {
                 var totalItem = response.data.Total;
                 var perpage = response.data.PerPage;
@@ -94,7 +95,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             $scope.getFilterVal();
             return $http({
                 method: 'GET',
-                url: apiConstant + '/applications?query=' + searchAll + '&id_search=' + id_search + '&email_search=' + email_search + '&name_search=' + name_search + '&permission=' + permission + '&accepting_host_name=' + accepting_host_name,
+                url: apiConstant + '/applications?query=' + searchAll + '&id_search=' + id_search + '&name_search=' + name_search  + '&type_search=' + type_search + '&ip_search=' + ip_search + '&accepting_host_name=' + accepting_host_name + '&port_search=' + port_search + '&ip_search=' + ip_search + '&hostname_search=' + hostname_search,
             }).then(function successCallback(response) {
                 var totalItem = response.data.Total;
                 var perpage = response.data.PerPage;
@@ -113,7 +114,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             $scope.getFilterVal();
             $http({
                     method: 'GET',
-                    url: apiConstant + '/applications?per_page=' + $scope.per_page + "&current_page=" + $scope.currentPage + "&query=" + searchAll + '&id_search=' + id_search + '&email_search=' + email_search + '&name_search=' + name_search + '&permission=' + permission + '&accepting_host_name=' + accepting_host_name,
+                    url: apiConstant + '/applications?per_page=' + $scope.per_page + "&current_page=" + $scope.currentPage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search  + '&type_search=' + type_search + '&ip_search=' + ip_search + '&accepting_host_name=' + accepting_host_name + '&port_search=' + port_search + '&ip_search=' + ip_search + '&hostname_search=' + hostname_search,
                     headers: {
                         'Content-type': 'application/json;charset=utf-8'
                     }
@@ -146,7 +147,7 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
             password: "",
             permission: ""
         };
-        $scope.permissionList = RESOURCES.permissionList;
+        $scope.applicationType = RESOURCES.applicationType;
         //case edit
         if ($stateParams.id) {
             $scope.init = function () {
@@ -170,9 +171,36 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
             }
             $scope.init();
         }
+        //initial data in search box
+        $scope.searchResAcceptinghost = [];
+        // search for select option
+        $scope.searchForApp = function (value, table) {
+            if (value && table) {
+                $http({
+                    method: 'GET',
+                    url: apiConstant + '/search-in-app?query=' + value + '&table=' + table,
+                }).then(function successCallback(response) {
+                    if (table == "accepting_hosts") {
+                        $scope.searchResAcceptinghost = response.data;
+                    }
+                    
+                }, function errorCallback(response) {
+                    console.log("err");
+                    console.log(response)
+                });
+            }
+        };
+        //set selected name
+        $scope.selectedFunction = function (item, table) {
+            if (table == "accepting_hosts") {
+                $scope.data.accepting_hosts_name = item ? item.name : '';
+            }
+            
+        };
 
         $scope.submitForm = function (isValid) {
             console.log($scope.data);
+            console.log($scope.vm.searchResAcceptinghost);
             if (isValid) {
                 var apiUrl = apiConstant + '/applications'; //api add
                 if ($stateParams.id) {
@@ -189,7 +217,7 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
                     created_by_id: 1,
                     permission: $scope.data.permission
                 };
-
+                console.log(dataPost);return;
                 $http({
                     method: 'POST',
                     url: apiUrl,

@@ -101,7 +101,7 @@ type Applications struct {
 	Name                  string         `json:"name" `
 	Description           string         `json:"description"`
 	ApplicationType       string         `json:"application_type" `
-	AcceptingHostId       AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"`
+	AcceptingHostId       int            `json:"accepting_host_id"`
 	Ip                    string         `json:"ip"`
 	Port                  int            `json:"port"`
 	HostName              string         `json:"host_name"`
@@ -111,6 +111,7 @@ type Applications struct {
 	CreatedById           int            `json:"created_by_id"`
 	CreatedTime           time.Time      `json:"created_time"`
 	UpdatedTime           time.Time      `json:"updated_time"`
+	AcceptingHost         AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"`
 }
 
 type Devices struct {

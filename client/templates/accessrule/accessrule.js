@@ -288,8 +288,6 @@ mainApp.controller('accessRuleController', ['$scope', 'apiConstant', '$http', "$
 
 
         $scope.submitForm = function (isValid) {
-            console.log($scope.data.access_rule_type);
-            //   if($scope.vm.applicationsRes){
             var apiUrl = apiConstant + '/accessrules'; //api add
             if ($stateParams.id) {
                 apiUrl = apiConstant + '/edit-accessrules/' + $stateParams.id; //api edit if exist id;
@@ -304,6 +302,10 @@ mainApp.controller('accessRuleController', ['$scope', 'apiConstant', '$http', "$
                 enabled: $scope.data.enabled ? 1 : 0,
                 created_by_id: 1,
             };
+            if(!dataPost.user_id || !dataPost.device_id || !dataPost.group_id|| !dataPost.description|| !dataPost.access_rule_type){
+                toaster.pop('error', "ERROR!", "Enter enough infor!");
+                return false;
+            }
 
             $http({
                 method: 'POST',
@@ -316,9 +318,7 @@ mainApp.controller('accessRuleController', ['$scope', 'apiConstant', '$http', "$
             }, function () {
                 console.log("err");
             });
-            //   }else{
-            //     toaster.pop('error', "ERROR!", "Enter valid infor!");
-            //   }
+            
         };
 
     }

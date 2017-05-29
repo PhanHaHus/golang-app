@@ -40,6 +40,33 @@ mainApp.constant('RESOURCES', (function () {
         displayName: '100 items'
       }
     ],
+    applicationType: [{
+        value: 'SSH',
+        displayName: 'SSH'
+      },
+      {
+        value: 'TCP',
+        displayName: 'TCP'
+      },
+      {
+        value: 'HTTP',
+        displayName: 'HTTP'
+      },
+      {
+        value: 'HTTPS',
+        displayName: 'HTTPS'
+      }
+    ],
+    status: [{
+        value: 'online',
+        displayName: 'Online'
+      },
+      {
+        value: 'offline',
+        displayName: 'Offline'
+      }
+      
+    ],
     actionType: [{
         value: 'Accept',
         displayName: 'Accept'

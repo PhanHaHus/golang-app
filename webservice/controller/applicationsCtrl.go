@@ -46,7 +46,7 @@ func GetAllApplications(c echo.Context) (err error) {
 	tx := database.MysqlConn().Begin()
 	if query != "" {
 		// when search
-		tx.Debug().Order("application_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Preload("AcceptingHost").Find(&applications).Count(&total)
+		tx.Debug().Order("application_id desc").Offset(offset).Limit(Per_page).Where("applications.name LIKE ?", "%"+query+"%").Preload("AcceptingHost").Find(&applications).Count(&total)
 	} else {
 		//when load page
 		tx.Debug().Order("application_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Find(&applications).Count(&total)
@@ -54,7 +54,7 @@ func GetAllApplications(c echo.Context) (err error) {
 
 	if stringQr != "" {
 		//when type both
-		tx.Debug().Joins("JOIN accepting_hosts ON accepting_hosts.accepting_host_id = applications.accepting_host_id").Order("application_id desc").Offset(offset).Limit(Per_page).Where("name LIKE ?", "%"+query+"%").Where(stringQr).Find(&applications).Count(&total)
+		tx.Debug().Joins("JOIN accepting_hosts ON accepting_hosts.accepting_host_id = applications.accepting_host_id").Order("application_id desc").Offset(offset).Limit(Per_page).Preload("AcceptingHost").Where("applications.name LIKE ?", "%"+query+"%").Where(stringQr).Find(&applications).Count(&total)
 	}
 
 	tx.Commit()
@@ -71,14 +71,16 @@ func GetAllApplications(c echo.Context) (err error) {
 // get param from url and map to query string
 func toStringQueryApplications(queryParams url.Values) string {
 	stringQr := ""
-	email_search := ""
 	id_search := ""
 	name_search := ""
-	permission := ""
+	ip_search := ""
+	port_search := ""
+	hostname_search := ""
+	type_search := ""
 	accepting_host_name := ""
 	s := []string{}
-	if queryParams["email_search"] != nil {
-		email_search = queryParams["email_search"][0]
+	if queryParams["type_search"] != nil {
+		type_search = queryParams["type_search"][0]
 	}
 	if queryParams["id_search"] != nil {
 		id_search = queryParams["id_search"][0]
@@ -86,15 +88,21 @@ func toStringQueryApplications(queryParams url.Values) string {
 	if queryParams["name_search"] != nil {
 		name_search = queryParams["name_search"][0]
 	}
-	if queryParams["permission"] != nil {
-		permission = queryParams["permission"][0]
+	if queryParams["ip_search"] != nil {
+		ip_search = queryParams["ip_search"][0]
+	}
+	if queryParams["port_search"] != nil {
+		port_search = queryParams["port_search"][0]
+	}
+	if queryParams["hostname_search"] != nil {
+		hostname_search = queryParams["hostname_search"][0]
 	}
 	if queryParams["accepting_host_name"] != nil {
 		accepting_host_name = queryParams["accepting_host_name"][0]
 	}
 	//push to array s
-	if email_search != "" {
-		s = append(s, "email LIKE '%"+email_search+"%'")
+	if type_search != "" {
+		s = append(s, " applications.application_type='"+type_search+"'")
 	}
 	if id_search != "" {
 		s = append(s, " application_id='"+id_search+"'")
@@ -102,8 +110,14 @@ func toStringQueryApplications(queryParams url.Values) string {
 	if name_search != "" {
 		s = append(s, "applications.name LIKE '%"+name_search+"%'")
 	}
-	if permission != "" {
-		s = append(s, "permission ='"+permission+"'")
+	if ip_search != "" {
+		s = append(s, "applications.ip LIKE '%"+ip_search+"%'")
+	}
+	if port_search != "" {
+		s = append(s, "applications.port LIKE '%"+port_search+"%'")
+	}
+	if hostname_search != "" {
+		s = append(s, "applications.host_name LIKE '%"+hostname_search+"%'")
 	}
 	if accepting_host_name != "" {
 		s = append(s, "accepting_hosts.name LIKE '%"+accepting_host_name+"%'")
@@ -115,6 +129,28 @@ func toStringQueryApplications(queryParams url.Values) string {
 
 	return stringQr
 
+}
+
+//search for select option in html
+func SearchAppCtrl(c echo.Context) (err error) {
+	// if exist param query and param table on url
+	query := c.QueryParam("query")
+	table := c.QueryParam("table")
+	if query != "" && table != "" {
+		switch table {
+		case "accepting_hosts":
+			modelQuery := []model.AcceptingHosts{}
+			tx := database.MysqlConn().Begin()
+			tx.Where("name LIKE ?", "%"+query+"%").Find(&modelQuery)
+			tx.Commit()
+			return c.JSON(http.StatusOK, &modelQuery)
+
+		default:
+			return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: "Not found table!", Status: "false"})
+		}
+	}
+
+	return c.JSON(http.StatusInternalServerError, model.Status{StatusCode: http.StatusInternalServerError, Message: err.Error(), Status: "false"})
 }
 
 func GetApplicationsById(c echo.Context) (err error) {
