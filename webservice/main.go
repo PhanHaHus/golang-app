@@ -67,6 +67,12 @@ func main() {
 	r.POST("/acceptinghosts", controller.PostAcceptingHost)
 	r.POST("/del-acceptinghosts/:id", controller.DeleteAcceptingHost)
 	r.POST("/edit-acceptinghosts/:id", controller.PutAcceptingHost)
+	// Accepting Host management
+	r.GET("/initiatinghosts", controller.GetInitiatingHost)
+	r.GET("/initiatinghosts/:id", controller.GetInitiatingHostById)
+	r.POST("/initiatinghosts", controller.PostInitiatingHost)
+	r.POST("/del-initiatinghosts/:id", controller.DeleteInitiatingHost)
+	r.POST("/edit-initiatinghosts/:id", controller.PutInitiatingHost)
 	// Applications management
 	r.GET("/applications", controller.GetAllApplications)
 	r.GET("/search-in-app", controller.SearchAppCtrl)

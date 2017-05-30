@@ -244,7 +244,7 @@ mainApp.controller('accessRuleController', ['$scope', 'apiConstant', '$http', "$
             groupRes: null,
             deviceRes: null,
         };
-
+        //when typing in search box
         $scope.searchAcl = function (value, table) {
             if (value && table) {
                 $http({
@@ -293,7 +293,7 @@ mainApp.controller('accessRuleController', ['$scope', 'apiConstant', '$http', "$
                 apiUrl = apiConstant + '/edit-accessrules/' + $stateParams.id; //api edit if exist id;
             }
             var dataPost = {
-                application_id: $scope.vm.applicationsRes ? parseInt($scope.vm.applicationsRes.ApplicationId) : $scope.data.application_id, //if is edit application_id = $scope.data.application_id
+                application_id:($scope.vm.applicationsRes && parseInt($scope.vm.applicationsRes.ApplicationId)) ? parseInt($scope.vm.applicationsRes.ApplicationId) : $scope.data.application_id, //if is edit application_id = $scope.data.application_id
                 user_id: $scope.vm.userRes ? parseInt($scope.vm.userRes.UserId) : $scope.data.user_id,
                 device_id: $scope.vm.deviceRes ? parseInt($scope.vm.deviceRes.DeviceId) : $scope.data.device_id,
                 group_id: $scope.vm.groupRes ? parseInt($scope.vm.groupRes.GroupId) : $scope.data.group_id,

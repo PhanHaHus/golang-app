@@ -76,7 +76,7 @@ mainApp.config(function($stateProvider,$urlRouterProvider) {
            templateUrl: '/templates/initiatinghosts/form.html',
        })
        .state('detailinitiatinghosts', {
-           url: '/detail-accepting-host/:id',
+           url: '/detail-initiating-host/:id',
            params: {
               id: null
             },

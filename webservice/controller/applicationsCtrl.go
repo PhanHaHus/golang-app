@@ -193,6 +193,12 @@ func PutApplications(c echo.Context) (err error) {
 
 	applications.Name = data_updated.Name
 	applications.Description = data_updated.Description
+	applications.Ip = data_updated.Ip
+	applications.Port = data_updated.Port
+	applications.HostName = data_updated.HostName
+	applications.IsValidUserRequired = data_updated.IsValidUserRequired
+	applications.IsValidDeviceRequired = data_updated.IsValidDeviceRequired
+	applications.ApplicationType = data_updated.ApplicationType
 	applications.AcceptingHostId = data_updated.AcceptingHostId
 	applications.Enabled = data_updated.Enabled
 	applications.CreatedById = data_updated.CreatedById

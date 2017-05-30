@@ -1,4 +1,4 @@
-mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiConstant', '$http', "$location", "$state", "RESOURCES",
+mainApp.controller('initiatingHostListController', ['$scope', '$rootScope', 'apiConstant', '$http', "$location", "$state", "RESOURCES",
     function ($scope, $rootScope, apiConstant, $http, $location, $state, RESOURCES) {
         $scope.itemPerPage = RESOURCES.itemPerPage;
         var name_search, id_search, searchAll, description_search, enabled_search; //init value for filter
@@ -16,7 +16,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
         $scope.init = function () {
             $http({
                 method: 'GET',
-                url: apiConstant + '/acceptinghosts',
+                url: apiConstant + '/initiatinghosts',
             }).then(function successCallback(response) {
                 var totalItem = response.data.Total;
                 var perpage = response.data.PerPage;
@@ -36,7 +36,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
             if (result) {
                 $http({
                         method: 'POST',
-                        url: apiConstant + '/del-acceptinghosts/' + element.AdministratorId,
+                        url: apiConstant + '/del-initiatinghosts/' + element.InitiatingId,
                         headers: {
                             'Content-type': 'application/json;charset=utf-8'
                         }
@@ -53,7 +53,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
             $scope.getFilterVal();
             $http({
                     method: 'GET',
-                    url: apiConstant + '/acceptinghosts?per_page=' + perpage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search, //if not search, query = ''
+                    url: apiConstant + '/initiatinghosts?per_page=' + perpage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search, //if not search, query = ''
                     headers: {
                         'Content-type': 'application/json;charset=utf-8'
                     }
@@ -71,7 +71,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
             $scope.getFilterVal();
             return $http({
                 method: 'GET',
-                url: apiConstant + '/acceptinghosts?query=' + searchAll,
+                url: apiConstant + '/initiatinghosts?query=' + searchAll,
             }).then(function successCallback(response) {
                 var totalItem = response.data.Total;
                 var perpage = response.data.PerPage;
@@ -90,7 +90,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
             $scope.getFilterVal();
             return $http({
                 method: 'GET',
-                url: apiConstant + '/acceptinghosts?query=' + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search,
+                url: apiConstant + '/initiatinghosts?query=' + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search,
             }).then(function successCallback(response) {
                 var totalItem = response.data.Total;
                 var perpage = response.data.PerPage;
@@ -110,7 +110,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
             $scope.getFilterVal();
             $http({
                     method: 'GET',
-                    url: apiConstant + '/acceptinghosts?per_page=' + $scope.per_page + "&current_page=" + $scope.currentPage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search, //if not search, query = ''
+                    url: apiConstant + '/initiatinghosts?per_page=' + $scope.per_page + "&current_page=" + $scope.currentPage + "&query=" + searchAll + '&id_search=' + id_search + '&name_search=' + name_search + '&description_search=' + description_search, //if not search, query = ''
                     headers: {
                         'Content-type': 'application/json;charset=utf-8'
                     }
@@ -133,7 +133,7 @@ mainApp.controller('acceptingHostListController', ['$scope', '$rootScope', 'apiC
 
 
 //add and edit ACH
-mainApp.controller('acceptingHostController', ['$scope', 'apiConstant', '$http', "$window", "$state", "$stateParams", "toaster",
+mainApp.controller('initiatingHostController', ['$scope', 'apiConstant', '$http', "$window", "$state", "$stateParams", "toaster",
     function ($scope, apiConstant, $http, $window, $state, $stateParams, toaster) {
         $scope.data = {
             description: "",
@@ -147,7 +147,7 @@ mainApp.controller('acceptingHostController', ['$scope', 'apiConstant', '$http',
             $scope.init = function () {
                 $http({
                     method: 'GET',
-                    url: apiConstant + '/acceptinghosts/' + $stateParams.id,
+                    url: apiConstant + '/initiatinghosts/' + $stateParams.id,
                 }).then(function successCallback(response) {
                     $scope.data = {
                         description: response.data.description,
@@ -165,9 +165,9 @@ mainApp.controller('acceptingHostController', ['$scope', 'apiConstant', '$http',
         $scope.submitForm = function (isValid) {
             console.log($scope.data);
             if (isValid) {
-                var apiUrl = apiConstant + '/acceptinghosts'; //api add
+                var apiUrl = apiConstant + '/initiatinghosts'; //api add
                 if ($stateParams.id) {
-                    apiUrl = apiConstant + '/edit-acceptinghosts/' + $stateParams.id; //api edit if exist id;
+                    apiUrl = apiConstant + '/edit-initiatinghosts/' + $stateParams.id; //api edit if exist id;
                 }
                 var dataPost = {
                     description: $scope.data.description,
@@ -183,7 +183,7 @@ mainApp.controller('acceptingHostController', ['$scope', 'apiConstant', '$http',
                 }).then(function (data) {
                     console.log("succ");
                     console.log(data);
-                    $state.go("acceptinghost");
+                    $state.go("initiatinghosts");
                 }, function () {
                     console.log("err");
                 });
@@ -194,10 +194,10 @@ mainApp.controller('acceptingHostController', ['$scope', 'apiConstant', '$http',
     }
 ]);
 
-mainApp.controller('detailAcceptingHostController', ['$scope', 'apiConstant', '$http', "$window", "$state", "$stateParams",
+mainApp.controller('detailInitiatingHostController', ['$scope', 'apiConstant', '$http', "$window", "$state", "$stateParams",
     function ($scope, apiConstant, $http, $window, $state, $stateParams) {
         $scope.data = {
-            accepting_host_id: null,
+            initiating_host_id: null,
             description: "",
             email: "",
             enabled: false,
@@ -210,11 +210,11 @@ mainApp.controller('detailAcceptingHostController', ['$scope', 'apiConstant', '$
             $scope.init = function () {
                 $http({
                     method: 'GET',
-                    url: apiConstant + '/acceptinghosts/' + $stateParams.id,
+                    url: apiConstant + '/initiatinghosts/' + $stateParams.id,
                 }).then(function successCallback(response) {
                     console.log(response);
                     $scope.data = {
-                        accepting_host_id: response.data.accepting_host_id,
+                        initiating_host_id: response.data.initiating_host_id,
                         description: response.data.description,
                         enabled: response.data.enabled,
                         name: response.data.name,

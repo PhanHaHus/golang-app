@@ -76,6 +76,17 @@ type AcceptingHosts struct {
 	CreatedTime     time.Time `json:"created_time"`
 	UpdatedTime     time.Time `json:"updated_time"`
 }
+type InitiatingHosts struct {
+	InitiatingHostId int       `gorm:"primary_key;json:"initiating_host_id"`
+	Name             string    `json:"name"`
+	Password         string    `json:"password" `
+	Description      string    `json:"description"`
+	LastLoginTime    time.Time `json:"last_login_time"`
+	Enabled          int       `json:"enabled"`
+	CreatedById      int       `json:"created_by_id"`
+	CreatedTime      time.Time `json:"created_time"`
+	UpdatedTime      time.Time `json:"updated_time"`
+}
 
 type AccessRules struct {
 	AccessRuleId   int            `gorm:"primary_key;json:"access_rule_id"`
@@ -111,7 +122,7 @@ type Applications struct {
 	CreatedById           int            `json:"created_by_id"`
 	CreatedTime           time.Time      `json:"created_time"`
 	UpdatedTime           time.Time      `json:"updated_time"`
-	AcceptingHost         AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"`
+	AcceptingHost         AcceptingHosts `gorm:"ForeignKey:AcceptingHostId;AssociationForeignKey:AcceptingHostId"` // belong to AcceptingHosts
 }
 
 type Devices struct {

@@ -1,5 +1,5 @@
-mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiConstant', '$http', "$location", "$state", "RESOURCES",
-    function ($scope, $rootScope, apiConstant, $http, $location, $state, RESOURCES) {
+mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiConstant', '$http', "$location", "$state", "RESOURCES","toaster",
+    function ($scope, $rootScope, apiConstant, $http, $location, $state, RESOURCES,toaster) {
         $scope.itemPerPage = RESOURCES.itemPerPage;
         $scope.applicationType = RESOURCES.applicationType;
         $scope.status = RESOURCES.status;
@@ -41,7 +41,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
             if (result) {
                 $http({
                         method: 'POST',
-                        url: apiConstant + '/del-applications/' + element.AdministratorId,
+                        url: apiConstant + '/del-applications/' + element.ApplicationId,
                         headers: {
                             'Content-type': 'application/json;charset=utf-8'
                         }
@@ -50,6 +50,9 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
                         $scope.init();
                     }, function (rejection) {
                         console.log(rejection);
+                        if(rejection.data.Message){
+                            toaster.pop('error', "ERROR!", rejection.data.Message);
+                        }
                     });
             }
         }
@@ -135,7 +138,7 @@ mainApp.controller('applicationsListController', ['$scope', '$rootScope', 'apiCo
 ]);
 
 
-//add and edit admin
+//add and edit application
 mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', "$window", "$state", "$stateParams", "toaster", "RESOURCES",
     function ($scope, apiConstant, $http, $window, $state, $stateParams, toaster, RESOURCES) {
         $scope.data = {
@@ -157,12 +160,15 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
                 }).then(function successCallback(response) {
                     $scope.data = {
                         accepting_host_id: response.data.accepting_host_id,
+                        accepting_host_name: response.data.AcceptingHost.name,
                         description: response.data.description,
+                        application_type: response.data.application_type,
                         email: response.data.email,
                         enabled: (response.data.enabled == 0 ? false : true),
                         name: response.data.name,
-                        password: response.data.password,
-                        permission: response.data.permission
+                        ip: response.data.ip,
+                        host_name: response.data.host_name,
+                        port: response.data.port
                     };
                 }, function errorCallback(response) {
                     console.log("err");
@@ -197,27 +203,38 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
             }
             
         };
+         //data send to server, get from search box
+        $scope.vm = {
+            searchResAcceptinghost: null
+        };
 
         $scope.submitForm = function (isValid) {
-            console.log($scope.data);
-            console.log($scope.vm.searchResAcceptinghost);
-            if (isValid) {
+            var searchResAcceptinghost = ($scope.vm && $scope.vm.searchResAcceptinghost) ? $scope.vm.searchResAcceptinghost: "";//get from search box
+            var accepting_host_id = $scope.data.accepting_host_id?$scope.data.accepting_host_id:'';//if edit, get from api
+            //case search and change accepting host 
+            if(searchResAcceptinghost){
+                accepting_host_id = searchResAcceptinghost.AcceptingHostId;
+            }
+
+            if (accepting_host_id &&  $scope.data.name) {
                 var apiUrl = apiConstant + '/applications'; //api add
                 if ($stateParams.id) {
                     apiUrl = apiConstant + '/edit-applications/' + $stateParams.id; //api edit if exist id;
                 }
-                var accepting_host_id = parseInt($scope.data.accepting_host_id) == 0 ? 1 : parseInt($scope.data.accepting_host_id);
+                
                 var dataPost = {
+                    name: $scope.data.name,
                     accepting_host_id: accepting_host_id,
                     description: $scope.data.description,
-                    email: $scope.data.email,
+                    application_type: $scope.data.application_type,
+                    ip: $scope.data.ip,
+                    port: $scope.data.port,
                     enabled: $scope.data.enabled ? 1 : 0,
-                    name: $scope.data.name,
-                    password: $scope.data.password,
+                    host_name: $scope.data.host_name,
+                    is_valid_user_required: 1,
+                    is_valid_device_required: 1,
                     created_by_id: 1,
-                    permission: $scope.data.permission
                 };
-                console.log(dataPost);return;
                 $http({
                     method: 'POST',
                     url: apiUrl,
@@ -225,9 +242,10 @@ mainApp.controller('applicationsController', ['$scope', 'apiConstant', '$http', 
                 }).then(function (data) {
                     console.log("succ");
                     console.log(data);
-                    $state.go("home");
-                }, function () {
-                    console.log("err");
+                    $state.go("applications");
+                }, function (err) {
+                    console.log(err);
+                    toaster.pop('error', "ERROR!", err.data.message);
                 });
             } else {
                 toaster.pop('error', "ERROR!", "Enter valid infor!");
@@ -260,11 +278,13 @@ mainApp.controller('detailApplicationsController', ['$scope', 'apiConstant', '$h
                         accepting_host_id: response.data.accepting_host_id,
                         accepting_host_name: response.data.AcceptingHost.name,
                         description: response.data.description,
-                        email: response.data.email,
+                        application_type: response.data.application_type,
                         enabled: response.data.enabled,
                         name: response.data.name,
-                        password: response.data.password,
-                        permission: response.data.permission
+                        host_name: response.data.host_name,
+                        port: response.data.port,
+                        created_time: response.data.created_time,
+                        ip: response.data.ip
                     };
                 }, function errorCallback(response) {
                     console.log("err");
